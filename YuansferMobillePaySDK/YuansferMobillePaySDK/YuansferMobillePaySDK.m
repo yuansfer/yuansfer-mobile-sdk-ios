@@ -7,27 +7,36 @@
 //
 
 #import "YuansferMobillePaySDK.h"
+
 #import <CommonCrypto/CommonDigest.h>
 #import "YSProgressHUD.h"
-#import "AlipaySDK.h"
 
-#define BASE_URL_TEST @"https://mapi.yuansfer.yunkeguan.com/appTransaction/v2/securepay"
-#define BASE_URL @"https://mapi.yuansfer.com/appTransaction/v2/securepay"
+#import "AlipaySDK.h"
+#import "WXApi.h"
+
+#define BASE_URL_TEST @"https://mapi.yuansfer.yunkeguan.com/micropay/v2/prepay"
+#define BASE_URL @"https://mapi.yuansfer.com/micropay/v2/prepay"
 
 const NSErrorDomain YSErrorDomain = @"YSErrorDomain";
 const NSErrorDomain YSAlipayErrorDomain = @"YSAlipayErrorDomain";
+const NSErrorDomain YSWeChatPayErrorDomain = @"YSWeChatPayErrorDomain";
 
-static NSString * const YSMobillePaySDKVersion = @"0.9.0";
+static NSString * const YSMobillePaySDKVersion = @"1.0.0";
 
 typedef void (^Completion)(NSDictionary *results, NSError *error);
 
-@interface YuansferMobillePaySDK ()
+@interface YuansferMobillePaySDK () <WXApiDelegate>
 
 @property (nonatomic, copy) Completion completion;
+
+@property (nonatomic, copy) NSString *theAlipayScheme;
+@property (nonatomic, copy) NSString *theWeChatPayScheme;
 
 @end
 
 @implementation YuansferMobillePaySDK
+
+#pragma mark - public method
 
 + (instancetype)sharedInstance {
     static YuansferMobillePaySDK *_sharedInstance;
@@ -45,35 +54,61 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
 - (void)payOrder:(NSString *)orderNo
           amount:(NSNumber *)amount
         currency:(NSString *)currency
-         timeout:(NSNumber *)timeout
-       goodsInfo:(NSString *)goodsInfo
      description:(nullable NSString *)description
             note:(nullable NSString *)note
        notifyURL:(NSString *)notifyURLStr
          storeNo:(NSString *)storeNo
       merchantNo:(NSString *)merchantNo
+      merGroupNo:(nullable NSString *)merGroupNo
+          vendor:(YSPayType)payType
            token:(NSString *)token
       fromScheme:(NSString *)scheme
            block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block {
-    // 置空上次的 block
+    // 0、置空上次的 block
     self.completion = nil;
+    self.theAlipayScheme = nil;
+    self.theWeChatPayScheme = nil;
+    
+    NSString *vendor = nil;
     
     // 1、检查参数。
     if (orderNo.length == 0 ||
-        amount == nil ||
-        [amount isEqualToNumber:@0] ||
+        amount == nil || [amount isEqualToNumber:@0] ||
         currency.length == 0 ||
-        timeout == nil ||
-        [timeout isEqualToNumber:@0] ||
-        goodsInfo.length == 0 ||
         notifyURLStr.length == 0 ||
         storeNo.length == 0 ||
         merchantNo.length == 0 ||
+        payType == 0 ||
         token.length == 0 ||
         scheme.length == 0) {
-        !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1000 userInfo:@{NSLocalizedDescriptionKey: @"参数不能为空，请检查 API 参数."}]);
+        !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1000 userInfo:@{NSLocalizedDescriptionKey: @"参数错误，请检查 API 参数。"}]);
         return;
     }
+    
+    // 检查支付类型。
+    if (payType == YSPayTypeAlipay) {
+        self.theAlipayScheme = scheme;
+        vendor = @"alipay";
+    } else if (payType == YSPayTypeWeChatPay) {
+        // 初始化微信，只初始化一次。
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [WXApi registerApp:scheme enableMTA:NO];
+        });
+        
+        // 是否安装微信。
+        if (![WXApi isWXAppInstalled]) {
+            !block ?: block(nil, [NSError errorWithDomain:YSWeChatPayErrorDomain code:9001 userInfo:@{NSLocalizedDescriptionKey: @"用户未安装微信。"}]);
+            return;
+        }
+        
+        self.theWeChatPayScheme = scheme;
+        vendor = @"wechatpay";
+    } else {
+        !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1000 userInfo:@{NSLocalizedDescriptionKey: @"参数错误，请检查 payType 参数。"}]);
+        return;
+    }
+    
     self.completion = block;
     
     // 2、转圈。
@@ -87,8 +122,10 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
     if (description.length > 0) {
         [sign appendFormat:@"&description=%@", description];
     }
-    [sign appendFormat:@"&goodsInfo=%@", goodsInfo];
     [sign appendFormat:@"&ipnUrl=%@", notifyURLStr];
+    if (merGroupNo.length > 0) {
+        [sign appendFormat:@"&merGroupNo=%@", merGroupNo];
+    }
     [sign appendFormat:@"&merchantNo=%@", merchantNo];
     if (note.length > 0) {
         [sign appendFormat:@"&note=%@", note];
@@ -96,16 +133,13 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
     [sign appendFormat:@"&reference=%@", orderNo];
     [sign appendFormat:@"&storeNo=%@", storeNo];
     [sign appendFormat:@"&terminal=%@", @"APP"];
-    [sign appendFormat:@"&timeout=%@", timeout];
-    [sign appendFormat:@"&vendor=%@", @"alipay"];
+    [sign appendFormat:@"&vendor=%@", vendor];
     [sign appendFormat:@"&%@", [self md5String:token]];
     
     NSMutableString *body = [NSMutableString string];
     [body appendFormat:@"%@=%@", YSPercentEscapedStringFromString(@"reference"), YSPercentEscapedStringFromString(orderNo)];
     [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"amount"), YSPercentEscapedStringFromString(amount.description)];
     [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"currency"), YSPercentEscapedStringFromString(currency)];
-    [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"timeout"), YSPercentEscapedStringFromString(timeout.description)];
-    [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"goodsInfo"), YSPercentEscapedStringFromString(goodsInfo)];
     if (description.length > 0) {
         [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"description"), YSPercentEscapedStringFromString(description)];
     }
@@ -115,8 +149,11 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
     [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"ipnUrl"), YSPercentEscapedStringFromString(notifyURLStr)];
     [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"storeNo"), YSPercentEscapedStringFromString(storeNo)];
     [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"merchantNo"), YSPercentEscapedStringFromString(merchantNo)];
+    if (merGroupNo.length > 0) {
+        [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"merGroupNo"), YSPercentEscapedStringFromString(merGroupNo)];
+    }
     [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"terminal"), YSPercentEscapedStringFromString(@"APP")];
-    [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"vendor"), YSPercentEscapedStringFromString(@"alipay")];
+    [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"vendor"), YSPercentEscapedStringFromString(vendor)];
     [body appendFormat:@"&%@=%@", YSPercentEscapedStringFromString(@"verifySign"), YSPercentEscapedStringFromString([self md5String:[sign copy]])];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:BASE_URL]];
@@ -189,69 +226,87 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
         }
         
         // 检查业务状态码
-        if (![[responseObject objectForKey:@"retCode"] isEqualToString:@"SUCCESS"]) {
+        if (![[responseObject objectForKey:@"ret_code"] isEqualToString:@"000100"]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [YSProgressHUD dismiss];
                 
-                !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1005 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Yuansfer error, %@.", [responseObject objectForKey:@"retMsg"]]}]);
+                !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1005 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Yuansfer error, %@.", [responseObject objectForKey:@"ret_msg"]]}]);
                 
                 return;
             });
         }
         
-        // 检查 payInfo
-        NSString *payInfo = [responseObject objectForKey:@"payInfo"];
-        if (payInfo.length == 0) {
+        if (payType == YSPayTypeAlipay) {
+            // 支付宝支付
+            
+            // 检查 payInfo
+            NSString *payInfo = [[responseObject objectForKey:@"result"] objectForKey:@"payInfo"];
+            if (payInfo.length == 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [YSProgressHUD dismiss];
+                    
+                    !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1006 userInfo:@{NSLocalizedDescriptionKey: @"Yuansfer error, payInfo is null."}]);
+                    
+                    return;
+                });
+            }
+            
+            // 发起支付
             dispatch_async(dispatch_get_main_queue(), ^{
-                [YSProgressHUD dismiss];
-                
-                !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1006 userInfo:@{NSLocalizedDescriptionKey: @"Yuansfer error, payInfo is null."}]);
-                
-                return;
-            });
-        }
-        
-        // 发起支付
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[AlipaySDK defaultService] payOrder:payInfo fromScheme:scheme callback:^(NSDictionary *resultDic) {
-                [YSProgressHUD dismiss];
-                
-                if ([[resultDic objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
-                    NSString *result = [resultDic objectForKey:@"result"];
-                    NSArray *results = [result componentsSeparatedByString:@"&"];
-                    BOOL success = NO;
-                    for (NSString *substring in results) {
-                        if ([substring isEqualToString:@"success=\"true\""]) {
-                            success = YES;
-                            break;
+                [[AlipaySDK defaultService] payOrder:payInfo fromScheme:scheme callback:^(NSDictionary *resultDic) {
+                    [YSProgressHUD dismiss];
+                    
+                    if ([[resultDic objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
+                        NSArray *results = [[resultDic objectForKey:@"result"] componentsSeparatedByString:@"&"];
+                        BOOL success = NO;
+                        for (NSString *substring in results) {
+                            if ([substring isEqualToString:@"success=\"true\""]) {
+                                success = YES;
+                                break;
+                            }
                         }
-                    }
-                    if (success != NO) {
-                        // resultStatus=9000,success="true"
-                        !block ?: block(resultDic, nil);
+                        if (success != NO) {
+                            // resultStatus=9000,success="true"
+                            !block ?: block(resultDic, nil);
+                        } else {
+                            !block ?: block(nil, [NSError errorWithDomain:YSAlipayErrorDomain
+                                                                     code:9000
+                                                                 userInfo:@{NSLocalizedDescriptionKey: [resultDic objectForKey:@"memo"]}]);
+                        }
                     } else {
                         !block ?: block(nil, [NSError errorWithDomain:YSAlipayErrorDomain
-                                                                 code:9000
+                                                                 code:[[resultDic objectForKey:@"resultStatus"] integerValue]
                                                              userInfo:@{NSLocalizedDescriptionKey: [resultDic objectForKey:@"memo"]}]);
                     }
-                } else {
-                    !block ?: block(nil, [NSError errorWithDomain:YSAlipayErrorDomain
-                                                             code:[[resultDic objectForKey:@"resultStatus"] integerValue]
-                                                         userInfo:@{NSLocalizedDescriptionKey: [resultDic objectForKey:@"memo"]}]);
-                }
-            }];
-        });
+                }];
+            });
+        } else if (payType == YSPayTypeWeChatPay) {
+            // 微信支付
+            
+            NSDictionary *result = [responseObject objectForKey:@"result"];
+            // 发起支付
+            dispatch_async(dispatch_get_main_queue(), ^{
+                PayReq *request = [[PayReq alloc] init];
+                request.partnerId = [result objectForKey:@"partnerid"];
+                request.prepayId = [result objectForKey:@"prepayid"];
+                request.nonceStr = [result objectForKey:@"noncestr"];
+                request.timeStamp = [[result objectForKey:@"timestamp"] intValue];
+                request.package = [result objectForKey:@"package"];
+                request.sign = [result objectForKey:@"sign"];
+                [WXApi sendReq:request];
+            });
+        }
     }];
     [task resume];
 }
 
 - (BOOL)handleOpenURL:(NSURL *)aURL {
-    if ([aURL.host isEqualToString:@"safepay"]) {
+    if ([aURL.scheme isEqualToString:self.theAlipayScheme]) {
+        [YSProgressHUD dismiss];
+        
         __weak __typeof(self)weakSelf = self;
         [[AlipaySDK defaultService] processOrderWithPaymentResult:aURL standbyCallback:^(NSDictionary *resultDic) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            
-            [YSProgressHUD dismiss];
             
             if ([[resultDic objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
                 NSArray *results = [[resultDic objectForKey:@"result"] componentsSeparatedByString:@"&"];
@@ -272,12 +327,52 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
                 !strongSelf.completion ?: strongSelf.completion(nil, [NSError errorWithDomain:YSAlipayErrorDomain code:[[resultDic objectForKey:@"resultStatus"] integerValue] userInfo:@{NSLocalizedDescriptionKey: [resultDic objectForKey:@"memo"]}]);
             }
         }];
+        
+        return YES;
+    } else if ([aURL.scheme isEqualToString:self.theWeChatPayScheme]) {
+        [YSProgressHUD dismiss];
+        
+        return [WXApi handleOpenURL:aURL delegate:self];
     }
     
-    return YES;
+    return NO;
 }
 
-#pragma mark -
+#pragma mark - WXApiDelegate
+
+- (void)onResp:(BaseResp *)resp {
+    if ([resp isKindOfClass:PayResp.class]) {
+        if (resp.errCode == 0) {
+            // 成功
+            !self.completion ?: self.completion(@{@"errCode": @(resp.errCode), @"type": @(resp.type), @"errStr": (resp.errStr ? resp.errStr : @"")}, nil);
+        } else {
+            NSString *errMsg = @"";
+            switch (resp.errCode) {
+                case -1:
+                    errMsg = @"普通错误类型";
+                    break;
+                case -2:
+                    errMsg = @"用户点击取消并返回";
+                    break;
+                case -3:
+                    errMsg = @"发送失败";
+                    break;
+                case -4:
+                    errMsg = @"授权失败";
+                    break;
+                case -5:
+                    errMsg = @"微信不支持";
+                    break;
+                default:
+                    break;
+            }
+            
+            !self.completion ?: self.completion(nil, [NSError errorWithDomain:YSWeChatPayErrorDomain code:resp.errCode userInfo:@{NSLocalizedDescriptionKey: errMsg}]);
+        }
+    }
+}
+
+#pragma mark - private method
 
 - (NSString *)md5String:(NSString *)string {
     const char *str = [string UTF8String];

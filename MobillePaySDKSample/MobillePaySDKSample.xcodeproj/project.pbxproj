@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		57576CB6221BE99100544FBF /* libYuansferMobillePaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57576CB5221BE99100544FBF /* libYuansferMobillePaySDK.a */; };
 		575B112122141E5300D86EA9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B112022141E5300D86EA9 /* AppDelegate.m */; };
 		575B112422141E5300D86EA9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B112322141E5300D86EA9 /* ViewController.m */; };
 		575B112722141E5300D86EA9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 575B112522141E5300D86EA9 /* Main.storyboard */; };
@@ -27,11 +26,28 @@
 		575B116E2215571C00D86EA9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 575B116D2215571C00D86EA9 /* SystemConfiguration.framework */; };
 		575B11702215572100D86EA9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 575B116F2215572100D86EA9 /* libz.tbd */; };
 		575B11722215572C00D86EA9 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 575B11712215572C00D86EA9 /* libc++.tbd */; };
+		5773E655231BC34D00179AAF /* libYuansferMobillePaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5773E652231B70D700179AAF /* libYuansferMobillePaySDK.a */; };
+		57F6A0AA2320099000E10010 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F6A0A92320099000E10010 /* libWeChatSDK.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5773E651231B70D700179AAF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5773E64C231B70D700179AAF /* YuansferMobillePaySDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 575B110522141AF200D86EA9;
+			remoteInfo = YuansferMobillePaySDK;
+		};
+		5773E653231BC33500179AAF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5773E64C231B70D700179AAF /* YuansferMobillePaySDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 575B110422141AF200D86EA9;
+			remoteInfo = YuansferMobillePaySDK;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		57576CB4221BE99100544FBF /* YuansferMobillePaySDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YuansferMobillePaySDK.h; sourceTree = "<group>"; };
-		57576CB5221BE99100544FBF /* libYuansferMobillePaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libYuansferMobillePaySDK.a; sourceTree = "<group>"; };
 		575B111C22141E5300D86EA9 /* MobillePaySDKSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobillePaySDKSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		575B111F22141E5300D86EA9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		575B112022141E5300D86EA9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -55,6 +71,11 @@
 		575B116D2215571C00D86EA9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		575B116F2215572100D86EA9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		575B11712215572C00D86EA9 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		5773E64C231B70D700179AAF /* YuansferMobillePaySDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = YuansferMobillePaySDK.xcodeproj; path = ../YuansferMobillePaySDK/YuansferMobillePaySDK.xcodeproj; sourceTree = "<group>"; };
+		57F6A0A62320099000E10010 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		57F6A0A72320099000E10010 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		57F6A0A82320099000E10010 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		57F6A0A92320099000E10010 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +83,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57F6A0AA2320099000E10010 /* libWeChatSDK.a in Frameworks */,
+				5773E655231BC34D00179AAF /* libYuansferMobillePaySDK.a in Frameworks */,
 				575B11722215572C00D86EA9 /* libc++.tbd in Frameworks */,
 				575B11702215572100D86EA9 /* libz.tbd in Frameworks */,
 				575B116E2215571C00D86EA9 /* SystemConfiguration.framework in Frameworks */,
@@ -70,7 +93,6 @@
 				575B11682215570400D86EA9 /* CoreText.framework in Frameworks */,
 				575B1166221556FE00D86EA9 /* CoreGraphics.framework in Frameworks */,
 				575B1164221556E900D86EA9 /* UIKit.framework in Frameworks */,
-				57576CB6221BE99100544FBF /* libYuansferMobillePaySDK.a in Frameworks */,
 				575B1162221556E200D86EA9 /* Foundation.framework in Frameworks */,
 				575B1160221556DB00D86EA9 /* CFNetwork.framework in Frameworks */,
 				575B115E221556D100D86EA9 /* CoreMotion.framework in Frameworks */,
@@ -81,18 +103,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		57576CB3221BE99100544FBF /* YuansferMobillePaySDK(build 2019-02-19 15_36_20) */ = {
-			isa = PBXGroup;
-			children = (
-				57576CB4221BE99100544FBF /* YuansferMobillePaySDK.h */,
-				57576CB5221BE99100544FBF /* libYuansferMobillePaySDK.a */,
-			);
-			path = "YuansferMobillePaySDK(build 2019-02-19 15_36_20)";
-			sourceTree = "<group>";
-		};
 		575B111322141E5300D86EA9 = {
 			isa = PBXGroup;
 			children = (
+				5773E64C231B70D700179AAF /* YuansferMobillePaySDK.xcodeproj */,
 				575B111E22141E5300D86EA9 /* MobillePaySDKSample */,
 				575B111D22141E5300D86EA9 /* Products */,
 				575B114022141F3000D86EA9 /* Frameworks */,
@@ -110,7 +124,7 @@
 		575B111E22141E5300D86EA9 /* MobillePaySDKSample */ = {
 			isa = PBXGroup;
 			children = (
-				57576CB3221BE99100544FBF /* YuansferMobillePaySDK(build 2019-02-19 15_36_20) */,
+				57F6A0A52320099000E10010 /* WeChatSDK */,
 				575B114322151E0D00D86EA9 /* AlipaySDK */,
 				575B111F22141E5300D86EA9 /* AppDelegate.h */,
 				575B112022141E5300D86EA9 /* AppDelegate.m */,
@@ -152,6 +166,25 @@
 			path = AlipaySDK;
 			sourceTree = "<group>";
 		};
+		5773E64D231B70D700179AAF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5773E652231B70D700179AAF /* libYuansferMobillePaySDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		57F6A0A52320099000E10010 /* WeChatSDK */ = {
+			isa = PBXGroup;
+			children = (
+				57F6A0A62320099000E10010 /* WXApi.h */,
+				57F6A0A72320099000E10010 /* WXApiObject.h */,
+				57F6A0A82320099000E10010 /* WechatAuthSDK.h */,
+				57F6A0A92320099000E10010 /* libWeChatSDK.a */,
+			);
+			path = WeChatSDK;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -166,6 +199,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5773E654231BC33500179AAF /* PBXTargetDependency */,
 			);
 			name = MobillePaySDKSample;
 			productName = MobillePaySDKSample;
@@ -198,12 +232,28 @@
 			mainGroup = 575B111322141E5300D86EA9;
 			productRefGroup = 575B111D22141E5300D86EA9 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5773E64D231B70D700179AAF /* Products */;
+					ProjectRef = 5773E64C231B70D700179AAF /* YuansferMobillePaySDK.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				575B111B22141E5300D86EA9 /* MobillePaySDKSample */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		5773E652231B70D700179AAF /* libYuansferMobillePaySDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libYuansferMobillePaySDK.a;
+			remoteRef = 5773E651231B70D700179AAF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		575B111A22141E5300D86EA9 /* Resources */ = {
@@ -231,6 +281,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5773E654231BC33500179AAF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = YuansferMobillePaySDK;
+			targetProxy = 5773E653231BC33500179AAF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		575B112522141E5300D86EA9 /* Main.storyboard */ = {
@@ -374,7 +432,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MobillePaySDKSample/AlipaySDK",
 				);
-				HEADER_SEARCH_PATHS = include/;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../YuansferMobillePaySDK";
 				INFOPLIST_FILE = MobillePaySDKSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -382,7 +440,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MobillePaySDKSample/YuansferMobillePaySDK(build\\ 2019-02-19\\ 15_36_20)",
+					"$(PROJECT_DIR)/MobillePaySDKSample/WeChatSDK",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuansfer.MobillePaySDKSample;
@@ -402,7 +460,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MobillePaySDKSample/AlipaySDK",
 				);
-				HEADER_SEARCH_PATHS = include/;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../YuansferMobillePaySDK";
 				INFOPLIST_FILE = MobillePaySDKSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -410,7 +468,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MobillePaySDKSample/YuansferMobillePaySDK(build\\ 2019-02-19\\ 15_36_20)",
+					"$(PROJECT_DIR)/MobillePaySDKSample/WeChatSDK",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuansfer.MobillePaySDKSample;

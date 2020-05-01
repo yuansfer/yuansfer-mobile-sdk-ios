@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "YuansferMobillePaySDK.h"
+#import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
 
 @interface AppDelegate ()
 
@@ -25,21 +25,13 @@
 #pragma mark - handle open URL
 
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {
-    if ([url.host isEqualToString:@"safepay"]) {
-        [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
-    }
-    
-    return YES;
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {    
+    return [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
 }
 
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    if ([url.host isEqualToString:@"safepay"]) {
-        [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
-    }
-    
-    return YES;
+    return [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
 }
 
 
