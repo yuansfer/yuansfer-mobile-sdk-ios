@@ -1,3 +1,3 @@
-# Yuansfer-Mobille-Pay-SDK-iOS
+# yuansfer-payment-iOSS
 
 Yuansfer mobile pay SDK for iOS.
