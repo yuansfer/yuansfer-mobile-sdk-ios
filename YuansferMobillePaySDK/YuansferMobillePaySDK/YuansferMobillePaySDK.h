@@ -7,16 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BTAPIClient.h"
+#import "BTApplePayClient.h"
+#import <PassKit/PKPaymentAuthorizationViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, YSPayType) {
     YSPayTypeAlipay = 1,
-    YSPayTypeWeChatPay,
+    YSPayTypeWeChatPay = 2,
+    YSPayTypeApplePay = 3
 };
 
-@interface YuansferMobillePaySDK : NSObject
+extern const NSErrorDomain YSErrorDomain;
+extern const NSErrorDomain YSAlipayErrorDomain;
+extern const NSErrorDomain YSWeChatPayErrorDomain;
+extern const NSErrorDomain YSWeApplePayErrorDomain;
 
+typedef void (^PKPaymentAuthorizationResultBlock)(PKPaymentAuthorizationResult *authorizationResult);
+
+typedef void (^PKPaymentRequestShippingMethodUpdateBlock)(PKPaymentRequestShippingMethodUpdate *shippingMethodUpdate);
+
+@interface YuansferMobillePaySDK : NSObject
 
 /**
  本 SDK 单例。
@@ -33,39 +45,6 @@ typedef NS_ENUM(NSInteger, YSPayType) {
  */
 - (NSString *)version;
 
-
-/**
- 调起第三方支付。
-
- @param orderNo 商家订单号。
- @param amount 订单总金额。
- @param currency 货币。
- @param description 商品描述。
- @param note 商品备注。
- @param notifyURLStr 订单支付完成通知商家后端的 URL。
- @param storeNo 从 Yuansfer 获取到的 storeNo。
- @param merchantNo 从 Yuansfer 获取到的 merchantNo。
- @param merGroupNo 从 Yuansfer 获取到的 merGroupNo。
- @param payType 第三方支付类型：支付宝、微信支付。
- @param token 从 Yuansfer 获取到的 token。
- @param scheme 应用 URL Scheme，请在 Xcode 中配置并在此处正确填写，用于从支付宝、微信支付后跳回。
- @param block 支付结果回调。
- */
-- (void)payOrder:(NSString *)orderNo
-          amount:(NSNumber *)amount
-        currency:(NSString *)currency
-     description:(nullable NSString *)description
-            note:(nullable NSString *)note
-       notifyURL:(NSString *)notifyURLStr
-         storeNo:(NSString *)storeNo
-      merchantNo:(NSString *)merchantNo
-      merGroupNo:(nullable NSString *)merGroupNo
-          vendor:(YSPayType)payType
-           token:(NSString *)token
-      fromScheme:(NSString *)scheme
-           block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
-
-
 /**
  支付后跳回的处理方法。
 
@@ -73,6 +52,35 @@ typedef NS_ENUM(NSInteger, YSPayType) {
  @return 如果成功处理了请求，则为 YES；如果尝试处理 URL 失败，则为 NO。
  */
 - (BOOL)handleOpenURL:(NSURL *)aURL;
+
+- (BTApplePayClient*) getApplePayClient;
+
+- (void) initApplePayAuthorization:(NSString*) authorization;
+
+- (bool) canApplePayment;
+
+- (void) startWechatPay:(NSString *)partnerid
+               prepayid:(NSString *)prepayid
+               noncestr:(NSString *)noncestr
+              timestamp:(NSString *)timestamp
+                package:(NSString *)package
+                   sign:(NSString *)sign
+            fromSchema:(NSString *)fromScheme
+                  block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
+
+- (void) startAlipay:(NSString *)payInfo
+          fromScheme:(NSString *)fromScheme
+               block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
+
+- (void) startApplePaymentByBlock:(UIViewController*) viewController
+                        paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig
+                        shippingMethodUpdate:(void(^)(PKShippingMethod *shippingMethod, PKPaymentRequestShippingMethodUpdateBlock shippingMethodUpdateBlock)) shippingMethodReponse
+                        authorizaitonResponse:(void(^)(BTApplePayCardNonce *tokenizedApplePayPayment, NSError *error,
+                               PKPaymentAuthorizationResultBlock authorizationResult)) authorizaitonResponse;
+
+- (void) startApplePaymentByDelegate:(UIViewController*) viewController
+                            delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
+                      paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig;
 
 @end
 

@@ -21,16 +21,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0495C1A925A4A79D0037AEE8 /* YuansferMobillePaySDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0495C1A825A4A79D0037AEE8 /* YuansferMobillePaySDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04BE266225A16BA70013117A /* BTAPIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BE266125A16BA70013117A /* BTAPIClient.h */; };
+		04BE266425A16C890013117A /* BTApplePayClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BE266325A16C890013117A /* BTApplePayClient.h */; };
+		04BE266625A16D040013117A /* BTClientMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BE266525A16D040013117A /* BTClientMetadata.h */; };
 		575B110A22141AF200D86EA9 /* YuansferMobillePaySDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B110922141AF200D86EA9 /* YuansferMobillePaySDK.m */; };
-		575B111222141D5800D86EA9 /* YuansferMobillePaySDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B110822141AF200D86EA9 /* YuansferMobillePaySDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		575B1152221547DA00D86EA9 /* YSIndefiniteAnimatedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B1149221547DA00D86EA9 /* YSIndefiniteAnimatedView.h */; };
-		575B1153221547DA00D86EA9 /* YSRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B114A221547DA00D86EA9 /* YSRadialGradientLayer.m */; };
-		575B1154221547DA00D86EA9 /* YSProgressAnimatedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B114B221547DA00D86EA9 /* YSProgressAnimatedView.h */; };
-		575B1155221547DA00D86EA9 /* YSProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B114C221547DA00D86EA9 /* YSProgressHUD.m */; };
-		575B1156221547DA00D86EA9 /* YSIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B114D221547DA00D86EA9 /* YSIndefiniteAnimatedView.m */; };
-		575B1157221547DA00D86EA9 /* YSProgressAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B114E221547DA00D86EA9 /* YSProgressAnimatedView.m */; };
-		575B1158221547DA00D86EA9 /* YSRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B114F221547DA00D86EA9 /* YSRadialGradientLayer.h */; };
-		575B1159221547DA00D86EA9 /* YSProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B1150221547DA00D86EA9 /* YSProgressHUD.h */; };
 		575B117422156D1200D86EA9 /* AlipaySDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B117322156D1200D86EA9 /* AlipaySDK.h */; };
 		575B117622156D7300D86EA9 /* APayAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B117522156D7300D86EA9 /* APayAuthInfo.h */; };
 		5773E665231C183500179AAF /* WXApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 5773E663231C183500179AAF /* WXApi.h */; };
@@ -38,17 +33,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0495C1A825A4A79D0037AEE8 /* YuansferMobillePaySDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YuansferMobillePaySDK.h; sourceTree = "<group>"; };
+		04BE266125A16BA70013117A /* BTAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTAPIClient.h; sourceTree = "<group>"; };
+		04BE266325A16C890013117A /* BTApplePayClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTApplePayClient.h; sourceTree = "<group>"; };
+		04BE266525A16D040013117A /* BTClientMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTClientMetadata.h; sourceTree = "<group>"; };
 		575B110522141AF200D86EA9 /* libYuansferMobillePaySDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYuansferMobillePaySDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		575B110822141AF200D86EA9 /* YuansferMobillePaySDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YuansferMobillePaySDK.h; sourceTree = "<group>"; };
 		575B110922141AF200D86EA9 /* YuansferMobillePaySDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YuansferMobillePaySDK.m; sourceTree = "<group>"; };
-		575B1149221547DA00D86EA9 /* YSIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSIndefiniteAnimatedView.h; sourceTree = "<group>"; };
-		575B114A221547DA00D86EA9 /* YSRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSRadialGradientLayer.m; sourceTree = "<group>"; };
-		575B114B221547DA00D86EA9 /* YSProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSProgressAnimatedView.h; sourceTree = "<group>"; };
-		575B114C221547DA00D86EA9 /* YSProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSProgressHUD.m; sourceTree = "<group>"; };
-		575B114D221547DA00D86EA9 /* YSIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSIndefiniteAnimatedView.m; sourceTree = "<group>"; };
-		575B114E221547DA00D86EA9 /* YSProgressAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSProgressAnimatedView.m; sourceTree = "<group>"; };
-		575B114F221547DA00D86EA9 /* YSRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSRadialGradientLayer.h; sourceTree = "<group>"; };
-		575B1150221547DA00D86EA9 /* YSProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSProgressHUD.h; sourceTree = "<group>"; };
 		575B117322156D1200D86EA9 /* AlipaySDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipaySDK.h; sourceTree = "<group>"; };
 		575B117522156D7300D86EA9 /* APayAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APayAuthInfo.h; sourceTree = "<group>"; };
 		5773E663231C183500179AAF /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
@@ -85,30 +75,17 @@
 		575B110722141AF200D86EA9 /* YuansferMobillePaySDK */ = {
 			isa = PBXGroup;
 			children = (
-				575B110822141AF200D86EA9 /* YuansferMobillePaySDK.h */,
+				0495C1A825A4A79D0037AEE8 /* YuansferMobillePaySDK.h */,
 				575B110922141AF200D86EA9 /* YuansferMobillePaySDK.m */,
-				575B1148221547DA00D86EA9 /* SVProgressHUD-2.2.5 */,
 				575B117322156D1200D86EA9 /* AlipaySDK.h */,
 				575B117522156D7300D86EA9 /* APayAuthInfo.h */,
 				5773E663231C183500179AAF /* WXApi.h */,
 				5773E664231C183500179AAF /* WXApiObject.h */,
+				04BE266125A16BA70013117A /* BTAPIClient.h */,
+				04BE266525A16D040013117A /* BTClientMetadata.h */,
+				04BE266325A16C890013117A /* BTApplePayClient.h */,
 			);
 			path = YuansferMobillePaySDK;
-			sourceTree = "<group>";
-		};
-		575B1148221547DA00D86EA9 /* SVProgressHUD-2.2.5 */ = {
-			isa = PBXGroup;
-			children = (
-				575B1149221547DA00D86EA9 /* YSIndefiniteAnimatedView.h */,
-				575B114D221547DA00D86EA9 /* YSIndefiniteAnimatedView.m */,
-				575B114B221547DA00D86EA9 /* YSProgressAnimatedView.h */,
-				575B114E221547DA00D86EA9 /* YSProgressAnimatedView.m */,
-				575B1150221547DA00D86EA9 /* YSProgressHUD.h */,
-				575B114C221547DA00D86EA9 /* YSProgressHUD.m */,
-				575B114F221547DA00D86EA9 /* YSRadialGradientLayer.h */,
-				575B114A221547DA00D86EA9 /* YSRadialGradientLayer.m */,
-			);
-			path = "SVProgressHUD-2.2.5";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,14 +95,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				575B111222141D5800D86EA9 /* YuansferMobillePaySDK.h in Headers */,
-				575B1158221547DA00D86EA9 /* YSRadialGradientLayer.h in Headers */,
-				575B1159221547DA00D86EA9 /* YSProgressHUD.h in Headers */,
-				575B1152221547DA00D86EA9 /* YSIndefiniteAnimatedView.h in Headers */,
-				575B1154221547DA00D86EA9 /* YSProgressAnimatedView.h in Headers */,
+				0495C1A925A4A79D0037AEE8 /* YuansferMobillePaySDK.h in Headers */,
+				04BE266425A16C890013117A /* BTApplePayClient.h in Headers */,
+				04BE266225A16BA70013117A /* BTAPIClient.h in Headers */,
 				575B117422156D1200D86EA9 /* AlipaySDK.h in Headers */,
 				5773E665231C183500179AAF /* WXApi.h in Headers */,
 				5773E666231C183500179AAF /* WXApiObject.h in Headers */,
+				04BE266625A16D040013117A /* BTClientMetadata.h in Headers */,
 				575B117622156D7300D86EA9 /* APayAuthInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,11 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				575B1153221547DA00D86EA9 /* YSRadialGradientLayer.m in Sources */,
-				575B1155221547DA00D86EA9 /* YSProgressHUD.m in Sources */,
-				575B1156221547DA00D86EA9 /* YSIndefiniteAnimatedView.m in Sources */,
 				575B110A22141AF200D86EA9 /* YuansferMobillePaySDK.m in Sources */,
-				575B1157221547DA00D86EA9 /* YSProgressAnimatedView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

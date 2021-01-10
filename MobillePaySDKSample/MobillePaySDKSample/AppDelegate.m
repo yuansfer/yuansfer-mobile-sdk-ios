@@ -8,12 +8,13 @@
 
 #import "AppDelegate.h"
 #import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
-
+//#import "YuansferMobillePaySDK.h"
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
+
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

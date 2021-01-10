@@ -1,0 +1,18 @@
+PODS:
+  - Braintree/Apple-Pay (4.36.1):
+    - Braintree/Core
+  - Braintree/Core (4.36.1)
+
+DEPENDENCIES:
+  - Braintree/Apple-Pay
+
+SPEC REPOS:
+  trunk:
+    - Braintree
+
+SPEC CHECKSUMS:
+  Braintree: f7e0e9a5030e22b8ad77e617f27ac9327d7bc004
+
+PODFILE CHECKSUM: f022c86ab82ace3c7a7ebf1aa2c333d2f9e7ef28
+
+COCOAPODS: 1.8.4
