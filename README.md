@@ -133,6 +133,16 @@ pod 'Braintree/Venmo'
 - (void) requestApplePaymentByDelegate:(UIViewController*) viewController
                             delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
                       paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig;
+//自行实现以下delegate方法
+- (void)paymentAuthorizationViewControllerDidFinish:(__unused PKPaymentAuthorizationViewController *)controller;
+
+- (void)paymentAuthorizationViewController:(__unused PKPaymentAuthorizationViewController *)controller
+                       didAuthorizePayment:(PKPayment *)payment
+                                   handler:(void (^)(PKPaymentAuthorizationResult * _Nonnull))completion;
+
+- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
+                   didSelectShippingMethod:(PKShippingMethod *)shippingMethod
+                                   handler:(void (^)(PKPaymentRequestShippingMethodUpdate * _Nonnull)) completion;
 ```
 * 发起信用卡或借记卡支付
 ```objc
