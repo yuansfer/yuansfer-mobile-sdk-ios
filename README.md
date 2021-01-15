@@ -129,7 +129,6 @@ pod 'Braintree/Venmo'
                         shippingMethodUpdate:(void(^)(PKShippingMethod *shippingMethod, PKPaymentRequestShippingMethodUpdateBlock shippingMethodUpdateBlock)) shippingMethodReponse
                         authorizaitonResponse:(void(^)(BTApplePayCardNonce *tokenizedApplePayPayment, NSError *error,
                                PKPaymentAuthorizationResultBlock authorizationResult)) authorizaitonResponse;
-```
 //delegate
 - (void) requestApplePaymentByDelegate:(UIViewController*) viewController
                             delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
