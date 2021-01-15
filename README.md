@@ -56,7 +56,7 @@ Security.framework // for WeChatPay
 |:-----|:-----|:-----|
 | Alipay | alipay | yuansfer4alipay（自定义，不要跟其他 App 一样） |
 | WeChatPay | weixin | wx1acf098c25647f9e（微信支付 App id） |
-| Venmo | Venmo | com.yuansfer.msdk.payments (一般以app bundle ID拼上标识符)
+| Venmo | venmo | com.yuansfer.msdk.payments (一般以app bundle ID拼上标识符)
 
 5、在 Xcode 项目 **Info** 选项卡的 **Custom iOS Target Properties** 中配置应用查询 Scheme：
 
