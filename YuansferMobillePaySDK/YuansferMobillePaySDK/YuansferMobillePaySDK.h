@@ -4,19 +4,19 @@
 //
 //  Created by Joe on 2019/2/13.
 //  Copyright © 2019 Yuanex, Inc. All rights reserved.
-//
 
-#import <Foundation/Foundation.h>
-#import "BTAPIClient.h"
 #import "BTApplePayClient.h"
+#import <Foundation/Foundation.h>
 #import <PassKit/PKPaymentAuthorizationViewController.h>
+#import "BTCardNonce.h"
+#import "BTCard.h"
+#import "BTVenmoDriver.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, YSPayType) {
     YSPayTypeAlipay = 1,
     YSPayTypeWeChatPay = 2,
-    YSPayTypeApplePay = 3
 };
 
 extern const NSErrorDomain YSErrorDomain;
@@ -53,13 +53,11 @@ typedef void (^PKPaymentRequestShippingMethodUpdateBlock)(PKPaymentRequestShippi
  */
 - (BOOL)handleOpenURL:(NSURL *)aURL;
 
-- (BTApplePayClient*) getApplePayClient;
-
-- (void) initApplePayAuthorization:(NSString*) authorization;
+- (void) initBraintreeClient:(NSString*) authorization;
 
 - (bool) canApplePayment;
 
-- (void) startWechatPay:(NSString *)partnerid
+- (void) requestWechatPayment:(NSString *)partnerid
                prepayid:(NSString *)prepayid
                noncestr:(NSString *)noncestr
               timestamp:(NSString *)timestamp
@@ -68,19 +66,26 @@ typedef void (^PKPaymentRequestShippingMethodUpdateBlock)(PKPaymentRequestShippi
             fromSchema:(NSString *)fromScheme
                   block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 
-- (void) startAlipay:(NSString *)payInfo
+- (void) requestAliPayment:(NSString *)payInfo
           fromScheme:(NSString *)fromScheme
                block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 
-- (void) startApplePaymentByBlock:(UIViewController*) viewController
+- (void) requestApplePaymentByBlock:(UIViewController*) viewController
                         paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig
                         shippingMethodUpdate:(void(^)(PKShippingMethod *shippingMethod, PKPaymentRequestShippingMethodUpdateBlock shippingMethodUpdateBlock)) shippingMethodReponse
                         authorizaitonResponse:(void(^)(BTApplePayCardNonce *tokenizedApplePayPayment, NSError *error,
                                PKPaymentAuthorizationResultBlock authorizationResult)) authorizaitonResponse;
 
-- (void) startApplePaymentByDelegate:(UIViewController*) viewController
+- (void) requestApplePaymentByDelegate:(UIViewController*) viewController
                             delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
                       paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig;
+
+- (void) requestCardPayment:(BTCard *)card
+                 completion:(void (^)(BTCardNonce * _Nullable tokenizedCard, NSError * _Nullable error))completion;
+
+- (void) requestVenmoPayment:(BOOL)vault
+                  fromSchema:(NSString *)fromScheme
+                  completion:(void (^)(BTVenmoAccountNonce *venmoAccount, NSError *error))completionBlock;
 
 @end
 

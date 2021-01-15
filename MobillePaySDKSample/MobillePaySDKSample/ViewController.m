@@ -9,7 +9,10 @@
 #import "YSProgressHUD.h"
 #import "URLConstant.h"
 #import "ApplePayViewController.h"
+#import "CardPayViewController.h"
 #import "ViewController.h"
+#import "PayPalViewController.h"
+#import "VenmoViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
 //#import "YuansferMobillePaySDK.h"
@@ -39,6 +42,22 @@
 }
 
 #pragma mark - IBAction
+
+- (IBAction)cardPayAction:(id)sender {
+    CardPayViewController *cpVC = [[CardPayViewController alloc] initWithNibName:@"CardPayViewController" bundle:nil];
+    [self presentViewController:cpVC animated:YES completion:nil];
+}
+
+- (IBAction)venmoAction:(id)sender {
+    VenmoViewController *vVC = [[VenmoViewController alloc] initWithNibName:@"VenmoViewController" bundle:nil];
+    [self presentViewController:vVC animated:YES completion:nil];
+}
+
+- (IBAction)paypalAction:(id)sender {
+    PayPalViewController *ppVC = [[PayPalViewController alloc] initWithNibName:@"PayPalViewController" bundle:nil];
+    [self presentViewController:ppVC animated:YES completion:nil];
+}
+
 
 - (IBAction)applePayAction:(UIButton *)sender {
     ApplePayViewController *appVC = [[ApplePayViewController alloc] initWithNibName:@"ApplePayViewController" bundle:nil];
@@ -241,14 +260,14 @@
             }
             // 发起支付宝支付
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[YuansferMobillePaySDK sharedInstance] startAlipay:payInfo fromScheme:@"yuansfer4alipay" block:block];
+                [[YuansferMobillePaySDK sharedInstance] requestAliPayment:payInfo fromScheme:@"yuansfer4alipay" block:block];
             });
         } else if (payType == YSPayTypeWeChatPay) {
             // 微信支付
             NSDictionary *result = [responseObject objectForKey:@"result"];
             // 发起微信支付
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[YuansferMobillePaySDK sharedInstance] startWechatPay:[result objectForKey:@"partnerid"] prepayid:[result objectForKey:@"prepayid"] noncestr:[result objectForKey:@"noncestr"] timestamp:[result objectForKey:@"timestamp"] package:[result objectForKey:@"package"] sign:[result objectForKey:@"sign"] fromSchema:@"wx1acf098c25647f9e" block:block];
+                [[YuansferMobillePaySDK sharedInstance] requestWechatPayment:[result objectForKey:@"partnerid"] prepayid:[result objectForKey:@"prepayid"] noncestr:[result objectForKey:@"noncestr"] timestamp:[result objectForKey:@"timestamp"] package:[result objectForKey:@"package"] sign:[result objectForKey:@"sign"] fromSchema:@"wx1acf098c25647f9e" block:block];
             });
         }
     }];

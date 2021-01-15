@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VenmoViewController">
+            <connections>
+                <outlet property="payButton" destination="h8f-ky-9jv" id="NKb-Jp-7ns"/>
+                <outlet property="resultLabel" destination="VdK-e9-z3V" id="zzO-oQ-LzY"/>
+                <outlet property="view" destination="m8s-uE-2V8" id="TYi-ki-gJB"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="m8s-uE-2V8">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h8f-ky-9jv" userLabel="Venmo Pay">
+                    <rect key="frame" x="18" y="94" width="378" height="30"/>
+                    <state key="normal" title="Venmo Pay"/>
+                    <connections>
+                        <action selector="tappedPayButton:" destination="-1" eventType="touchUpInside" id="NRf-K8-dwg"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VdK-e9-z3V" userLabel="Result Label">
+                    <rect key="frame" x="18" y="144" width="378" height="0.0"/>
+                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="pdy-r2-Bch" firstAttribute="trailing" secondItem="h8f-ky-9jv" secondAttribute="trailing" constant="18" id="LBA-zV-rYi"/>
+                <constraint firstItem="VdK-e9-z3V" firstAttribute="leading" secondItem="pdy-r2-Bch" secondAttribute="leading" constant="18" id="LRN-0W-7GX"/>
+                <constraint firstItem="VdK-e9-z3V" firstAttribute="top" secondItem="pdy-r2-Bch" secondAttribute="top" constant="100" id="dl3-Oo-sOq"/>
+                <constraint firstAttribute="trailing" secondItem="VdK-e9-z3V" secondAttribute="trailing" constant="18" id="iEo-IH-wLK"/>
+                <constraint firstItem="h8f-ky-9jv" firstAttribute="leading" secondItem="pdy-r2-Bch" secondAttribute="leading" constant="18" id="n1r-ZU-HLP"/>
+                <constraint firstItem="h8f-ky-9jv" firstAttribute="top" secondItem="pdy-r2-Bch" secondAttribute="top" constant="50" id="oc6-Pe-5zf"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="pdy-r2-Bch"/>
+            <point key="canvasLocation" x="131.8840579710145" y="81.696428571428569"/>
+        </view>
+    </objects>
+</document>

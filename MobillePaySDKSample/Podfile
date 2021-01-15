@@ -4,7 +4,10 @@ platform :ios, '11.0'
 source 'https://cdn.cocoapods.org/'
 
 target 'MobillePaySDKSample' do
+  pod 'Braintree'
 	pod 'Braintree/Apple-Pay'
+  pod 'Braintree/Card'
+  pod 'Braintree/Venmo'
 end
 
 post_install do |installer|

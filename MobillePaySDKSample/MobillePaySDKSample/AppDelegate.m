@@ -19,6 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [BTAppSwitch setReturnURLScheme:@"com.yuansfer.msdk.payments"];
     return YES;
 }
 

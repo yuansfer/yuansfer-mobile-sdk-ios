@@ -11,17 +11,17 @@
 #import "WXApi.h"
 #import "BTAPIClient.h"
 #import "BTApplePayClient.h"
+#import "BTCardClient.h"
+#import "BTCard.h"
+#import "BTVenmoDriver.h"
 #import <PassKit/PKPaymentAuthorizationViewController.h>
-
-#define BASE_URL_TEST @"https://mapi.yuansfer.yunkeguan.com/micropay/v2/prepay"
-#define BASE_URL @"https://mapi.yuansfer.com/micropay/v2/prepay"
 
 const NSErrorDomain YSErrorDomain = @"YSErrorDomain";
 const NSErrorDomain YSAlipayErrorDomain = @"YSAlipayErrorDomain";
 const NSErrorDomain YSWeChatPayErrorDomain = @"YSWeChatPayErrorDomain";
 const NSErrorDomain YSWeApplePayErrorDomain = @"YSWeApplePayErrorDomain";
 
-static NSString * const YSMobillePaySDKVersion = @"1.1.0";
+static NSString * const YSMobillePaySDKVersion = @"1.1.5";
 
 typedef void (^Completion)(NSDictionary *results, NSError *error);
 
@@ -42,6 +42,7 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
 
 @property (nonatomic, copy) NSString *theAlipayScheme;
 @property (nonatomic, copy) NSString *theWeChatPayScheme;
+@property (nonatomic, copy) NSString *theVenmoPayScheme;
 
 @property (nonatomic, strong) BTAPIClient *apiClient;
 @property (nonatomic, strong) BTApplePayClient *applePayClient;
@@ -65,20 +66,15 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
     return YSMobillePaySDKVersion;
 }
 
-- (void) initApplePayAuthorization:(NSString*) authorization {
+- (void) initBraintreeClient:(NSString*) authorization {
     self.apiClient = [[BTAPIClient alloc] initWithAuthorization:authorization];
-    self.applePayClient = [[BTApplePayClient alloc] initWithAPIClient:self.apiClient];
-}
-
-- (BTApplePayClient*) getApplePayClient {
-    return self.applePayClient;
 }
 
 - (bool) canApplePayment {
     return [PKPaymentAuthorizationViewController canMakePayments];
 }
 
-- (void) startWechatPay:(NSString *)partnerid
+- (void) requestWechatPayment:(NSString *)partnerid
                prepayid:(NSString *)prepayid
                noncestr:(NSString *)noncestr
               timestamp:(NSString *)timestamp
@@ -109,7 +105,7 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
     [WXApi sendReq:request];
 }
 
-- (void) startAlipay:(NSString *)payInfo
+- (void) requestAliPayment:(NSString *)payInfo
           fromScheme:(NSString *)fromScheme
                block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block {
     self.completion = block;
@@ -140,11 +136,12 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
     }];
 }
 
-- (void) startApplePaymentByBlock:(UIViewController*) viewController
+- (void) requestApplePaymentByBlock:(UIViewController*) viewController
             paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig
             shippingMethodUpdate:(void(^)(PKShippingMethod *shippingMethod, PKPaymentRequestShippingMethodUpdateBlock shippingMethodUpdateBlock)) shippingMethodReponse
             authorizaitonResponse:(void(^)(BTApplePayCardNonce *tokenizedApplePayPayment, NSError *error,
                                            PKPaymentAuthorizationResultBlock authorizationResult)) authorizaitonResponse {
+    self.applePayClient = [[BTApplePayClient alloc] initWithAPIClient:self.apiClient];
     self.applePayAuthorizationResponse = authorizaitonResponse;
     self.applePayDidSelectShippingMethodReponse = shippingMethodReponse;
     [self.applePayClient paymentRequest:^(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error) {
@@ -159,9 +156,10 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
     }];
 }
 
-- (void) startApplePaymentByDelegate:(UIViewController*) viewController
+- (void) requestApplePaymentByDelegate:(UIViewController*) viewController
                             delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
                             paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig {
+    self.applePayClient = [[BTApplePayClient alloc] initWithAPIClient:self.apiClient];
     [self.applePayClient paymentRequest:^(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error) {
         if (error) {
             paymentRequestConfig(nil, error);
@@ -172,6 +170,20 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
         vc.delegate = delegate;
         [viewController presentViewController:vc animated:YES completion:nil];
     }];
+}
+
+- (void) requestCardPayment:(BTCard *)card
+                 completion:(void (^)(BTCardNonce * _Nullable tokenizedCard, NSError * _Nullable error))completion {
+    BTCardClient *cardClient = [[BTCardClient alloc] initWithAPIClient:self.apiClient];
+    [cardClient tokenizeCard:card completion:completion];
+}
+
+- (void) requestVenmoPayment:(BOOL)vault
+                  fromSchema:(NSString *)fromScheme
+                  completion:(void (^)(BTVenmoAccountNonce *venmoAccount, NSError *error))completionBlock {
+    self.theVenmoPayScheme = fromScheme;
+    BTVenmoDriver *venmoDriver = [[BTVenmoDriver alloc] initWithAPIClient:self.apiClient];
+    [venmoDriver authorizeAccountAndVault:vault completion:completionBlock];
 }
 
 - (BOOL)handleOpenURL:(NSURL *)aURL {
@@ -203,6 +215,8 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
         return YES;
     } else if ([aURL.scheme isEqualToString:self.theWeChatPayScheme]) {
         return [WXApi handleOpenURL:aURL delegate:self];
+    } else if ([aURL.scheme isEqualToString:self.theVenmoPayScheme]) {
+        [BTAppSwitch handleOpenURL:aURL];
     }
     
     return NO;
