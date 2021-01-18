@@ -15,6 +15,8 @@
 		04279E4825B03E7700E90086 /* CardPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04279E4625B03E7700E90086 /* CardPayViewController.m */; };
 		04279E4925B03E7700E90086 /* CardPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04279E4725B03E7700E90086 /* CardPayViewController.xib */; };
 		04279E4E25B068B500E90086 /* YSTestApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 04279E4D25B068B500E90086 /* YSTestApi.m */; };
+		044E0C0C25B54A0300098484 /* DropInUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044E0C0A25B54A0300098484 /* DropInUIViewController.m */; };
+		044E0C0D25B54A0300098484 /* DropInUIViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044E0C0B25B54A0300098484 /* DropInUIViewController.xib */; };
 		048C30A825B155C300BF7F60 /* PayPalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C30A625B155C300BF7F60 /* PayPalViewController.m */; };
 		048C30A925B155C300BF7F60 /* PayPalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 048C30A725B155C300BF7F60 /* PayPalViewController.xib */; };
 		048C30AE25B155E300BF7F60 /* VenmoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C30AC25B155E300BF7F60 /* VenmoViewController.m */; };
@@ -79,6 +81,9 @@
 		04279E4C25B068B500E90086 /* YSTestApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YSTestApi.h; sourceTree = "<group>"; };
 		04279E4D25B068B500E90086 /* YSTestApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YSTestApi.m; sourceTree = "<group>"; };
 		04412225259C1CB0003EBFA6 /* MobillePaySDKSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MobillePaySDKSample.entitlements; sourceTree = "<group>"; };
+		044E0C0925B54A0300098484 /* DropInUIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropInUIViewController.h; sourceTree = "<group>"; };
+		044E0C0A25B54A0300098484 /* DropInUIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DropInUIViewController.m; sourceTree = "<group>"; };
+		044E0C0B25B54A0300098484 /* DropInUIViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DropInUIViewController.xib; sourceTree = "<group>"; };
 		048C30A525B155C300BF7F60 /* PayPalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PayPalViewController.h; sourceTree = "<group>"; };
 		048C30A625B155C300BF7F60 /* PayPalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PayPalViewController.m; sourceTree = "<group>"; };
 		048C30A725B155C300BF7F60 /* PayPalViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PayPalViewController.xib; sourceTree = "<group>"; };
@@ -165,6 +170,9 @@
 		04279E4B25B03E9A00E90086 /* Braintree */ = {
 			isa = PBXGroup;
 			children = (
+				044E0C0925B54A0300098484 /* DropInUIViewController.h */,
+				044E0C0A25B54A0300098484 /* DropInUIViewController.m */,
+				044E0C0B25B54A0300098484 /* DropInUIViewController.xib */,
 				0495C1B925A560FF0037AEE8 /* ApplePayViewController.h */,
 				0495C1BA25A560FF0037AEE8 /* ApplePayViewController.m */,
 				0495C1BB25A560FF0037AEE8 /* ApplePayViewController.xib */,
@@ -293,6 +301,7 @@
 				575B111922141E5300D86EA9 /* Frameworks */,
 				575B111A22141E5300D86EA9 /* Resources */,
 				11FA761C6824E2FE29D44FD1 /* [CP] Copy Pods Resources */,
+				6F1DA51A124C250EEB3134BE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -364,6 +373,7 @@
 				575B114622151E0D00D86EA9 /* AlipaySDK.bundle in Resources */,
 				048C30AF25B155E300BF7F60 /* VenmoViewController.xib in Resources */,
 				575B112722141E5300D86EA9 /* Main.storyboard in Resources */,
+				044E0C0D25B54A0300098484 /* DropInUIViewController.xib in Resources */,
 				04279E4925B03E7700E90086 /* CardPayViewController.xib in Resources */,
 				048C30A925B155C300BF7F60 /* PayPalViewController.xib in Resources */,
 			);
@@ -387,6 +397,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MobillePaySDKSample/Pods-MobillePaySDKSample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F1DA51A124C250EEB3134BE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MobillePaySDKSample/Pods-MobillePaySDKSample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MobillePaySDKSample/Pods-MobillePaySDKSample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MobillePaySDKSample/Pods-MobillePaySDKSample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		881020260DF0F48E011132E0 /* [CP] Check Pods Manifest.lock */ = {
@@ -420,6 +447,7 @@
 			files = (
 				04203BAF25A946BC00C416A1 /* YSRadialGradientLayer.m in Sources */,
 				048C30AE25B155E300BF7F60 /* VenmoViewController.m in Sources */,
+				044E0C0C25B54A0300098484 /* DropInUIViewController.m in Sources */,
 				04279E4825B03E7700E90086 /* CardPayViewController.m in Sources */,
 				575B112422141E5300D86EA9 /* ViewController.m in Sources */,
 				04279E4E25B068B500E90086 /* YSTestApi.m in Sources */,

@@ -163,8 +163,21 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ba5-Ys-KcO" userLabel="Apple Pay Button">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMZ-VZ-56C" userLabel="Drop-in UI Button">
                                                 <rect key="frame" x="8" y="505" width="359" height="30"/>
+                                                <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="XUY-IJ-Cgu"/>
+                                                </constraints>
+                                                <state key="normal" title="Drop-in UI">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="dropInUIAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cq0-ma-BPA"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ba5-Ys-KcO" userLabel="Apple Pay Button">
+                                                <rect key="frame" x="8" y="543" width="359" height="30"/>
                                                 <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="VF8-3p-M5y"/>
@@ -177,7 +190,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOc-9Q-YwR" userLabel="Card Pay Button">
-                                                <rect key="frame" x="8" y="543" width="359" height="30"/>
+                                                <rect key="frame" x="8" y="581" width="359" height="30"/>
                                                 <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="VSg-FE-eHt"/>
@@ -190,7 +203,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tse-P3-BFR" userLabel="Venmo Button">
-                                                <rect key="frame" x="8" y="581" width="359" height="30"/>
+                                                <rect key="frame" x="8" y="619" width="359" height="30"/>
                                                 <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="4qk-na-6xf"/>
@@ -203,7 +216,7 @@
                                                 </connections>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VkP-i3-tA4" userLabel="PayPal Button">
-                                                <rect key="frame" x="8" y="619" width="359" height="30"/>
+                                                <rect key="frame" x="8" y="657" width="359" height="30"/>
                                                 <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="zgy-fO-sdc"/>
@@ -234,11 +247,12 @@
                                             <constraint firstItem="too-3I-95N" firstAttribute="centerY" secondItem="fcE-eH-FCK" secondAttribute="centerY" id="Drb-AZ-NxI"/>
                                             <constraint firstItem="3ii-5s-2Rh" firstAttribute="leading" secondItem="o6h-Jw-j6M" secondAttribute="leading" constant="8" id="Dsi-Nf-zuC"/>
                                             <constraint firstItem="ImN-vd-1tr" firstAttribute="centerY" secondItem="3ii-5s-2Rh" secondAttribute="centerY" id="FpR-K8-9GN"/>
-                                            <constraint firstItem="ba5-Ys-KcO" firstAttribute="top" secondItem="fKA-Nd-eEP" secondAttribute="bottom" constant="8" id="IaF-iw-whe"/>
+                                            <constraint firstItem="ba5-Ys-KcO" firstAttribute="top" secondItem="CMZ-VZ-56C" secondAttribute="bottom" constant="8" id="IaF-iw-whe"/>
                                             <constraint firstItem="yhQ-jh-wsa" firstAttribute="top" secondItem="cDB-Sc-d4y" secondAttribute="bottom" constant="8" id="K57-nR-YJr"/>
                                             <constraint firstAttribute="bottom" secondItem="fKA-Nd-eEP" secondAttribute="bottom" constant="350" id="Mpw-TD-MR4"/>
                                             <constraint firstItem="k47-aR-ZtJ" firstAttribute="leading" secondItem="o6h-Jw-j6M" secondAttribute="leading" constant="8" id="Nh5-0e-CKt"/>
                                             <constraint firstItem="HJE-kz-UWm" firstAttribute="top" secondItem="fcE-eH-FCK" secondAttribute="bottom" constant="8" id="OOA-AB-dCl"/>
+                                            <constraint firstAttribute="trailing" secondItem="CMZ-VZ-56C" secondAttribute="trailing" constant="8" id="OOk-i7-Q5m"/>
                                             <constraint firstItem="7Su-Ez-wxT" firstAttribute="centerY" secondItem="gLb-te-n14" secondAttribute="centerY" id="QCI-SI-UOE"/>
                                             <constraint firstItem="cq8-CW-yhn" firstAttribute="leading" secondItem="Kj1-AV-PWA" secondAttribute="trailing" constant="8" id="QY2-My-Fzj"/>
                                             <constraint firstAttribute="trailing" secondItem="5U3-IG-87s" secondAttribute="trailing" constant="8" id="Qk7-Kq-BYE"/>
@@ -253,6 +267,7 @@
                                             <constraint firstAttribute="trailing" secondItem="ba5-Ys-KcO" secondAttribute="trailing" constant="8" id="YQ6-62-cXL"/>
                                             <constraint firstAttribute="trailing" secondItem="ImN-vd-1tr" secondAttribute="trailing" constant="8" id="YjJ-DL-i4E"/>
                                             <constraint firstAttribute="trailing" secondItem="Tse-P3-BFR" secondAttribute="trailing" constant="8" id="Yp5-la-Xzh"/>
+                                            <constraint firstItem="CMZ-VZ-56C" firstAttribute="leading" secondItem="o6h-Jw-j6M" secondAttribute="leading" constant="8" id="a4n-hy-GOw"/>
                                             <constraint firstItem="fcE-eH-FCK" firstAttribute="top" secondItem="yhQ-jh-wsa" secondAttribute="bottom" constant="8" id="aD6-ij-D33"/>
                                             <constraint firstAttribute="trailing" secondItem="HJE-kz-UWm" secondAttribute="trailing" constant="8" id="aWR-0v-Ki9"/>
                                             <constraint firstItem="jcb-YV-Evr" firstAttribute="leading" secondItem="fcE-eH-FCK" secondAttribute="trailing" constant="8" id="anX-JQ-e2X"/>
@@ -288,6 +303,7 @@
                                             <constraint firstItem="5U3-IG-87s" firstAttribute="leading" secondItem="PKx-fH-LKB" secondAttribute="trailing" constant="8" id="vhY-jF-gTO"/>
                                             <constraint firstItem="NxE-YT-6SY" firstAttribute="leading" secondItem="o6h-Jw-j6M" secondAttribute="leading" constant="8" id="vyM-pF-udz"/>
                                             <constraint firstItem="5U3-IG-87s" firstAttribute="top" secondItem="l4g-7g-Vhx" secondAttribute="bottom" constant="8" id="yIl-ab-hb1"/>
+                                            <constraint firstItem="CMZ-VZ-56C" firstAttribute="top" secondItem="fKA-Nd-eEP" secondAttribute="bottom" constant="8" id="ysq-Cj-WFG"/>
                                             <constraint firstItem="cDB-Sc-d4y" firstAttribute="centerY" secondItem="Jqp-hl-juP" secondAttribute="centerY" id="z9D-zH-wSB"/>
                                             <constraint firstItem="fcE-eH-FCK" firstAttribute="leading" secondItem="too-3I-95N" secondAttribute="trailing" constant="8" id="zIx-xn-NQn"/>
                                         </constraints>

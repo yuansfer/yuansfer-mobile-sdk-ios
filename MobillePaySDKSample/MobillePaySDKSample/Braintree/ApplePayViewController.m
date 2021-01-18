@@ -209,7 +209,7 @@
 - (void) tappedApplePayButton {
     __weak __typeof(self)weakSelf = self;
     //第一种调用方法(Block形式)，简单易用，当不能满足需求时请使用第二种方法
-    [[YuansferMobillePaySDK sharedInstance] requestApplePaymentByBlock:self
+    [[YuansferMobillePaySDK sharedInstance] requestApplePayment:self
                                             paymentRequest:^(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (error) {

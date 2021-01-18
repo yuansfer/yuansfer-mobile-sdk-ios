@@ -13,6 +13,7 @@
 #import "ViewController.h"
 #import "PayPalViewController.h"
 #import "VenmoViewController.h"
+#import "DropInUIViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
 //#import "YuansferMobillePaySDK.h"
@@ -43,6 +44,11 @@
 
 #pragma mark - IBAction
 
+- (IBAction)dropInUIAction:(id)sender {
+    DropInUIViewController *diVC = [[DropInUIViewController alloc] initWithNibName:@"DropInUIViewController" bundle:nil];
+    [self presentViewController:diVC animated:YES completion:nil];
+}
+
 - (IBAction)cardPayAction:(id)sender {
     CardPayViewController *cpVC = [[CardPayViewController alloc] initWithNibName:@"CardPayViewController" bundle:nil];
     [self presentViewController:cpVC animated:YES completion:nil];
@@ -57,7 +63,6 @@
     PayPalViewController *ppVC = [[PayPalViewController alloc] initWithNibName:@"PayPalViewController" bundle:nil];
     [self presentViewController:ppVC animated:YES completion:nil];
 }
-
 
 - (IBAction)applePayAction:(UIButton *)sender {
     ApplePayViewController *appVC = [[ApplePayViewController alloc] initWithNibName:@"ApplePayViewController" bundle:nil];
