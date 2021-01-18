@@ -70,13 +70,13 @@ typedef void (^PKPaymentRequestShippingMethodUpdateBlock)(PKPaymentRequestShippi
           fromScheme:(NSString *)fromScheme
                block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 
-- (void) requestApplePaymentByBlock:(UIViewController*) viewController
+- (void) requestApplePayment:(UIViewController*) viewController
                         paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig
                         shippingMethodUpdate:(void(^)(PKShippingMethod *shippingMethod, PKPaymentRequestShippingMethodUpdateBlock shippingMethodUpdateBlock)) shippingMethodReponse
                         authorizaitonResponse:(void(^)(BTApplePayCardNonce *tokenizedApplePayPayment, NSError *error,
                                PKPaymentAuthorizationResultBlock authorizationResult)) authorizaitonResponse;
 
-- (void) requestApplePaymentByDelegate:(UIViewController*) viewController
+- (void) requestApplePayment:(UIViewController*) viewController
                             delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
                       paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig;
 

@@ -71,13 +71,13 @@ Security.framework // for WeChatPay
 6、需要支持Braintree的Apple Pay、Card Pay、PayPal、Venmo等支付方式请先在Podfile文件中添加相应的库,Braintree是必要的，其它的为可选，可根据需要自行添加
 ```
 # Podfile
-# 以下必选
-pod 'Braintree'
-# 以下可选
-pod 'Braintree/Apple-Pay'
-pod 'Braintree/Card'
-pod 'Braintree/PayPal'
-pod 'Braintree/Venmo'
+  #带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
+  pod 'BraintreeDropIn' , '~> 8.1.2'
+  #不带ui,Braintree为Core必选,其它为各自的库为可选
+  pod 'Braintree'
+  pod 'Braintree/Apple-Pay'
+  pod 'Braintree/Card'
+  pod 'Braintree/Venmo'
 ```
 ## 使用
 
@@ -124,13 +124,13 @@ pod 'Braintree/Venmo'
 * 发起Apple Pay，有block和delegate两种调用方式
 ```objc
 //block形式
-- (void) requestApplePaymentByBlock:(UIViewController*) viewController
+- (void) requestApplePayment:(UIViewController*) viewController
                         paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig
                         shippingMethodUpdate:(void(^)(PKShippingMethod *shippingMethod, PKPaymentRequestShippingMethodUpdateBlock shippingMethodUpdateBlock)) shippingMethodReponse
                         authorizaitonResponse:(void(^)(BTApplePayCardNonce *tokenizedApplePayPayment, NSError *error,
                                PKPaymentAuthorizationResultBlock authorizationResult)) authorizaitonResponse;
 //delegate
-- (void) requestApplePaymentByDelegate:(UIViewController*) viewController
+- (void) requestApplePayment:(UIViewController*) viewController
                             delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
                       paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig;
 //自行实现以下delegate方法
@@ -164,4 +164,6 @@ pod 'Braintree/Venmo'
 
 3、调用下单、支付接口时奔溃，调起支付宝支付请确保添加了支付宝移动支付 SDK；调起微信支付请确保添加了微信支付 SDK；调用Braintree下的各种支付时确保添加了相应的pod sdk。
 
-4、其它详细使用请参考MobilePaySDKSample里的例子。
+4、当引用BraintreeDropIn的旧版本时会出出现Braintree DropIn源码中报诸如'topLayoutGuide' is deprecated: first deprecated in iOS 11.0的error,该问题在8.1.0已修复，指定高于8.1.0的版本即可。
+
+5、其它详细使用请参考MobilePaySDKSample里的例子。

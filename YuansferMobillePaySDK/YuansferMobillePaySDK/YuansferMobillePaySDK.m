@@ -136,7 +136,7 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
     }];
 }
 
-- (void) requestApplePaymentByBlock:(UIViewController*) viewController
+- (void) requestApplePayment:(UIViewController*) viewController
             paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig
             shippingMethodUpdate:(void(^)(PKShippingMethod *shippingMethod, PKPaymentRequestShippingMethodUpdateBlock shippingMethodUpdateBlock)) shippingMethodReponse
             authorizaitonResponse:(void(^)(BTApplePayCardNonce *tokenizedApplePayPayment, NSError *error,
@@ -156,7 +156,7 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
     }];
 }
 
-- (void) requestApplePaymentByDelegate:(UIViewController*) viewController
+- (void) requestApplePayment:(UIViewController*) viewController
                             delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
                             paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig {
     self.applePayClient = [[BTApplePayClient alloc] initWithAPIClient:self.apiClient];
