@@ -117,6 +117,10 @@ Security.framework // for WeChatPay
 ```objc
 - (void) initBraintreeClient:(NSString*) authorization;
 ```
+* 发起Drop-In UI选项卡支付
+```objc
+[[BTDropInController alloc] initWithAuthorization:self.authToken request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error);
+```
 * 检查Apple Pay是否可用
 ```objc
 - (bool) canApplePayment;
