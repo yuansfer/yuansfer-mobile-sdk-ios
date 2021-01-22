@@ -9,7 +9,6 @@
 #import "DropInUIViewController.h"
 #import "VenmoViewController.h"
 #import "BTAPIClient.h"
-#import "YSProgressHUD.h"
 #import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
 #import "YSTestApi.h"
 #import "BraintreeCore.h"
@@ -33,14 +32,9 @@
 }
 
 - (void) prepay {
-    // 2、转圈。
-    [YSProgressHUD show];
-    [YSProgressHUD setDefaultMaskType:YSProgressHUDMaskTypeClear];
      __weak __typeof(self)weakSelf = self;
     [YSTestApi callPrepay:@"0.01"
                completion:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-         [YSProgressHUD dismiss];
         
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         // 是否出错
@@ -123,14 +117,9 @@
     } else {
         paymentMethod = @"credit_card";
     }
-    // 2、转圈。
-    [YSProgressHUD show];
-    [YSProgressHUD setDefaultMaskType:YSProgressHUDMaskTypeClear];
      __weak __typeof(self)weakSelf = self;
     [YSTestApi callProcess:self.transactionNo paymentMethod:paymentMethod nonce:nonce completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        
-        [YSProgressHUD dismiss];
         
         // 是否出错
         if (error) {

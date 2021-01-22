@@ -8,7 +8,6 @@
 
 #import "VenmoViewController.h"
 #import "BTAPIClient.h"
-#import "YSProgressHUD.h"
 #import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
 #import "YSTestApi.h"
 //#import "YuansferMobillePaySDK.h"
@@ -28,13 +27,9 @@
 
 - (void) prepay {
     // 2、转圈。
-    [YSProgressHUD show];
-    [YSProgressHUD setDefaultMaskType:YSProgressHUDMaskTypeClear];
      __weak __typeof(self)weakSelf = self;
     [YSTestApi callPrepay:@"0.01"
                completion:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-         [YSProgressHUD dismiss];
         
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         // 是否出错
@@ -105,13 +100,9 @@
 
 - (void) payProcess:(NSString *)nonce {
     // 2、转圈。
-    [YSProgressHUD show];
-    [YSProgressHUD setDefaultMaskType:YSProgressHUDMaskTypeClear];
      __weak __typeof(self)weakSelf = self;
     [YSTestApi callProcess:self.transactionNo paymentMethod:@"venmo_account" nonce:nonce completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        
-        [YSProgressHUD dismiss];
         
         // 是否出错
         if (error) {
@@ -177,15 +168,17 @@
 }
 
 - (IBAction)tappedPayButton:(id)sender {
+    __weak __typeof(self)weakSelf = self;
     [[YuansferMobillePaySDK sharedInstance] requestVenmoPayment:NO
-                                                     fromSchema:@"com.yuansfer.msdk.payments"
+                                                     fromSchema:@"com.yuansfer.msdk.braintree"
                                                      completion:^(BTVenmoAccountNonce * _Nonnull venmoAccount, NSError * _Nonnull error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (venmoAccount) {
-            [self payProcess:venmoAccount.nonce];
+            [strongSelf payProcess:venmoAccount.nonce];
         } else if (error) {
-             self.resultLabel.text = @"Venmo Pay失败";
+             strongSelf.resultLabel.text = [NSString stringWithFormat:@"Venmo Pay失败:%@", error];
         } else {
-             self.resultLabel.text = @"Venmo Pay取消";
+             strongSelf.resultLabel.text = @"Venmo Pay取消";
         }
     }];
 }

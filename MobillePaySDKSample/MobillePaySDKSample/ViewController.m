@@ -6,7 +6,6 @@
 //  Copyright © 2019 Yuanex, Inc. All rights reserved.
 //
 
-#import "YSProgressHUD.h"
 #import "URLConstant.h"
 #import "ApplePayViewController.h"
 #import "CardPayViewController.h"
@@ -89,7 +88,6 @@
              token:self.token.text
                  block:^(NSDictionary * _Nullable results, NSError * _Nullable error) {
                      __strong __typeof(weakSelf)strongSelf = weakSelf;
-                     [YSProgressHUD dismiss];
                      if (!error) {
                          UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"支付成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
                          UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
@@ -139,10 +137,6 @@
         vendor = @"wechatpay";
     }
     
-    // 2、转圈。
-    [YSProgressHUD show];
-    [YSProgressHUD setDefaultMaskType:YSProgressHUDMaskTypeClear];
-
     // 3、发送到后端，获取处理完的字符串。
     NSMutableString *sign = [NSMutableString string];
     [sign appendFormat:@"amount=%@", amount.description];
@@ -179,8 +173,6 @@
         // 是否出错
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [YSProgressHUD dismiss];
-
                 !block ?: block(nil, error);
 
             });
@@ -190,8 +182,6 @@
         // 验证 response 类型
         if (![response isKindOfClass:[NSHTTPURLResponse class]]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [YSProgressHUD dismiss];
-
                 !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1001 userInfo:@{NSLocalizedDescriptionKey: @"Response is not a HTTP URL response."}]);
 
             });
@@ -202,7 +192,6 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if (httpResponse.statusCode != 200) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [YSProgressHUD dismiss];
 
                 !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1002 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"HTTP response status code error, statusCode = %ld.", (long)httpResponse.statusCode]}]);
 
@@ -213,7 +202,6 @@
         // 确保有 response data
         if (!data || data.length == 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [YSProgressHUD dismiss];
 
                 !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1003 userInfo:@{NSLocalizedDescriptionKey: @"No response data."}]);
 
@@ -231,7 +219,6 @@
         }
         if (serializationError) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [YSProgressHUD dismiss];
 
                 !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1004 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Deserialize JSON error, %@", serializationError.localizedDescription]}]);
 
@@ -242,7 +229,6 @@
         // 检查业务状态码
         if (![[responseObject objectForKey:@"ret_code"] isEqualToString:@"000100"]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [YSProgressHUD dismiss];
 
                 !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1005 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Yuansfer error, %@.", [responseObject objectForKey:@"ret_msg"]]}]);
 
@@ -256,7 +242,6 @@
             NSString *payInfo = [[responseObject objectForKey:@"result"] objectForKey:@"payInfo"];
             if (payInfo.length == 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [YSProgressHUD dismiss];
 
                     !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1006 userInfo:@{NSLocalizedDescriptionKey: @"Yuansfer error, payInfo is null."}]);
 

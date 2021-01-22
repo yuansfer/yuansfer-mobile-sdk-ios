@@ -15,14 +15,10 @@
 
 @implementation AppDelegate
 
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [BTAppSwitch setReturnURLScheme:@"com.yuansfer.msdk.payments"];
+    [BTAppSwitch setReturnURLScheme:@"com.yuansfer.msdk.braintree"];
     return YES;
 }
-
 
 #pragma mark - handle open URL
 

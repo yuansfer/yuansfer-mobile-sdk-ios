@@ -14,6 +14,9 @@
 #import "BTCardClient.h"
 #import "BTCard.h"
 #import "BTVenmoDriver.h"
+#import "BTPayPalDriver.h"
+#import "BTPayPalRequest.h"
+#import "BTPayPalAccountNonce.h"
 #import <PassKit/PKPaymentAuthorizationViewController.h>
 
 const NSErrorDomain YSErrorDomain = @"YSErrorDomain";
@@ -21,7 +24,7 @@ const NSErrorDomain YSAlipayErrorDomain = @"YSAlipayErrorDomain";
 const NSErrorDomain YSWeChatPayErrorDomain = @"YSWeChatPayErrorDomain";
 const NSErrorDomain YSWeApplePayErrorDomain = @"YSWeApplePayErrorDomain";
 
-static NSString * const YSMobillePaySDKVersion = @"1.1.5";
+static NSString * const YSMobillePaySDKVersion = @"1.1.6";
 
 typedef void (^Completion)(NSDictionary *results, NSError *error);
 
@@ -40,9 +43,9 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
 @property (nonatomic, copy) ApplePayAuthorizationCompletion applePayAuthorizationResponse;
 @property (nonatomic, copy) ApplePayDidSelectShippingMethodCompletion applePayDidSelectShippingMethodReponse;
 
-@property (nonatomic, copy) NSString *theAlipayScheme;
-@property (nonatomic, copy) NSString *theWeChatPayScheme;
-@property (nonatomic, copy) NSString *theVenmoPayScheme;
+@property (nonatomic, copy) NSString *alipayScheme;
+@property (nonatomic, copy) NSString *weChatPayScheme;
+@property (nonatomic, copy) NSString *braintreePayScheme;
 
 @property (nonatomic, strong) BTAPIClient *apiClient;
 @property (nonatomic, strong) BTApplePayClient *applePayClient;
@@ -94,7 +97,7 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
         return;
     }
     self.completion = block;
-    self.theWeChatPayScheme = fromScheme;
+    self.weChatPayScheme = fromScheme;
     PayReq *request = [[PayReq alloc] init];
     request.partnerId = partnerid;
     request.prepayId = prepayid;
@@ -109,7 +112,7 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
           fromScheme:(NSString *)fromScheme
                block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block {
     self.completion = block;
-    self.theAlipayScheme = fromScheme;
+    self.alipayScheme = fromScheme;
     [[AlipaySDK defaultService] payOrder:payInfo fromScheme:fromScheme callback:^(NSDictionary *resultDic) {
         if ([[resultDic objectForKey:@"resultStatus"] isEqualToString:@"9000"]) {
             NSArray *results = [[resultDic objectForKey:@"result"] componentsSeparatedByString:@"&"];
@@ -178,16 +181,40 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
     [cardClient tokenizeCard:card completion:completion];
 }
 
+- (void) requestPayPalOneTimePayment:(BTPayPalRequest *)request
+                         fromSchema:(NSString *)fromScheme
+             viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
+                     switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
+                         completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion {
+    self.braintreePayScheme = fromScheme;
+    BTPayPalDriver *driver = [[BTPayPalDriver alloc] initWithAPIClient:self.apiClient];
+    driver.viewControllerPresentingDelegate = viewControllerDelegate;
+    driver.appSwitchDelegate = switchDelegate;
+    [driver requestOneTimePayment:request completion:completion];
+}
+
+- (void) requestPayPalBillingPayment:(BTPayPalRequest *)request
+                          fromSchema:(NSString *)fromScheme
+              viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
+                      switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
+                          completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion {
+    self.braintreePayScheme = fromScheme;
+    BTPayPalDriver *driver = [[BTPayPalDriver alloc] initWithAPIClient:self.apiClient];
+    driver.viewControllerPresentingDelegate = viewControllerDelegate;
+    driver.appSwitchDelegate = switchDelegate;
+    [driver requestBillingAgreement:request completion:completion];
+}
+
 - (void) requestVenmoPayment:(BOOL)vault
                   fromSchema:(NSString *)fromScheme
                   completion:(void (^)(BTVenmoAccountNonce *venmoAccount, NSError *error))completionBlock {
-    self.theVenmoPayScheme = fromScheme;
+    self.braintreePayScheme = fromScheme;
     BTVenmoDriver *venmoDriver = [[BTVenmoDriver alloc] initWithAPIClient:self.apiClient];
     [venmoDriver authorizeAccountAndVault:vault completion:completionBlock];
 }
 
 - (BOOL)handleOpenURL:(NSURL *)aURL {
-    if ([aURL.scheme isEqualToString:self.theAlipayScheme]) {
+    if ([aURL.scheme isEqualToString:self.alipayScheme]) {
         __weak __typeof(self)weakSelf = self;
         [[AlipaySDK defaultService] processOrderWithPaymentResult:aURL standbyCallback:^(NSDictionary *resultDic) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -213,12 +240,11 @@ typedef void (^ApplePayDidSelectShippingMethodCompletion)(PKShippingMethod * shi
         }];
         
         return YES;
-    } else if ([aURL.scheme isEqualToString:self.theWeChatPayScheme]) {
+    } else if ([aURL.scheme isEqualToString:self.weChatPayScheme]) {
         return [WXApi handleOpenURL:aURL delegate:self];
-    } else if ([aURL.scheme isEqualToString:self.theVenmoPayScheme]) {
-        [BTAppSwitch handleOpenURL:aURL];
+    } else if ([aURL.scheme isEqualToString:self.braintreePayScheme]) {
+        return [BTAppSwitch handleOpenURL:aURL];
     }
-    
     return NO;
 }
 

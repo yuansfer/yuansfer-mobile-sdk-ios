@@ -215,7 +215,7 @@
                                                     <action selector="venmoAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zHy-j9-e5T"/>
                                                 </connections>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VkP-i3-tA4" userLabel="PayPal Button">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VkP-i3-tA4" userLabel="PayPal Button">
                                                 <rect key="frame" x="8" y="657" width="359" height="30"/>
                                                 <color key="backgroundColor" red="0.0" green="0.67450980390000004" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>

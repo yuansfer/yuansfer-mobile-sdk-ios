@@ -9,7 +9,6 @@
 #import "ApplePayViewController.h"
 #import "BTAPIClient.h"
 #import "BTApplePayClient.h"
-#import "YSProgressHUD.h"
 #import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
 #import "YSTestApi.h"
 //#import "YuansferMobillePaySDK.h"
@@ -35,13 +34,9 @@
 
 - (void) prepay {
     // 2、转圈。
-    [YSProgressHUD show];
-    [YSProgressHUD setDefaultMaskType:YSProgressHUDMaskTypeClear];
      __weak __typeof(self)weakSelf = self;
     [YSTestApi callPrepay:@"0.01"
                completion:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-         [YSProgressHUD dismiss];
         
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         // 是否出错
@@ -113,13 +108,9 @@
 
 - (void) payProcess:(NSString *)nonce {
     // 2、转圈。
-    [YSProgressHUD show];
-    [YSProgressHUD setDefaultMaskType:YSProgressHUDMaskTypeClear];
      __weak __typeof(self)weakSelf = self;
     [YSTestApi callProcess:self.transactionNo paymentMethod:@"apple_pay_card" nonce:nonce completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        
-        [YSProgressHUD dismiss];
         
         // 是否出错
         if (error) {

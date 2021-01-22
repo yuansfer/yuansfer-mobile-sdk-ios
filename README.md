@@ -56,7 +56,7 @@ Security.framework // for WeChatPay
 |:-----|:-----|:-----|
 | Alipay | alipay | yuansfer4alipay（自定义，不要跟其他 App 一样） |
 | WeChatPay | weixin | wx1acf098c25647f9e（微信支付 App id） |
-| Venmo | venmo | com.yuansfer.msdk.payments (一般以app bundle ID拼上标识符)
+| PayPal或Venmo | braintree | com.yuansfer.msdk.braintree (一般以app bundle ID拼上标识符)
 
 5、在 Xcode 项目 **Info** 选项卡的 **Custom iOS Target Properties** 中配置应用查询 Scheme：
 
@@ -81,10 +81,15 @@ Security.framework // for WeChatPay
 ```
 ## 使用
 
-1、在 `AppDelegate.m` 中使用 `-handleOpenURL:` 方法处理从支付宝、微信、Venmo客户端跳转回来。
+1、在 `AppDelegate.m` 中使用 `-handleOpenURL:` 方法处理从支付宝、微信、Venmo客户端跳转回来, 另外如果接入PayPal或Venmo需要设置URL Scheme。
 
 ```objc
 #import "YuansferMobillePaySDK.h"
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [BTAppSwitch setReturnURLScheme:@"com.yuansfer.msdk.braintree"];
+    return YES;
+}
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {    
     return [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
@@ -159,7 +164,21 @@ Security.framework // for WeChatPay
                   fromSchema:(NSString *)fromScheme
                   completion:(void (^)(BTVenmoAccountNonce *venmoAccount, NSError *error))completionBlock;
 ```
+* 发起PayPal支付,有两种形式:Vault和Checkout
+```objc
+- (void) requestPayPalOneTimePayment:(BTPayPalRequest *)request
+                        fromSchema:(NSString *)fromScheme
+            viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
+                    switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
+                                      completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
 
+
+- (void) requestPayPalBillingPayment:(BTPayPalRequest *)request
+                        fromSchema:(NSString *)fromScheme
+            viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
+                    switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
+                                      completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
+```
 ## ⚠️ 注意事项
 
 1、SDK 调用失败，首先请确保 storeNo、merchantNo、token 输入正确。如果 API 调用失败，请从 block 回调返回的 error 中获取相关调试信息。

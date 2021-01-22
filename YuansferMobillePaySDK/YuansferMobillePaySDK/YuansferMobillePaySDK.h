@@ -11,6 +11,9 @@
 #import "BTCardNonce.h"
 #import "BTCard.h"
 #import "BTVenmoDriver.h"
+#import "BTPayPalDriver.h"
+#import "BTPayPalRequest.h"
+#import "BTPayPalAccountNonce.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -86,6 +89,18 @@ typedef void (^PKPaymentRequestShippingMethodUpdateBlock)(PKPaymentRequestShippi
 - (void) requestVenmoPayment:(BOOL)vault
                   fromSchema:(NSString *)fromScheme
                   completion:(void (^)(BTVenmoAccountNonce *venmoAccount, NSError *error))completionBlock;
+
+- (void) requestPayPalOneTimePayment:(BTPayPalRequest *)request
+                        fromSchema:(NSString *)fromScheme
+            viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
+                    switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
+                                      completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
+
+- (void) requestPayPalBillingPayment:(BTPayPalRequest *)request
+                        fromSchema:(NSString *)fromScheme
+            viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
+                    switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
+                                      completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
 
 @end
 

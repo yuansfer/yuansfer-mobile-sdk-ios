@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		04203B8B25A8A01700C416A1 /* URLConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 04203B8A25A8A01700C416A1 /* URLConstant.m */; };
-		04203BAF25A946BC00C416A1 /* YSRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04203BA825A946BC00C416A1 /* YSRadialGradientLayer.m */; };
-		04203BB025A946BC00C416A1 /* YSProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 04203BAA25A946BC00C416A1 /* YSProgressHUD.m */; };
-		04203BB125A946BC00C416A1 /* YSIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04203BAB25A946BC00C416A1 /* YSIndefiniteAnimatedView.m */; };
-		04203BB225A946BC00C416A1 /* YSProgressAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04203BAC25A946BC00C416A1 /* YSProgressAnimatedView.m */; };
 		04279E4825B03E7700E90086 /* CardPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04279E4625B03E7700E90086 /* CardPayViewController.m */; };
 		04279E4925B03E7700E90086 /* CardPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04279E4725B03E7700E90086 /* CardPayViewController.xib */; };
 		04279E4E25B068B500E90086 /* YSTestApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 04279E4D25B068B500E90086 /* YSTestApi.m */; };
@@ -67,14 +63,6 @@
 /* Begin PBXFileReference section */
 		04203B8925A8A01700C416A1 /* URLConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLConstant.h; sourceTree = "<group>"; };
 		04203B8A25A8A01700C416A1 /* URLConstant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLConstant.m; sourceTree = "<group>"; };
-		04203BA725A946BC00C416A1 /* YSIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSIndefiniteAnimatedView.h; sourceTree = "<group>"; };
-		04203BA825A946BC00C416A1 /* YSRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSRadialGradientLayer.m; sourceTree = "<group>"; };
-		04203BA925A946BC00C416A1 /* YSProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSProgressAnimatedView.h; sourceTree = "<group>"; };
-		04203BAA25A946BC00C416A1 /* YSProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSProgressHUD.m; sourceTree = "<group>"; };
-		04203BAB25A946BC00C416A1 /* YSIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSIndefiniteAnimatedView.m; sourceTree = "<group>"; };
-		04203BAC25A946BC00C416A1 /* YSProgressAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSProgressAnimatedView.m; sourceTree = "<group>"; };
-		04203BAD25A946BC00C416A1 /* YSRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSRadialGradientLayer.h; sourceTree = "<group>"; };
-		04203BAE25A946BC00C416A1 /* YSProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSProgressHUD.h; sourceTree = "<group>"; };
 		04279E4525B03E7700E90086 /* CardPayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardPayViewController.h; sourceTree = "<group>"; };
 		04279E4625B03E7700E90086 /* CardPayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardPayViewController.m; sourceTree = "<group>"; };
 		04279E4725B03E7700E90086 /* CardPayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardPayViewController.xib; sourceTree = "<group>"; };
@@ -152,21 +140,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04203BA625A946BC00C416A1 /* SVProgressHUD-2.2.5 */ = {
-			isa = PBXGroup;
-			children = (
-				04203BA725A946BC00C416A1 /* YSIndefiniteAnimatedView.h */,
-				04203BA825A946BC00C416A1 /* YSRadialGradientLayer.m */,
-				04203BA925A946BC00C416A1 /* YSProgressAnimatedView.h */,
-				04203BAA25A946BC00C416A1 /* YSProgressHUD.m */,
-				04203BAB25A946BC00C416A1 /* YSIndefiniteAnimatedView.m */,
-				04203BAC25A946BC00C416A1 /* YSProgressAnimatedView.m */,
-				04203BAD25A946BC00C416A1 /* YSRadialGradientLayer.h */,
-				04203BAE25A946BC00C416A1 /* YSProgressHUD.h */,
-			);
-			path = "SVProgressHUD-2.2.5";
-			sourceTree = "<group>";
-		};
 		04279E4B25B03E9A00E90086 /* Braintree */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,7 +196,6 @@
 			isa = PBXGroup;
 			children = (
 				04412225259C1CB0003EBFA6 /* MobillePaySDKSample.entitlements */,
-				04203BA625A946BC00C416A1 /* SVProgressHUD-2.2.5 */,
 				57F6A0A52320099000E10010 /* WeChatSDK */,
 				575B114322151E0D00D86EA9 /* AlipaySDK */,
 				04279E4B25B03E9A00E90086 /* Braintree */,
@@ -445,18 +417,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04203BAF25A946BC00C416A1 /* YSRadialGradientLayer.m in Sources */,
 				048C30AE25B155E300BF7F60 /* VenmoViewController.m in Sources */,
 				044E0C0C25B54A0300098484 /* DropInUIViewController.m in Sources */,
 				04279E4825B03E7700E90086 /* CardPayViewController.m in Sources */,
 				575B112422141E5300D86EA9 /* ViewController.m in Sources */,
 				04279E4E25B068B500E90086 /* YSTestApi.m in Sources */,
-				04203BB025A946BC00C416A1 /* YSProgressHUD.m in Sources */,
 				04203B8B25A8A01700C416A1 /* URLConstant.m in Sources */,
 				575B112F22141E5600D86EA9 /* main.m in Sources */,
 				0495C1BC25A560FF0037AEE8 /* ApplePayViewController.m in Sources */,
-				04203BB225A946BC00C416A1 /* YSProgressAnimatedView.m in Sources */,
-				04203BB125A946BC00C416A1 /* YSIndefiniteAnimatedView.m in Sources */,
 				575B112122141E5300D86EA9 /* AppDelegate.m in Sources */,
 				048C30A825B155C300BF7F60 /* PayPalViewController.m in Sources */,
 			);
