@@ -165,7 +165,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //显示支付成功
-            self.resultLabel.text = @"PayPal Pay支付成功";
+            strongSelf.resultLabel.text = @"PayPal Pay支付成功";
         });
     }];
 }

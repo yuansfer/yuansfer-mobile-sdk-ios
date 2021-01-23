@@ -172,7 +172,7 @@
             //通知ApplePay支付成功
             self.authorizationResultBlock([[PKPaymentAuthorizationResult alloc] initWithStatus:PKPaymentAuthorizationStatusSuccess errors:nil]);
             //显示支付成功
-            self.resultLabel.text = @"Apple Pay支付成功";
+            strongSelf.resultLabel.text = @"Apple Pay支付成功";
         });
     }];
 }
