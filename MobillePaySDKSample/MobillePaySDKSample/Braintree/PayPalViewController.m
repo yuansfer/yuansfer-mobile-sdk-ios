@@ -7,13 +7,8 @@
 //
 
 #import "PayPalViewController.h"
-#import "VenmoViewController.h"
-#import "BTAPIClient.h"
-#import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
+#import <YuansferMobillePaySDK/YSPayPalPay.h>
 #import "YSTestApi.h"
-#import "BTViewControllerPresentingDelegate.h"
-#import "BTAppSwitch.h"
-//#import "YuansferMobillePaySDK.h"
 
 @interface PayPalViewController ()<BTViewControllerPresentingDelegate,BTAppSwitchDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
@@ -94,17 +89,20 @@
         strongSelf.transactionNo = [[responseObject objectForKey:@"result"] objectForKey:@"transactionNo"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            strongSelf.resultLabel.text = @"prepay接口调用成功,可提交支付数据进行处理";
-            [[YuansferMobillePaySDK sharedInstance] initBraintreeClient:[[responseObject objectForKey:@"result"] objectForKey:@"authorization"]];
             strongSelf.payBillingButton.hidden = NO;
             strongSelf.payOnetimeButton.hidden = NO;
+            strongSelf.resultLabel.text = @"prepay接口调用成功,可提交支付数据进行处理";
+            [[YSApiClient sharedInstance] initBraintreeClient:[[responseObject objectForKey:@"result"] objectForKey:@"authorization"]];
+            [strongSelf collectDeviceData:[YSApiClient sharedInstance].apiClient];
         });
     }];
 }
 
 - (void) payProcess:(NSString *)nonce {
      __weak __typeof(self)weakSelf = self;
-    [YSTestApi callProcess:self.transactionNo paymentMethod:@"paypal_account" nonce:nonce completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [YSTestApi callProcess:self.transactionNo paymentMethod:@"paypal_account" nonce:nonce
+                deviceData:self.deviceData
+         completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         
         // 是否出错
@@ -173,7 +171,7 @@
 - (IBAction)tappedPayOnetimeButton:(id)sender {
     __weak __typeof(self)weakSelf = self;
     BTPayPalRequest *request = [[BTPayPalRequest alloc] initWithAmount:@"0.01"];
-    [[YuansferMobillePaySDK sharedInstance] requestPayPalOneTimePayment:request fromSchema:@"com.yuansfer.msdk.braintree" viewControllerDelegate:self switchDelegate:self completion:^(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error) {
+    [YSPayPalPay requestPayPalOneTimePayment:request fromSchema:@"com.yuansfer.msdk.braintree" viewControllerDelegate:self switchDelegate:self completion:^(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (payPalAccount) {
             NSLog(@"Got a nonce! %@", payPalAccount.nonce);
@@ -191,7 +189,7 @@
 - (IBAction)tappedPayBillingButton:(id)sender {
     __weak __typeof(self)weakSelf = self;
     BTPayPalRequest *request = [[BTPayPalRequest alloc] init];
-    [[YuansferMobillePaySDK sharedInstance] requestPayPalBillingPayment:request fromSchema:@"com.yuansfer.msdk.braintree" viewControllerDelegate:self switchDelegate:self completion:^(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error) {
+    [YSPayPalPay requestPayPalBillingPayment:request fromSchema:@"com.yuansfer.msdk.braintree" viewControllerDelegate:self switchDelegate:self completion:^(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (payPalAccount) {
             NSLog(@"Got a nonce! %@", payPalAccount.nonce);

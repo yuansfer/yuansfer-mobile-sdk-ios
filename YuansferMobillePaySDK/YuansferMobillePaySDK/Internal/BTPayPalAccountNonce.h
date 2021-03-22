@@ -4,6 +4,7 @@
 //#import <BraintreeCore/BraintreeCore.h>
 //#endif
 #import "BTPostalAddress.h"
+#import "BTPaymentMethodNonce.h"
 
 @class BTPayPalCreditFinancing;
 

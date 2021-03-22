@@ -60,6 +60,7 @@
 + (void) callProcess:(NSString *)transactionNo
        paymentMethod:(NSString *)paymentMethod
               nonce:(NSString *)nonce
+          deviceData:(NSString *)deviceData
   completionHandler:(void (^)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))completionHandler{
     //参数要按字母自然排序后生成signature
     NSMutableString *sign = [NSMutableString string];
@@ -68,6 +69,7 @@
     [sign appendFormat:@"&city=%@", @"city"];
     [sign appendFormat:@"&countryCode=%@", @"countryCode"];
     [sign appendFormat:@"&customerNo=%@", @"cid"];
+    [sign appendFormat:@"&deviceData=%@", deviceData];
     [sign appendFormat:@"&email=%@", @"123@qq.com"];
     [sign appendFormat:@"&merchantNo=%@", @"202333"];
     [sign appendFormat:@"&paymentMethod=%@", paymentMethod];
@@ -86,6 +88,7 @@
     [body appendFormat:@"&city=%@", @"city"];
     [body appendFormat:@"&countryCode=%@", @"countryCode"];
     [body appendFormat:@"&customerNo=%@", @"cid"];
+    [body appendFormat:@"&deviceData=%@", deviceData];
     [body appendFormat:@"&email=%@", @"123@qq.com"];
     [body appendFormat:@"&merchantNo=%@", @"202333"];
     [body appendFormat:@"&paymentMethod=%@", paymentMethod];

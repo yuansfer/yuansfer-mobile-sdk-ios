@@ -1,6 +1,6 @@
 # Yuansfer 移动支付 SDK for iOS 集成文档
 
-v1.1.5 
+v1.2.0
 
 集成环境：Xcode 10.0+。
 
@@ -12,22 +12,34 @@ v1.1.5
 
 ## 集成
 
-1、将 YuansferMobillePaySDK.zip压缩包（包含支付宝移动支付 SDK、微信支付 SDK）解压后导入到项目工程中（勾选 Copy items if needed）。
+1、根据需要的支付方式将相应的.h和.m文件放入项目中，YuansferMobillePaySDK下的Public目录包含微信支付宝、ApplePay、CardPay、PayPal、Venmo等独立的支付，使用Braintree的带UI的形式不必添加上述文件，Internal是第三方支付SDK的头文件, demo中包含微信和支付宝的库文件，需要集成微信或支付宝时将这两个文件目录下的内容添加到项目中。
 
-**⚠️ 注意：如不需要集成支付宝移动支付或微信支付，可删除包含对应 SDK 的文件夹。同时，接下来流程中对应平台操作不处理即可。**
+**⚠️ 注意：使用Braintree时需要在Podfile添加依赖库，详见demo中的Podfile文件的使用说明。**
 
 ```
 └── YuansferMobillePaySDK
-    ├── AlipaySDK
-    │   ├── AlipaySDK.bundle
-    │   └── AlipaySDK.framework
-    ├── WeChatSDK
-    │   ├── WXApi.h
-    │   ├── WXApiObject.h
-    │   ├── WechatAuthSDK.h
-    │   └── libWeChatSDK.a
-    ├── YuansferMobillePaySDK.h
-    └── libYuansferMobillePaySDK.a
+    ├── Public
+    │   ├── YSAliWechatPay.h/.m
+    │   └── YSApiClient.h/.m
+    │   └── YSCardPay.h/.m
+    │   └── YSApplePay.h/.m
+    │   └── YSPayPalPay.h/.m
+    │   └── YSVenmoPay.h/.m
+    ├── Internal
+        ├── WXApi.h
+        ├── WXApiObject.h
+        ├── APayAuthInfo.h
+        └── AlipaySDK.a
+        └── ...
+└── MobillePaySDKSample
+    ├── WeChatSDK
+        ├── WXApi.h
+        ├── WXApiObject.h
+        ├── WechatAuthSDK.h
+        ├── libWeChatSDK.a
+    ├── AlipaySDK
+        ├── AlipaySDK.bundle
+        ├── AlipaySDK.framework
 ```
 
 2、在 Xcode 项目 **Build Settings** 选项卡的 **Linking** -> **Other Linker Flags** 选项中，添加 `-ObjC` 参数。
@@ -71,37 +83,55 @@ Security.framework // for WeChatPay
 6、需要支持Braintree的Apple Pay、Card Pay、PayPal、Venmo等支付方式请先在Podfile文件中添加相应的库,Braintree是必要的，其它的为可选，可根据需要自行添加
 ```
 # Podfile
-  #带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
+  # 带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
   pod 'BraintreeDropIn' , '~> 8.1.2'
-  #不带ui,Braintree为Core必选,其它为各自的库为可选
+  # 不带ui,Braintree为Core必选,其它为各自的库为可选
   pod 'Braintree'
   pod 'Braintree/Apple-Pay'
   pod 'Braintree/Card'
+  pod 'Braintree/PayPal'
   pod 'Braintree/Venmo'
+  # deviceData采集，建议上报
+  pod 'Braintree/DataCollector'
 ```
 ## 使用
 
 1、在 `AppDelegate.m` 中使用 `-handleOpenURL:` 方法处理从支付宝、微信、Venmo客户端跳转回来, 另外如果接入PayPal或Venmo需要设置URL Scheme。
 
 ```objc
-#import "YuansferMobillePaySDK.h"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [BTAppSwitch setReturnURLScheme:@"com.yuansfer.msdk.braintree"];
     return YES;
 }
 
+#pragma mark - handle open URL
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {    
-    return [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
+     BOOL aliWechatUrl = [[YSAliWechatPay sharedInstance] handleOpenURL:url];
+     if (!aliWechatUrl) {
+        BOOL ppUrl = [YSPayPalPay handleOpenURL:url];
+        if (!ppUrl) {
+            return [YSVenmoPay handleOpenURL:url];
+        }
+     }
+     return NO;
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    return [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
+    BOOL aliWechatUrl = [[YSAliWechatPay sharedInstance] handleOpenURL:url];
+    if (!aliWechatUrl) {
+       BOOL ppUrl = [YSPayPalPay handleOpenURL:url];
+       if (!ppUrl) {
+           return [YSVenmoPay handleOpenURL:url];
+       }
+    }
+    return NO;
 }
 ```
 
 2、在需要调用支付的地方发起支付。
-* 发起微信支付
+* 发起微信支付,[[YSAliWechatPay sharedInstance] requestWechatPayment]
 ```objc
 - (void) requestWechatPayment:(NSString *)partnerid
                prepayid:(NSString *)prepayid
@@ -112,13 +142,13 @@ Security.framework // for WeChatPay
             fromSchema:(NSString *)fromScheme
                   block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 ```
-* 发起支付宝支付
+* 发起支付宝支付,[[YSAliWechatPay sharedInstance] requestAliPayment]
 ```objc
 - (void) requestAliPayment:(NSString *)payInfo
           fromScheme:(NSString *)fromScheme
                block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 ```
-* 初始化Braintree api client, authorization为client token或tokenization key
+* 初始化Braintree api client, authorization为client token或tokenization key,[[YSApiClient sharedInstance] initBraintreeClient]
 ```objc
 - (void) initBraintreeClient:(NSString*) authorization;
 ```
@@ -126,7 +156,7 @@ Security.framework // for WeChatPay
 ```objc
 [[BTDropInController alloc] initWithAuthorization:self.authToken request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error);
 ```
-* 检查Apple Pay是否可用
+* 检查Apple Pay是否可用, [[YSApplePay sharedInstance] canApplePayment]
 ```objc
 - (bool) canApplePayment;
 ```
@@ -153,27 +183,27 @@ Security.framework // for WeChatPay
                    didSelectShippingMethod:(PKShippingMethod *)shippingMethod
                                    handler:(void (^)(PKPaymentRequestShippingMethodUpdate * _Nonnull)) completion;
 ```
-* 发起信用卡或借记卡支付
+* 发起信用卡或借记卡支付,[YSCardPay requestCardPayment]
 ```objc
-- (void) requestCardPayment:(BTCard *)card
++ (void) requestCardPayment:(BTCard *)card
                  completion:(void (^)(BTCardNonce * _Nullable tokenizedCard, NSError * _Nullable error))completion;
 ```
-* 发起Venmo客户端支付
+* 发起Venmo客户端支付,[YSVenmoPay requestVenmoPayment]
 ```objc
-- (void) requestVenmoPayment:(BOOL)vault
++ (void) requestVenmoPayment:(BOOL)vault
                   fromSchema:(NSString *)fromScheme
                   completion:(void (^)(BTVenmoAccountNonce *venmoAccount, NSError *error))completionBlock;
 ```
-* 发起PayPal支付,有两种形式:Vault和Checkout
+* 发起PayPal支付,有两种形式:Vault和Checkout,[YSPayPalPay requestPayPal]
 ```objc
-- (void) requestPayPalOneTimePayment:(BTPayPalRequest *)request
++ (void) requestPayPalOneTimePayment:(BTPayPalRequest *)request
                         fromSchema:(NSString *)fromScheme
             viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
                     switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
                                       completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
 
 
-- (void) requestPayPalBillingPayment:(BTPayPalRequest *)request
++ (void) requestPayPalBillingPayment:(BTPayPalRequest *)request
                         fromSchema:(NSString *)fromScheme
             viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
                     switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
@@ -189,4 +219,6 @@ Security.framework // for WeChatPay
 
 4、当引用BraintreeDropIn的旧版本时会出出现Braintree DropIn源码中报诸如'topLayoutGuide' is deprecated: first deprecated in iOS 11.0的error,该问题在8.1.0已修复，指定高于8.1.0的版本即可。
 
-5、其它详细使用请参考MobilePaySDKSample里的例子。
+5、根据实际需要集成的支付方式选择性的添加相应的文件，Podfile也选择性的安装Braintree依赖库，仅微信或支付宝时不需要Podfile。
+
+6、其它详细使用请参考MobilePaySDKSample里的例子。

@@ -12,7 +12,7 @@
 ///////////////////Merry Christmas=。=//////////////////
 ////////////////////////////////////////////////////////
 
-
+#import <UIKit/UIKit.h>
 #import "APayAuthInfo.h"
 typedef enum {
     ALIPAY_TIDFACTOR_IMEI,

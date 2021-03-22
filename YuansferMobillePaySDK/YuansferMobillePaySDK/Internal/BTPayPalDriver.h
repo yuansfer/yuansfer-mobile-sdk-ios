@@ -1,6 +1,8 @@
 #import "BTPayPalAccountNonce.h"
 #import "BTPayPalRequest.h"
 #import "BTViewControllerPresentingDelegate.h"
+#import "BTAPIClient.h"
+#import "BTAppSwitch.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN

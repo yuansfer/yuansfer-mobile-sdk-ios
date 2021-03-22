@@ -7,7 +7,10 @@
 //
 
 #import "AppDelegate.h"
-#import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
+#import "BTAppSwitch.h"
+#import <YuansferMobillePaySDK/YSAliWechatPay.h>
+#import <YuansferMobillePaySDK/YSPayPalPay.h>
+#import <YuansferMobillePaySDK/YSVenmoPay.h>
 //#import "YuansferMobillePaySDK.h"
 @interface AppDelegate ()
 
@@ -22,14 +25,27 @@
 
 #pragma mark - handle open URL
 
-
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {    
-    return [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
+     BOOL aliWechatUrl = [[YSAliWechatPay sharedInstance] handleOpenURL:url];
+     if (!aliWechatUrl) {
+        BOOL ppUrl = [YSPayPalPay handleOpenURL:url];
+        if (!ppUrl) {
+            return [YSVenmoPay handleOpenURL:url];
+        }
+     }
+     return NO;
 }
 
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    return [YuansferMobillePaySDK.sharedInstance handleOpenURL:url];
+    BOOL aliWechatUrl = [[YSAliWechatPay sharedInstance] handleOpenURL:url];
+    if (!aliWechatUrl) {
+       BOOL ppUrl = [YSPayPalPay handleOpenURL:url];
+       if (!ppUrl) {
+           return [YSVenmoPay handleOpenURL:url];
+       }
+    }
+    return NO;
 }
 
 

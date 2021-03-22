@@ -4,13 +4,16 @@ platform :ios, '12.0'
 source 'https://cdn.cocoapods.org/'
 
 target 'MobillePaySDKSample' do
-  #带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
+  # 带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
   pod 'BraintreeDropIn' , '~> 8.1.2'
-  #不带ui,Braintree为Core必选,其它为各自的库为可选
+  # 不带ui,Braintree为Core必选,其它为各自的库为可选
   pod 'Braintree'
 	pod 'Braintree/Apple-Pay'
   pod 'Braintree/Card'
+  pod 'Braintree/PayPal'
   pod 'Braintree/Venmo'
+  # deviceData采集，建议不带ui时上报
+  pod 'Braintree/DataCollector'
 end
 
 

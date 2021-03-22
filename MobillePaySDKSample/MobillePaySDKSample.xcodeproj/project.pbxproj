@@ -17,9 +17,10 @@
 		048C30A925B155C300BF7F60 /* PayPalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 048C30A725B155C300BF7F60 /* PayPalViewController.xib */; };
 		048C30AE25B155E300BF7F60 /* VenmoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C30AC25B155E300BF7F60 /* VenmoViewController.m */; };
 		048C30AF25B155E300BF7F60 /* VenmoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 048C30AD25B155E300BF7F60 /* VenmoViewController.xib */; };
-		0495C1AE25A4B9240037AEE8 /* libYuansferMobillePaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5773E652231B70D700179AAF /* libYuansferMobillePaySDK.a */; };
 		0495C1BC25A560FF0037AEE8 /* ApplePayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0495C1BA25A560FF0037AEE8 /* ApplePayViewController.m */; };
 		0495C1BD25A560FF0037AEE8 /* ApplePayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0495C1BB25A560FF0037AEE8 /* ApplePayViewController.xib */; };
+		04D34D142604A90F001544F1 /* libYuansferMobillePaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5773E652231B70D700179AAF /* libYuansferMobillePaySDK.a */; };
+		04D34D1E26083204001544F1 /* DataCollectorUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D34D1D26083204001544F1 /* DataCollectorUIViewController.m */; };
 		575B112122141E5300D86EA9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B112022141E5300D86EA9 /* AppDelegate.m */; };
 		575B112422141E5300D86EA9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 575B112322141E5300D86EA9 /* ViewController.m */; };
 		575B112722141E5300D86EA9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 575B112522141E5300D86EA9 /* Main.storyboard */; };
@@ -44,7 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0495C1AC25A4B85D0037AEE8 /* PBXContainerItemProxy */ = {
+		04D34D152604A914001544F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5773E64C231B70D700179AAF /* YuansferMobillePaySDK.xcodeproj */;
 			proxyType = 1;
@@ -81,6 +82,8 @@
 		0495C1B925A560FF0037AEE8 /* ApplePayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplePayViewController.h; sourceTree = "<group>"; };
 		0495C1BA25A560FF0037AEE8 /* ApplePayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApplePayViewController.m; sourceTree = "<group>"; };
 		0495C1BB25A560FF0037AEE8 /* ApplePayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ApplePayViewController.xib; sourceTree = "<group>"; };
+		04D34D1C26083204001544F1 /* DataCollectorUIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataCollectorUIViewController.h; sourceTree = "<group>"; };
+		04D34D1D26083204001544F1 /* DataCollectorUIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataCollectorUIViewController.m; sourceTree = "<group>"; };
 		575B111C22141E5300D86EA9 /* MobillePaySDKSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobillePaySDKSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		575B111F22141E5300D86EA9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		575B112022141E5300D86EA9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -119,7 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0495C1AE25A4B9240037AEE8 /* libYuansferMobillePaySDK.a in Frameworks */,
+				04D34D142604A90F001544F1 /* libYuansferMobillePaySDK.a in Frameworks */,
 				57F6A0AA2320099000E10010 /* libWeChatSDK.a in Frameworks */,
 				575B11722215572C00D86EA9 /* libc++.tbd in Frameworks */,
 				575B11702215572100D86EA9 /* libz.tbd in Frameworks */,
@@ -146,6 +149,8 @@
 				044E0C0925B54A0300098484 /* DropInUIViewController.h */,
 				044E0C0A25B54A0300098484 /* DropInUIViewController.m */,
 				044E0C0B25B54A0300098484 /* DropInUIViewController.xib */,
+				04D34D1C26083204001544F1 /* DataCollectorUIViewController.h */,
+				04D34D1D26083204001544F1 /* DataCollectorUIViewController.m */,
 				0495C1B925A560FF0037AEE8 /* ApplePayViewController.h */,
 				0495C1BA25A560FF0037AEE8 /* ApplePayViewController.m */,
 				0495C1BB25A560FF0037AEE8 /* ApplePayViewController.xib */,
@@ -278,7 +283,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				0495C1AD25A4B85D0037AEE8 /* PBXTargetDependency */,
+				04D34D162604A914001544F1 /* PBXTargetDependency */,
 			);
 			name = MobillePaySDKSample;
 			productName = MobillePaySDKSample;
@@ -422,6 +427,7 @@
 				04279E4825B03E7700E90086 /* CardPayViewController.m in Sources */,
 				575B112422141E5300D86EA9 /* ViewController.m in Sources */,
 				04279E4E25B068B500E90086 /* YSTestApi.m in Sources */,
+				04D34D1E26083204001544F1 /* DataCollectorUIViewController.m in Sources */,
 				04203B8B25A8A01700C416A1 /* URLConstant.m in Sources */,
 				575B112F22141E5600D86EA9 /* main.m in Sources */,
 				0495C1BC25A560FF0037AEE8 /* ApplePayViewController.m in Sources */,
@@ -433,10 +439,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0495C1AD25A4B85D0037AEE8 /* PBXTargetDependency */ = {
+		04D34D162604A914001544F1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = YuansferMobillePaySDK;
-			targetProxy = 0495C1AC25A4B85D0037AEE8 /* PBXContainerItemProxy */;
+			targetProxy = 04D34D152604A914001544F1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -14,7 +14,7 @@
 #import "VenmoViewController.h"
 #import "DropInUIViewController.h"
 #import <CommonCrypto/CommonDigest.h>
-#import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
+#import <YuansferMobillePaySDK/YSAliWechatPay.h>
 //#import "YuansferMobillePaySDK.h"
 
 @interface ViewController ()
@@ -127,7 +127,7 @@
         merchantNo.length == 0 ||
         payType == 0 ||
         token.length == 0) {
-        !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1000 userInfo:@{NSLocalizedDescriptionKey: @"参数错误，请检查 API 参数。"}]);
+        !block ?: block(nil, [NSError errorWithDomain:YSErrDomain code:1000 userInfo:@{NSLocalizedDescriptionKey: @"参数错误，请检查 API 参数。"}]);
         return;
     }
 
@@ -182,7 +182,7 @@
         // 验证 response 类型
         if (![response isKindOfClass:[NSHTTPURLResponse class]]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1001 userInfo:@{NSLocalizedDescriptionKey: @"Response is not a HTTP URL response."}]);
+                !block ?: block(nil, [NSError errorWithDomain:YSErrDomain code:1001 userInfo:@{NSLocalizedDescriptionKey: @"Response is not a HTTP URL response."}]);
 
             });
              return;
@@ -193,7 +193,7 @@
         if (httpResponse.statusCode != 200) {
             dispatch_async(dispatch_get_main_queue(), ^{
 
-                !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1002 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"HTTP response status code error, statusCode = %ld.", (long)httpResponse.statusCode]}]);
+                !block ?: block(nil, [NSError errorWithDomain:YSErrDomain code:1002 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"HTTP response status code error, statusCode = %ld.", (long)httpResponse.statusCode]}]);
 
             });
              return;
@@ -203,7 +203,7 @@
         if (!data || data.length == 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
 
-                !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1003 userInfo:@{NSLocalizedDescriptionKey: @"No response data."}]);
+                !block ?: block(nil, [NSError errorWithDomain:YSErrDomain code:1003 userInfo:@{NSLocalizedDescriptionKey: @"No response data."}]);
 
             });
              return;
@@ -220,7 +220,7 @@
         if (serializationError) {
             dispatch_async(dispatch_get_main_queue(), ^{
 
-                !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1004 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Deserialize JSON error, %@", serializationError.localizedDescription]}]);
+                !block ?: block(nil, [NSError errorWithDomain:YSErrDomain code:1004 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Deserialize JSON error, %@", serializationError.localizedDescription]}]);
 
             });
              return;
@@ -230,7 +230,7 @@
         if (![[responseObject objectForKey:@"ret_code"] isEqualToString:@"000100"]) {
             dispatch_async(dispatch_get_main_queue(), ^{
 
-                !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1005 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Yuansfer error, %@.", [responseObject objectForKey:@"ret_msg"]]}]);
+                !block ?: block(nil, [NSError errorWithDomain:YSErrDomain code:1005 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Yuansfer error, %@.", [responseObject objectForKey:@"ret_msg"]]}]);
 
             });
              return;
@@ -243,21 +243,21 @@
             if (payInfo.length == 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
 
-                    !block ?: block(nil, [NSError errorWithDomain:YSErrorDomain code:1006 userInfo:@{NSLocalizedDescriptionKey: @"Yuansfer error, payInfo is null."}]);
+                    !block ?: block(nil, [NSError errorWithDomain:YSErrDomain code:1006 userInfo:@{NSLocalizedDescriptionKey: @"Yuansfer error, payInfo is null."}]);
 
                 });
                  return;
             }
             // 发起支付宝支付
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[YuansferMobillePaySDK sharedInstance] requestAliPayment:payInfo fromScheme:@"yuansfer4alipay" block:block];
+                [[YSAliWechatPay sharedInstance] requestAliPayment:payInfo fromScheme:@"yuansfer4alipay" block:block];
             });
         } else if (payType == YSPayTypeWeChatPay) {
             // 微信支付
             NSDictionary *result = [responseObject objectForKey:@"result"];
             // 发起微信支付
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[YuansferMobillePaySDK sharedInstance] requestWechatPayment:[result objectForKey:@"partnerid"] prepayid:[result objectForKey:@"prepayid"] noncestr:[result objectForKey:@"noncestr"] timestamp:[result objectForKey:@"timestamp"] package:[result objectForKey:@"package"] sign:[result objectForKey:@"sign"] fromSchema:@"wx1acf098c25647f9e" block:block];
+                [[YSAliWechatPay sharedInstance] requestWechatPayment:[result objectForKey:@"partnerid"] prepayid:[result objectForKey:@"prepayid"] noncestr:[result objectForKey:@"noncestr"] timestamp:[result objectForKey:@"timestamp"] package:[result objectForKey:@"package"] sign:[result objectForKey:@"sign"] fromSchema:@"wx1acf098c25647f9e" block:block];
             });
         }
     }];

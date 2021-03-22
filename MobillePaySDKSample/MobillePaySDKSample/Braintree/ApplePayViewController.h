@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataCollectorUIViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ApplePayViewController : UIViewController
+@interface ApplePayViewController : DataCollectorUIViewController
 
 @end
 

@@ -7,10 +7,8 @@
 //
 
 #import "CardPayViewController.h"
-#import "BTAPIClient.h"
 #import "YSTestApi.h"
-#import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
-//#import "YuansferMobillePaySDK.h"
+#import <YuansferMobillePaySDK/YSCardPay.h>
 
 @interface CardPayViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
@@ -98,16 +96,19 @@
         strongSelf.transactionNo = [[responseObject objectForKey:@"result"] objectForKey:@"transactionNo"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            strongSelf.resultLabel.text = @"prepay接口调用成功,可提交支付数据进行处理";
-            [[YuansferMobillePaySDK sharedInstance] initBraintreeClient:[[responseObject objectForKey:@"result"] objectForKey:@"authorization"]];
             [strongSelf setFieldsEnabled:YES];
+            strongSelf.resultLabel.text = @"prepay接口调用成功,可提交支付数据进行处理";
+            [[YSApiClient sharedInstance] initBraintreeClient:[[responseObject objectForKey:@"result"] objectForKey:@"authorization"]];
+            [strongSelf collectDeviceData:[YSApiClient sharedInstance].apiClient];
         });
     }];
 }
 
 - (void) payProcess:(NSString *)nonce {
      __weak __typeof(self)weakSelf = self;
-    [YSTestApi callProcess:self.transactionNo paymentMethod:@"credit_card" nonce:nonce completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [YSTestApi callProcess:self.transactionNo paymentMethod:@"credit_card" nonce:nonce
+                deviceData:self.deviceData
+         completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         
         // 是否出错
@@ -176,12 +177,12 @@
 - (IBAction)submitForm {
     BTCard *card = [[BTCard alloc] initWithNumber:self.cardNumberField.text
     expirationMonth:self.expirationMonthField.text
-     expirationYear:self.expirationYearField.text
+    expirationYear:self.expirationYearField.text
                 cvv:nil];
-    [[YuansferMobillePaySDK sharedInstance] requestCardPayment:card completion:^(BTCardNonce *tokenized, NSError *error) {
+    [YSCardPay requestCardPayment:card completion:^(BTCardNonce *tokenized, NSError *error) {
         [self setFieldsEnabled:YES];
         if (error) {
-             self.resultLabel.text = [NSString stringWithFormat:@"process接口失败:%@", error.domain];
+            self.resultLabel.text = [NSString stringWithFormat:@"process接口失败:%@", error.domain];
             return;
         }
         [self payProcess:tokenized.nonce];

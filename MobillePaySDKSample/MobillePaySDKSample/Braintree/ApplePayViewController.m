@@ -7,11 +7,10 @@
 //
 
 #import "ApplePayViewController.h"
-#import "BTAPIClient.h"
-#import "BTApplePayClient.h"
-#import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
+#import <YuansferMobillePaySDK/YSApplePay.h>
+#import <PassKit/PKPaymentRequestStatus.h>
+#import <PassKit/PKPaymentButton.h>
 #import "YSTestApi.h"
-//#import "YuansferMobillePaySDK.h"
 
 @interface ApplePayViewController ()
 
@@ -100,8 +99,9 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             strongSelf.resultLabel.text = @"prepay接口调用成功,可提交支付数据进行处理";
-            [[YuansferMobillePaySDK sharedInstance] initBraintreeClient:strongSelf.authorization];
             [strongSelf.applePayContainer addSubview:[strongSelf createPaymentButton]];
+            [[YSApiClient sharedInstance] initBraintreeClient:strongSelf.authorization];
+            [strongSelf collectDeviceData:[YSApiClient sharedInstance].apiClient];
         });
     }];
 }
@@ -109,7 +109,9 @@
 - (void) payProcess:(NSString *)nonce {
     // 2、转圈。
      __weak __typeof(self)weakSelf = self;
-    [YSTestApi callProcess:self.transactionNo paymentMethod:@"apple_pay_card" nonce:nonce completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [YSTestApi callProcess:self.transactionNo paymentMethod:@"apple_pay_card" nonce:nonce
+                deviceData:self.deviceData
+         completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         
         // 是否出错
@@ -178,7 +180,7 @@
 }
 
 - (UIControl *) createPaymentButton {
-    if (![[YuansferMobillePaySDK sharedInstance] canApplePayment]) {
+    if (![[YSApplePay sharedInstance] canApplePayment]) {
         NSLog(@"canMakePayments returns NO, hiding Apple Pay button");
         return nil;
     }
@@ -200,7 +202,7 @@
 - (void) tappedApplePayButton {
     __weak __typeof(self)weakSelf = self;
     //第一种调用方法(Block形式)，简单易用，当不能满足需求时请使用第二种方法
-    [[YuansferMobillePaySDK sharedInstance] requestApplePayment:self
+    [[YSApplePay sharedInstance] requestApplePayment:self
                                             paymentRequest:^(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (error) {

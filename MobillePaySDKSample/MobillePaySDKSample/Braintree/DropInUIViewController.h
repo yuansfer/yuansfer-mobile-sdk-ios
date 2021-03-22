@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataCollectorUIViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DropInUIViewController : UIViewController
+@interface DropInUIViewController : DataCollectorUIViewController
 
 @end
 

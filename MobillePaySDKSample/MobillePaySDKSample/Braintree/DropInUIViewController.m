@@ -9,10 +9,10 @@
 #import "DropInUIViewController.h"
 #import "VenmoViewController.h"
 #import "BTAPIClient.h"
-#import <YuansferMobillePaySDK/YuansferMobillePaySDK.h>
 #import "YSTestApi.h"
 #import "BraintreeCore.h"
 #import "BraintreeDropIn.h"
+#import <YuansferMobillePaySDK/YSApplePay.h>
 
 @interface DropInUIViewController ()
 
@@ -96,16 +96,18 @@
         strongSelf.transactionNo = [[responseObject objectForKey:@"result"] objectForKey:@"transactionNo"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            strongSelf.payButton.hidden = NO;
             strongSelf.resultLabel.text = @"prepay接口调用成功,可选择支付方式";
             strongSelf.authToken = [[responseObject objectForKey:@"result"] objectForKey:@"authorization"];
-            [[YuansferMobillePaySDK sharedInstance] initBraintreeClient:strongSelf.authToken];
-            strongSelf.payButton.hidden = NO;
+            //采集deviceData
+            [strongSelf collectDeviceData:[[BTAPIClient alloc] initWithAuthorization:strongSelf.authToken]];
         });
     }];
 }
 
 - (void) payProcess:(BTUIKPaymentOptionType) type
-                reqNonce:(NSString *) nonce {
+                reqNonce:(NSString *) nonce
+         deviceData:(NSString *)deviceData {
     // 1、根据支付方式传值
     NSString *paymentMethod;
     if (type == BTUIKPaymentOptionTypePayPal) {
@@ -118,7 +120,9 @@
         paymentMethod = @"credit_card";
     }
      __weak __typeof(self)weakSelf = self;
-    [YSTestApi callProcess:self.transactionNo paymentMethod:paymentMethod nonce:nonce completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [YSTestApi callProcess:self.transactionNo paymentMethod:paymentMethod nonce:nonce
+                deviceData:deviceData
+         completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         
         // 是否出错
@@ -207,10 +211,11 @@
             NSLog(@"Drop-in result type:%ld, nonce:%@, icon:%@", (long)type, nonce, result.paymentIcon);
             if (nonce) {
                 strongSelf.resultLabel.text = @"正在发起支付处理...";
-                [self payProcess:type
-                        reqNonce:nonce];
+                [strongSelf payProcess:type
+                        reqNonce:nonce
+                 deviceData:strongSelf.deviceData];
             } else if (type == BTUIKPaymentOptionTypeApplePay) {
-               [[YuansferMobillePaySDK sharedInstance] requestApplePayment:self
+               [[YSApplePay sharedInstance] requestApplePayment:self
                                                         paymentRequest:^(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error) {
                     __strong __typeof(weakSelf)strongSelf = weakSelf;
                     if (error) {
@@ -264,10 +269,11 @@
                         //显示支付报错
                          strongSelf.resultLabel.text = error.localizedDescription;
                      } else {
-                         self.authorizationResultBlock = authorizationResultBlock;
+                         strongSelf.authorizationResultBlock = authorizationResultBlock;
                          //上传nonce至server创建并完成支付交易后在这里通知Apple Pay
-                         [self payProcess:type
-                                 reqNonce:tokenizedApplePayPayment.nonce];
+                         [strongSelf payProcess:type
+                                 reqNonce:tokenizedApplePayPayment.nonce
+                                deviceData:strongSelf.deviceData];
                      }
                 }];
             }
