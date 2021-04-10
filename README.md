@@ -85,7 +85,7 @@ Security.framework // for WeChatPay
     }
 }
 ```
-把创建好的文件放到后端服务器域名根目录下，保证https://test.com/apple-app-site-association可访问；最后去微信后台配置Universal Link, 如图所示，要与上文提到的后端给的域名一致，可以添加一个path，如此处配置为https://test.com/ios/，完成Uninversal Link的配置。
+把创建好的文件放到后端服务器域名根目录下，保证「https://test.com/apple-app-site-association」可访问；最后去微信后台配置Universal Link, 如图所示，要与上文提到的后端给的域名一致，可以添加一个path，如此处配置为「https://test.com/ios/」，完成Uninversal Link的配置。
 
 6、在 Xcode 项目 **Info** 选项卡的 **Custom iOS Target Properties** 中配置应用查询 Scheme：
 
