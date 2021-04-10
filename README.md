@@ -70,7 +70,7 @@ Security.framework // for WeChatPay
 | WeChatPay | weixin | wx1acf098c25647f9e（微信支付 App id） |
 | PayPal或Venmo | braintree | com.yuansfer.msdk.braintree (一般以app bundle ID拼上标识符)
 
-5、配置微信平台的Uninversal Link, 首先将Associated Domains打开，并填写我们的域名，前缀是applinks。etc.如果你的域名是test.com，则填上applinks:test.com；其次到苹果开发者中心找到项目的AppId的Associated Domains，打开开关，同时获取到Team ID和Bundle ID; 创建一个apple-app-site-association文件(注意是没有后缀的)，其内容是json格式，把Team ID和Bundle ID填入到以下的字段当中，中间以点号相连，官方示例如下:
+5、配置微信平台的Universal Link, 首先将Associated Domains打开，并填写我们的域名，前缀是applinks。etc.如果你的域名是test.com，则填上applinks:test.com；其次到苹果开发者中心找到项目的AppId的Associated Domains，打开开关，同时获取到Team ID和Bundle ID; 创建一个apple-app-site-association文件(注意是没有后缀的)，其内容是json格式，把Team ID和Bundle ID填入到以下的字段当中，中间以点号相连，官方示例如下:
 
 ```
 {
@@ -85,7 +85,7 @@ Security.framework // for WeChatPay
     }
 }
 ```
-把创建好的文件放到后端服务器域名根目录下，保证「https://test.com/apple-app-site-association」可访问；最后去微信后台配置Universal Link, 如图所示，要与上文提到的后端给的域名一致，可以添加一个path，如此处配置为「https://test.com/ios/」，完成Uninversal Link的配置。
+把创建好的文件放到后端服务器域名根目录下，保证`https://test.com/apple-app-site-association`可访问；最后去微信后台配置Universal Link, 如图所示，要与上文提到的后端给的域名一致，可以添加一个path，如此处配置为`https://test.com/ios/`，完成Universal Link的配置。
 
 6、在 Xcode 项目 **Info** 选项卡的 **Custom iOS Target Properties** 中配置应用查询 Scheme：
 
