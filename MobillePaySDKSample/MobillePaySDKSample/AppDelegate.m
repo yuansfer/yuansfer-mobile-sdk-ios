@@ -48,6 +48,8 @@
     return NO;
 }
 
+#pragma mark - handle universal link
+
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler {
     return [[YSAliWechatPay sharedInstance] handleUniversalLink:userActivity];
 }
