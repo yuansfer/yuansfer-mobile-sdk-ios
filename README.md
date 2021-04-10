@@ -246,4 +246,6 @@ Security.framework // for WeChatPay
 
 5、根据实际需要集成的支付方式选择性的添加相应的文件，Podfile也选择性的安装Braintree依赖库，仅微信或支付宝时不需要Podfile。
 
-6、其它详细使用请参考MobilePaySDKSample里的例子。
+6、通过universal link的形式无法调起或回调，请参考相关配置规则。
+
+7、其它详细使用请参考MobilePaySDKSample里的例子。
