@@ -56,6 +56,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>
+		<string>weixinULAPI</string>
 		<string>com.venmo.touch.v2</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>

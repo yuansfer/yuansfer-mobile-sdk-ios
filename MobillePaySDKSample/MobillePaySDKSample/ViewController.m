@@ -146,6 +146,7 @@
     [sign appendFormat:@"&merchantNo=%@", merchantNo];
     [sign appendFormat:@"&note=%@", note];
     [sign appendFormat:@"&reference=%@", orderNo];
+    [sign appendFormat:@"&settleCurrency=%@", @"USD"];
     [sign appendFormat:@"&storeNo=%@", storeNo];
     [sign appendFormat:@"&terminal=%@", @"APP"];
     [sign appendFormat:@"&vendor=%@", vendor];
@@ -159,12 +160,13 @@
     [body appendFormat:@"&merchantNo=%@", merchantNo];
     [body appendFormat:@"&note=%@", note];
     [body appendFormat:@"&reference=%@", orderNo];
+    [body appendFormat:@"&settleCurrency=%@", @"USD"];
     [body appendFormat:@"&storeNo=%@", storeNo];
     [body appendFormat:@"&terminal=%@", @"APP"];
     [body appendFormat:@"&vendor=%@", vendor];
     [body appendFormat:@"&verifySign=%@", [self md5String:[sign copy]]];
 
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@" ,BASE_URL, @"micropay/v2/prepay"]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@" ,BASE_URL, @"micropay/v3/prepay"]]];
     request.timeoutInterval = 15.0f;
     request.HTTPMethod = @"POST";
     request.HTTPBody = [[body copy] dataUsingEncoding:NSUTF8StringEncoding];
@@ -257,7 +259,8 @@
             NSDictionary *result = [responseObject objectForKey:@"result"];
             // 发起微信支付
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[YSAliWechatPay sharedInstance] requestWechatPayment:[result objectForKey:@"partnerid"] prepayid:[result objectForKey:@"prepayid"] noncestr:[result objectForKey:@"noncestr"] timestamp:[result objectForKey:@"timestamp"] package:[result objectForKey:@"package"] sign:[result objectForKey:@"sign"] fromSchema:@"wx1acf098c25647f9e" block:block];
+                [[YSAliWechatPay sharedInstance] requestWechatPayment:[result objectForKey:@"partnerid"] prepayid:[result objectForKey:@"prepayid"] noncestr:[result objectForKey:@"noncestr"] timestamp:[result objectForKey:@"timestamp"] package:[result objectForKey:@"package"] sign:[result objectForKey:@"sign"] appId:@"wx1acf098c25647f9e"
+                    uniLink:UNIVERSAL_LINKS block:block];
             });
         }
     }];

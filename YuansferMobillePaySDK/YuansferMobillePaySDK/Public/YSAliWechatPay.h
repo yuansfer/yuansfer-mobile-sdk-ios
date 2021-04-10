@@ -27,14 +27,20 @@ typedef NS_ENUM(NSInteger, YSPayType) {
  */
 - (BOOL)handleOpenURL:(NSURL *)aURL;
 
+/**
+ 微信新sdk统一链接回调处理方法
+ */
+- (BOOL)handleUniversalLink:(NSUserActivity *)userActivity;
+
 - (void) requestWechatPayment:(NSString *)partnerid
-               prepayid:(NSString *)prepayid
-               noncestr:(NSString *)noncestr
-              timestamp:(NSString *)timestamp
-                package:(NSString *)package
-                   sign:(NSString *)sign
-            fromSchema:(NSString *)fromScheme
-                  block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
+                     prepayid:(NSString *)prepayid
+                     noncestr:(NSString *)noncestr
+                    timestamp:(NSString *)timestamp
+                      package:(NSString *)package
+                         sign:(NSString *)sign
+                        appId:(NSString *)appId
+                      uniLink:(NSString *)uniLink
+                        block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 
 - (void) requestAliPayment:(NSString *)payInfo
           fromScheme:(NSString *)fromScheme

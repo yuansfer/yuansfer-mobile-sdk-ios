@@ -48,5 +48,8 @@
     return NO;
 }
 
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler {
+    return [[YSAliWechatPay sharedInstance] handleUniversalLink:userActivity];
+}
 
 @end

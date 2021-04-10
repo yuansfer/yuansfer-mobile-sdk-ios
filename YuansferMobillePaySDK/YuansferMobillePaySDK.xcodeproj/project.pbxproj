@@ -36,6 +36,9 @@
 		04BE266225A16BA70013117A /* BTAPIClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BE266125A16BA70013117A /* BTAPIClient.h */; };
 		04BE266425A16C890013117A /* BTApplePayClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BE266325A16C890013117A /* BTApplePayClient.h */; };
 		04BE266625A16D040013117A /* BTClientMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 04BE266525A16D040013117A /* BTClientMetadata.h */; };
+		04C1B2C4261EC65E00A835A4 /* WXApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C1B2C1261EC65E00A835A4 /* WXApi.h */; };
+		04C1B2C5261EC65E00A835A4 /* WechatAuthSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C1B2C2261EC65E00A835A4 /* WechatAuthSDK.h */; };
+		04C1B2C6261EC65E00A835A4 /* WXApiObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 04C1B2C3261EC65E00A835A4 /* WXApiObject.h */; };
 		04D34CE4260497E2001544F1 /* YSAliWechatPay.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D34CE2260497E1001544F1 /* YSAliWechatPay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04D34CE5260497E2001544F1 /* YSAliWechatPay.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D34CE3260497E1001544F1 /* YSAliWechatPay.m */; };
 		04D34CFC26049C6C001544F1 /* YSApiClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D34CFA26049C6C001544F1 /* YSApiClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,8 +52,6 @@
 		04D34D0B26049FEF001544F1 /* BTPayPalDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D34D0A26049FEE001544F1 /* BTPayPalDriver.h */; };
 		04D34D0E2604A16B001544F1 /* YSVenmoPay.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D34D0C2604A16B001544F1 /* YSVenmoPay.m */; };
 		04D34D0F2604A16B001544F1 /* YSVenmoPay.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D34D0D2604A16B001544F1 /* YSVenmoPay.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04D34D2F26084C2B001544F1 /* WXApiObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D34D2D26084C2A001544F1 /* WXApiObject.h */; };
-		04D34D3026084C2B001544F1 /* WXApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D34D2E26084C2B001544F1 /* WXApi.h */; };
 		575B117422156D1200D86EA9 /* AlipaySDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B117322156D1200D86EA9 /* AlipaySDK.h */; };
 		575B117622156D7300D86EA9 /* APayAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 575B117522156D7300D86EA9 /* APayAuthInfo.h */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,9 @@
 		04BE266125A16BA70013117A /* BTAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTAPIClient.h; sourceTree = "<group>"; };
 		04BE266325A16C890013117A /* BTApplePayClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTApplePayClient.h; sourceTree = "<group>"; };
 		04BE266525A16D040013117A /* BTClientMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTClientMetadata.h; sourceTree = "<group>"; };
+		04C1B2C1261EC65E00A835A4 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		04C1B2C2261EC65E00A835A4 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		04C1B2C3261EC65E00A835A4 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		04D34CE2260497E1001544F1 /* YSAliWechatPay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSAliWechatPay.h; sourceTree = "<group>"; };
 		04D34CE3260497E1001544F1 /* YSAliWechatPay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSAliWechatPay.m; sourceTree = "<group>"; };
 		04D34CFA26049C6C001544F1 /* YSApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSApiClient.h; sourceTree = "<group>"; };
@@ -84,8 +88,6 @@
 		04D34D0A26049FEE001544F1 /* BTPayPalDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTPayPalDriver.h; sourceTree = "<group>"; };
 		04D34D0C2604A16B001544F1 /* YSVenmoPay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSVenmoPay.m; sourceTree = "<group>"; };
 		04D34D0D2604A16B001544F1 /* YSVenmoPay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSVenmoPay.h; sourceTree = "<group>"; };
-		04D34D2D26084C2A001544F1 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		04D34D2E26084C2B001544F1 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		575B110522141AF200D86EA9 /* libYuansferMobillePaySDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYuansferMobillePaySDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		575B117322156D1200D86EA9 /* AlipaySDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipaySDK.h; sourceTree = "<group>"; };
 		575B117522156D7300D86EA9 /* APayAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APayAuthInfo.h; sourceTree = "<group>"; };
@@ -124,10 +126,11 @@
 		04D34D1926050466001544F1 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				04C1B2C2261EC65E00A835A4 /* WechatAuthSDK.h */,
+				04C1B2C1261EC65E00A835A4 /* WXApi.h */,
+				04C1B2C3261EC65E00A835A4 /* WXApiObject.h */,
 				575B117322156D1200D86EA9 /* AlipaySDK.h */,
 				575B117522156D7300D86EA9 /* APayAuthInfo.h */,
-				04D34D2E26084C2B001544F1 /* WXApi.h */,
-				04D34D2D26084C2A001544F1 /* WXApiObject.h */,
 				04BE266125A16BA70013117A /* BTAPIClient.h */,
 				04BE266525A16D040013117A /* BTClientMetadata.h */,
 				04BE266325A16C890013117A /* BTApplePayClient.h */,
@@ -190,17 +193,18 @@
 				043116D425BAF4C6000F3617 /* BTPostalAddress.h in Headers */,
 				048C30A225B1443100BF7F60 /* BTVenmoDriver.h in Headers */,
 				048C308F25B1306000BF7F60 /* BTCardClient.h in Headers */,
-				04D34D2F26084C2B001544F1 /* WXApiObject.h in Headers */,
 				04D34D0B26049FEF001544F1 /* BTPayPalDriver.h in Headers */,
 				04279E5B25B0A7F600E90086 /* BTBinData.h in Headers */,
 				043116CE25BAF106000F3617 /* BTPayPalAccountNonce.h in Headers */,
 				04BE266425A16C890013117A /* BTApplePayClient.h in Headers */,
 				04BE266225A16BA70013117A /* BTAPIClient.h in Headers */,
 				04279E5F25B0AA0700E90086 /* BTEnums.h in Headers */,
-				04D34D3026084C2B001544F1 /* WXApi.h in Headers */,
+				04C1B2C6261EC65E00A835A4 /* WXApiObject.h in Headers */,
 				575B117422156D1200D86EA9 /* AlipaySDK.h in Headers */,
 				043116D225BAF43C000F3617 /* BTViewControllerPresentingDelegate.h in Headers */,
 				04BE266625A16D040013117A /* BTClientMetadata.h in Headers */,
+				04C1B2C5261EC65E00A835A4 /* WechatAuthSDK.h in Headers */,
+				04C1B2C4261EC65E00A835A4 /* WXApi.h in Headers */,
 				043116CD25BAF106000F3617 /* BTPayPalRequest.h in Headers */,
 				048C30A425B14C5700BF7F60 /* BTAppSwitch.h in Headers */,
 				04279E5D25B0A80700E90086 /* BTPaymentMethodNonce.h in Headers */,

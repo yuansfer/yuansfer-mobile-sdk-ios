@@ -43,12 +43,13 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
               timestamp:(NSString *)timestamp
                 package:(NSString *)package
                    sign:(NSString *)sign
-             fromSchema:(NSString *)fromScheme
+                  appId:(NSString *)appId
+                uniLink:(NSString *)uniLink
                   block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block {
     // 初始化微信，只初始化一次。
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [WXApi registerApp:fromScheme enableMTA:NO];
+        [WXApi registerApp:appId universalLink:uniLink];
     });
 
     // 是否安装微信。
@@ -57,7 +58,7 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
         return;
     }
     self.completion = block;
-    self.weChatPayScheme = fromScheme;
+    self.weChatPayScheme = appId;
     PayReq *request = [[PayReq alloc] init];
     request.partnerId = partnerid;
     request.prepayId = prepayid;
@@ -65,7 +66,9 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
     request.timeStamp = [timestamp intValue];
     request.package = package;
     request.sign = sign;
-    [WXApi sendReq:request];
+    [WXApi sendReq:request completion:^(BOOL success) {
+        NSLog(@"Wechat Pay reqeust result= %@",success ? @"success":@"fail");
+    }];
 }
 
 - (void) requestAliPayment:(NSString *)payInfo
@@ -130,6 +133,10 @@ typedef void (^Completion)(NSDictionary *results, NSError *error);
         return [WXApi handleOpenURL:aURL delegate:self];
     }
     return NO;
+}
+
+- (BOOL)handleUniversalLink:(NSUserActivity *)userActivity {
+    return [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 
 #pragma mark - WXApiDelegate

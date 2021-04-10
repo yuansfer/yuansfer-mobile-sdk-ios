@@ -9,7 +9,7 @@
 #import "YSApiClient.h"
 #import "BTAPIClient.h"
 
-static NSString * const SDKVersion = @"1.2.0";
+static NSString * const SDKVersion = @"1.2.1";
 
 @implementation YSApiClient
 

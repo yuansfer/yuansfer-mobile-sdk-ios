@@ -7,6 +7,7 @@
 //
 #import <Foundation/Foundation.h>
 
-/*******************************服务器地址****************************/
+// 服务器地址
 extern NSString *const BASE_URL;
-/*******************************服务器地址****************************/
+// 微信平台Universal Links
+extern NSString *const UNIVERSAL_LINKS;

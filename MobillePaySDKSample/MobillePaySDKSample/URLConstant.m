@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-/*******************************服务器地址****************************/
 NSString *const BASE_URL = @"https://mapi.yuansfer.yunkeguan.com/";
-/*******************************服务器地址****************************/
 
+NSString *const UNIVERSAL_LINKS = @"https://mapi.yuansfer.yunkeguan.com/ios/";

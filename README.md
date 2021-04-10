@@ -70,17 +70,34 @@ Security.framework // for WeChatPay
 | WeChatPay | weixin | wx1acf098c25647f9e（微信支付 App id） |
 | PayPal或Venmo | braintree | com.yuansfer.msdk.braintree (一般以app bundle ID拼上标识符)
 
-5、在 Xcode 项目 **Info** 选项卡的 **Custom iOS Target Properties** 中配置应用查询 Scheme：
+5、配置微信平台的Uninversal Link, 首先将Associated Domains打开，并填写我们的域名，前缀是applinks。etc.如果你的域名是test.com，则填上applinks:test.com；其次到苹果开发者中心找到项目的AppId的Associated Domains，打开开关，同时获取到Team ID和Bundle ID; 创建一个apple-app-site-association文件(注意是没有后缀的)，其内容是json格式，把Team ID和Bundle ID填入到以下的字段当中，中间以点号相连，官方示例如下:
+
+```
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "Team ID.Bundle ID",
+                "paths": [ "*" ]
+            }
+        ]
+    }
+}
+```
+把创建好的文件放到后端服务器域名根目录下，保证https://test.com/apple-app-site-association可访问；最后去微信后台配置Universal Link, 如图所示，要与上文提到的后端给的域名一致，可以添加一个path，如此处配置为https://test.com/ios/，完成Uninversal Link的配置。
+
+6、在 Xcode 项目 **Info** 选项卡的 **Custom iOS Target Properties** 中配置应用查询 Scheme：
 
 ```
 <key>LSApplicationQueriesSchemes</key>
 <array>
-	<string>alipay</string>
 	<string>weixin</string>
+	<string>weixinULAPI</string>
 	<string>com.venmo.touch.v2</string>
 </array>
 ```
-6、需要支持Braintree的Apple Pay、Card Pay、PayPal、Venmo等支付方式请先在Podfile文件中添加相应的库,Braintree是必要的，其它的为可选，可根据需要自行添加
+7、需要支持Braintree的Apple Pay、Card Pay、PayPal、Venmo等支付方式请先在Podfile文件中添加相应的库,Braintree是必要的，其它的为可选，可根据需要自行添加
 ```
 # Podfile
   # 带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
@@ -128,19 +145,25 @@ Security.framework // for WeChatPay
     }
     return NO;
 }
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler {
+    return [[YSAliWechatPay sharedInstance] handleUniversalLink:userActivity];
+}
+
 ```
 
 2、在需要调用支付的地方发起支付。
 * 发起微信支付,[[YSAliWechatPay sharedInstance] requestWechatPayment]
 ```objc
 - (void) requestWechatPayment:(NSString *)partnerid
-               prepayid:(NSString *)prepayid
-               noncestr:(NSString *)noncestr
-              timestamp:(NSString *)timestamp
-                package:(NSString *)package
-                   sign:(NSString *)sign
-            fromSchema:(NSString *)fromScheme
-                  block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
+                     prepayid:(NSString *)prepayid
+                     noncestr:(NSString *)noncestr
+                    timestamp:(NSString *)timestamp
+                      package:(NSString *)package
+                         sign:(NSString *)sign
+                        appId:(NSString *)appId
+                      uniLink:(NSString *)uniLink
+                        block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 ```
 * 发起支付宝支付,[[YSAliWechatPay sharedInstance] requestAliPayment]
 ```objc
