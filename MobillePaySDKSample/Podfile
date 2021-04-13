@@ -7,7 +7,7 @@ target 'MobillePaySDKSample' do
   # 带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
   pod 'BraintreeDropIn' , '~> 8.1.2'
   # 不带ui,Braintree为Core必选,其它为各自的库为可选
-  pod 'Braintree'
+  pod 'Braintree' , '~> 4.37.1'
 	pod 'Braintree/Apple-Pay'
   pod 'Braintree/Card'
   pod 'Braintree/PayPal'

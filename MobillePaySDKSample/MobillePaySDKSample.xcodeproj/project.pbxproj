@@ -594,6 +594,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MobillePaySDKSample/AlipaySDK",
+					"$(PROJECT_DIR)/MobillePaySDKSample/QQ",
 				);
 				INFOPLIST_FILE = MobillePaySDKSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -625,6 +626,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MobillePaySDKSample/AlipaySDK",
+					"$(PROJECT_DIR)/MobillePaySDKSample/QQ",
 				);
 				INFOPLIST_FILE = MobillePaySDKSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
