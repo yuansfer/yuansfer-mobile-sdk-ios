@@ -1,8 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '12.0'
-
 source 'https://cdn.cocoapods.org/'
-
 target 'MobillePaySDKSample' do
   # 带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
   pod 'BraintreeDropIn' , '~> 8.1.2'
