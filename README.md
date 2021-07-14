@@ -127,20 +127,25 @@ Put the created file in the root directory of the back-end server domain name, a
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {    
      BOOL aliWechatUrl = [[YSAliWechatPay sharedInstance] handleOpenURL:url];
      if (!aliWechatUrl) {
-        BOOL ppUrl = [YSPayPalPay handleOpenURL:url];
+        BOOL ppUrl = [YSPayPalPay handleOpenURL:url
+                              sourceApplication:sourceApplication];
         if (!ppUrl) {
-            return [YSVenmoPay handleOpenURL:url];
+            return [YSVenmoPay handleOpenURL:url
+                           sourceApplication:sourceApplication];
         }
      }
      return NO;
 }
 
+
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     BOOL aliWechatUrl = [[YSAliWechatPay sharedInstance] handleOpenURL:url];
     if (!aliWechatUrl) {
-       BOOL ppUrl = [YSPayPalPay handleOpenURL:url];
+       BOOL ppUrl = [YSPayPalPay handleOpenURL:url
+                                       options:options];
        if (!ppUrl) {
-           return [YSVenmoPay handleOpenURL:url];
+           return [YSVenmoPay handleOpenURL:url
+                                    options:options];
        }
     }
     return NO;

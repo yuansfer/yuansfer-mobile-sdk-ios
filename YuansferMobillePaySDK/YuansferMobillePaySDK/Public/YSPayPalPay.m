@@ -42,9 +42,20 @@ static NSString *braintreePayScheme;
     [driver requestBillingAgreement:request completion:completion];
 }
 
-+ (BOOL)handleOpenURL:(NSURL *)aURL {
-    if ([aURL.scheme isEqualToString:braintreePayScheme]) {
-        return [BTAppSwitch handleOpenURL:aURL];
++ (BOOL)handleOpenURL:(NSURL *)url
+              options:(NSDictionary *)options {
+    if ([url.scheme isEqualToString:braintreePayScheme]) {
+        return [BTAppSwitch handleOpenURL:url
+                                  options:options];
+    }
+    return NO;
+}
+
++ (BOOL)handleOpenURL:(NSURL *)url
+    sourceApplication:(nullable NSString *)sourceApplication {
+    if ([url.scheme isEqualToString:braintreePayScheme]) {
+        return [BTAppSwitch handleOpenURL:url
+                        sourceApplication:sourceApplication];
     }
     return NO;
 }

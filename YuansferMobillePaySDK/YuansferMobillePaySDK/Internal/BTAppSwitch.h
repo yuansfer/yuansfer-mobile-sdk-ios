@@ -8,12 +8,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Handles return URLs when returning from app switch and routes the return URL to the correct app switch handler class.
- @note `returnURLScheme` must contain your app's registered URL Type that starts with the app's bundleID. When your app returns from app switch, the app delegate should call `handleOpenURL:` or `handleOpenURLContext:`
+ @note `returnURLScheme` must contain your app's registered URL Type that starts with the app's bundleID. When your app returns from app switch, the app delegate should call `handleOpenURL:sourceApplication:`
 */
 @interface BTAppSwitch : NSObject
 
 /**
- The URL scheme to return to this app after switching to another app. 
+ The URL scheme to return to this app after switching to another app.
  
  This URL scheme must be registered as a URL Type in the app's info.plist, and it must start with the app's bundle ID.
 */
@@ -38,9 +38,19 @@ NS_ASSUME_NONNULL_BEGIN
  Handles a return from app switch
 
  @param url The URL that was opened to return to your app
+ @param sourceApplication The source app that requested the launch of your app
  @return `YES` if the app switch successfully handled the URL, or `NO` if the attempt to handle the URL failed.
 */
-+ (BOOL)handleOpenURL:(NSURL *)url;
++ (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication;
+
+/**
+ Handles a return from app switch
+
+ @param url The URL that was opened to return to your app
+ @param options The options dictionary provided by `application:openURL:options:`
+ @return `YES` if the app switch successfully handled the URL, or `NO` if the attempt to handle the URL failed.
+*/
++ (BOOL)handleOpenURL:(NSURL *)url options:(NSDictionary *)options;
 
 /**
  Handles a return from app switch
@@ -59,6 +69,15 @@ NS_ASSUME_NONNULL_BEGIN
  Unregisters a class that knows how to handle a return from app switch
 */
 - (void)unregisterAppSwitchHandler:(Class<BTAppSwitchHandler>)handler;
+
+/**
+ Handles a return from app switch
+ 
+ @param url The URL that was opened to return to your app
+ @param sourceApplication The string representing the source application
+ @return `YES` if the app switch successfully handled the URL, or `NO` if the attempt to handle the URL failed.
+ */
+- (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication DEPRECATED_MSG_ATTRIBUTE("Use handleOpenURL:options: or handleOpenURLContext: instead.");
 
 @end
 
@@ -115,8 +134,6 @@ typedef NS_ENUM(NSInteger, BTAppSwitchTarget) {
 */
 @protocol BTAppSwitchDelegate <NSObject>
 
-@optional
-
 /**
  The app switcher will perform an app switch in order to obtain user payment authorization.
 
@@ -159,8 +176,10 @@ typedef NS_ENUM(NSInteger, BTAppSwitchTarget) {
 */
 - (void)appSwitcherWillProcessPaymentInfo:(id)appSwitcher;
 
+@optional
+
 /**
- Regardless of the method (e.g. app, Safari, SFSafariViewController, ASWebAuthenticationSession) events will be sent when the context will switch away from from the origin app.
+ Regardless of the method (e.g. app, Safari, SFSafariViewController, SFAuthenticationSession) events will be sent when the context will switch away from from the origin app.
 
  @note Use this method to update UI (e.g. displaying a loading indicator) before the switch takes place.
 
@@ -183,7 +202,7 @@ typedef NS_ENUM(NSInteger, BTAppSwitchTarget) {
 
 /**
  A protocol for handling the return from switching out of an app to gather payment information.
- @note The app may switch out to SFSafariViewController or to a native app.
+ @note The app may switch out to Mobile Safari or to a native app.
 */
 @protocol BTAppSwitchHandler
 
@@ -192,15 +211,16 @@ typedef NS_ENUM(NSInteger, BTAppSwitchTarget) {
 /**
  Determine whether the app switch return URL can be handled.
 
- @param url the URL you receive in  `scene:openURLContexts:` (or `application:openURL:options:` if iOS 12) when returning to your app
+ @param url the URL you receive in `application:openURL:sourceApplication:annotation` when returning to your app
+ @param sourceApplication The source application you receive in `application:openURL:sourceApplication:annotation`
  @return `YES` when the object can handle returning from the application with a URL
 */
-+ (BOOL)canHandleAppSwitchReturnURL:(NSURL *)url;
++ (BOOL)canHandleAppSwitchReturnURL:(NSURL *)url sourceApplication:(NSString * _Nullable)sourceApplication;
 
 /**
- Complete payment flow after returning from app or browser switch.
+ Pass control back to `BTPayPalDriver` after returning from app or browser switch.
 
- @param url The URL you receive in `scene:openURLContexts:` (or `application:openURL:options:` if iOS 12)
+ @param url The URL you receive in `application:openURL:sourceApplication:annotation`
 */
 + (void)handleAppSwitchReturnURL:(NSURL *)url;
 
@@ -214,3 +234,4 @@ typedef NS_ENUM(NSInteger, BTAppSwitchTarget) {
 @end
 
 NS_ASSUME_NONNULL_END
+

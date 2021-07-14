@@ -28,7 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
                       switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
                           completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
 
-+ (BOOL)handleOpenURL:(NSURL *)aURL;
++ (BOOL)handleOpenURL:(NSURL *)url
+              options:(NSDictionary *)options;
+
++ (BOOL)handleOpenURL:(NSURL *)url
+    sourceApplication:(nullable NSString *)sourceApplication;
 
 @end
 
