@@ -98,7 +98,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             strongSelf.payButton.hidden = NO;
             strongSelf.resultLabel.text = @"prepay接口调用成功,可选择支付方式";
-            strongSelf.authToken = [[responseObject objectForKey:@"result"] objectForKey:@"authorization"];
+            // 注意，下一行是静态测试授权码，仅用于测试，实际项目中应该是下二行从服务器接口获取动态授权码
+            strongSelf.authToken = @"sandbox_ktnjwfdk_wfm342936jkm7dg6";
+            // strongSelf.authToken = [[responseObject objectForKey:@"result"] objectForKey:@"authorization"];
             //采集deviceData
             [strongSelf collectDeviceData:[[BTAPIClient alloc] initWithAuthorization:strongSelf.authToken]];
         });

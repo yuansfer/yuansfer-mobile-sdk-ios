@@ -85,7 +85,7 @@
              return;
         }
         
-        // 检查业务状态码
+        // 检查业务状态码, 注意测试环境的状态码与正式环境状态码有点区别，这里只判断了正式环境的
         if (![[responseObject objectForKey:@"ret_code"] isEqualToString:@"000100"]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 strongSelf.resultLabel.text = [NSString stringWithFormat:@"Yuansfer error, %@.", [responseObject objectForKey:@"ret_msg"]];
@@ -98,7 +98,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [strongSelf setFieldsEnabled:YES];
             strongSelf.resultLabel.text = @"prepay接口调用成功,可提交支付数据进行处理";
-            [[YSApiClient sharedInstance] initBraintreeClient:[[responseObject objectForKey:@"result"] objectForKey:@"authorization"]];
+            // 注意，下一行是静态测试授权码，仅用于测试，实际项目中应该是下二行从服务器接口获取动态授权码
+            [[YSApiClient sharedInstance] initBraintreeClient:@"sandbox_ktnjwfdk_wfm342936jkm7dg6"];
+            // [[YSApiClient sharedInstance] initBraintreeClient:[[responseObject objectForKey:@"result"] objectForKey:@"authorization"]];
             [strongSelf collectDeviceData:[YSApiClient sharedInstance].apiClient];
         });
     }];
@@ -159,7 +161,7 @@
              return;
         }
         
-        // 检查业务状态码
+        // 检查业务状态码, 注意测试环境的状态码与正式环境状态码有点区别，这里只判断了正式环境的
         if (![[responseObject objectForKey:@"ret_code"] isEqualToString:@"000100"]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 strongSelf.resultLabel.text = [NSString stringWithFormat:@"Yuansfer error, %@.", [responseObject objectForKey:@"ret_msg"]];

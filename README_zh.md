@@ -13,6 +13,7 @@ yuansfer-payment-iOS 是一个可快速集成微信支付、支付宝、Braintre
 ## 集成
 
 1、根据需要的支付方式将相应的.h和.m文件放入项目中，YuansferMobillePaySDK下的Public目录包含微信支付宝、ApplePay、CardPay、PayPal、Venmo等独立的支付，使用Braintree的带UI的形式不必添加上述文件，Internal是第三方支付SDK的头文件, demo中包含微信和支付宝的库文件，需要集成微信或支付宝时将这两个文件目录下的内容添加到项目中。
+2、MobilePaySDKSample里的代码为测试demo，仅供参考，其中YSTestApi里的接口调用在正式项目中应替换为商家服务器接口，由商家服务器接口调用圆支付宝的接口。
 
 **⚠️ 注意：使用Braintree时需要在Podfile添加依赖库，详见demo中的Podfile文件的使用说明。**
 
@@ -253,4 +254,4 @@ Security.framework // for WeChatPay
 
 6、通过universal link的形式无法调起或回调，请参考相关配置规则。
 
-7、其它详细使用请参考MobilePaySDKSample里的例子。
+7、其它详细使用请参考MobilePaySDKSample里的例子，例子仅供参考，不应直接在项目中使用。
