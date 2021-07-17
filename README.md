@@ -12,7 +12,7 @@ The preparatory work for the access includes merchant signing, obtaining various
 
 ## Integration
 
-1、The code in MobilePaySDKSample is a test demo for reference only. The interface call in YSTestApi should be replaced with the merchant server interface in the release project, and the merchant server interface calls the Alipay interface.
+1、The code in MobilePaySDKSample is a test demo for reference only. The interface call in YSTestApi should be replaced with the merchant server interface in the release project, and the merchant server interface calls the Yuansfer interface.
 
 2、Put the corresponding .h and .m files into the project according to the required payment method. The Public directory under YuansferMobillePaySDK contains independent payments such as WeChat Alipay, ApplePay, CardPay, PayPal, Venmo, etc. You don’t need to add the above when using Braintree’s UI with the form File, Internal is the header file of the third-party payment SDK. The demo contains library files of WeChat and Alipay. When you need to integrate WeChat or Alipay, add the contents of these two file directories to the project.
 
