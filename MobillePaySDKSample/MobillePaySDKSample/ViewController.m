@@ -259,8 +259,11 @@
             NSDictionary *result = [responseObject objectForKey:@"result"];
             // 发起微信支付
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[YSAliWechatPay sharedInstance] requestWechatPayment:[result objectForKey:@"partnerid"] prepayid:[result objectForKey:@"prepayid"] noncestr:[result objectForKey:@"noncestr"] timestamp:[result objectForKey:@"timestamp"] package:[result objectForKey:@"package"] sign:[result objectForKey:@"sign"] appId:@"wx1acf098c25647f9e"
-                    uniLink:UNIVERSAL_LINKS block:block];
+                [[YSAliWechatPay sharedInstance]
+                 requestWechatPayment:[result objectForKey:@"partnerid"]
+                                prepayid:[result objectForKey:@"prepayid"] noncestr:[result objectForKey:@"noncestr"] timestamp:[result objectForKey:@"timestamp"] package:[result objectForKey:@"package"] sign:[result objectForKey:@"sign"]
+                                    appId:[result objectForKey:@"appid"]
+                                    uniLink:UNIVERSAL_LINKS block:block];
             });
         }
     }];
