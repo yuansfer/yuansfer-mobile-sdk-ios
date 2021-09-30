@@ -11,7 +11,7 @@
 #import <YuansferMobillePaySDK/YSAliWechatPay.h>
 #import <YuansferMobillePaySDK/YSPayPalPay.h>
 #import <YuansferMobillePaySDK/YSVenmoPay.h>
-//#import "YuansferMobillePaySDK.h"
+#import "URLConstant.h"
 @interface AppDelegate ()
 
 @end
@@ -19,7 +19,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [BTAppSwitch setReturnURLScheme:@"com.yuansfer.msdk.braintree"];
+    [BTAppSwitch setReturnURLScheme:BT_URL_SCHEMA];
     return YES;
 }
 

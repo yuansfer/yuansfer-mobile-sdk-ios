@@ -11,3 +11,5 @@
 extern NSString *const BASE_URL;
 // 微信平台Universal Links
 extern NSString *const UNIVERSAL_LINKS;
+// Braintree PayPal/Venmo Resturn Url Schema
+extern NSString *const BT_URL_SCHEMA;

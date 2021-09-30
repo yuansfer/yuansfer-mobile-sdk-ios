@@ -12,3 +12,5 @@
 NSString *const BASE_URL = @"https://mapi.yuansfer.yunkeguan.com/";
 
 NSString *const UNIVERSAL_LINKS = @"https://mapi.yuansfer.yunkeguan.com/ios/";
+
+NSString *const BT_URL_SCHEMA = @"com.yuansfer.msdk.braintree";

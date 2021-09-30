@@ -9,6 +9,7 @@
 #import "PayPalViewController.h"
 #import <YuansferMobillePaySDK/YSPayPalPay.h>
 #import "YSTestApi.h"
+#import "URLConstant.h"
 
 @interface PayPalViewController ()<BTViewControllerPresentingDelegate,BTAppSwitchDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
@@ -92,9 +93,7 @@
             strongSelf.payBillingButton.hidden = NO;
             strongSelf.payOnetimeButton.hidden = NO;
             strongSelf.resultLabel.text = @"prepay接口调用成功,可提交支付数据进行处理";
-            // 注意，下一行是静态测试授权码，仅用于测试，实际项目中应该是下二行从服务器接口获取动态授权码
-            [[YSApiClient sharedInstance] initBraintreeClient:@"sandbox_ktnjwfdk_wfm342936jkm7dg6"];
-            // [[YSApiClient sharedInstance] initBraintreeClient:[[responseObject objectForKey:@"result"] objectForKey:@"authorization"]];
+             [[YSApiClient sharedInstance] initBraintreeClient:[[responseObject objectForKey:@"result"] objectForKey:@"authorization"]];
             [strongSelf collectDeviceData:[YSApiClient sharedInstance].apiClient];
         });
     }];
@@ -172,9 +171,9 @@
 
 - (IBAction)tappedPayOnetimeButton:(id)sender {
     __weak __typeof(self)weakSelf = self;
-    // 注意传入实际金额
     BTPayPalRequest *request = [[BTPayPalRequest alloc] initWithAmount:@"0.01"];
-    [YSPayPalPay requestPayPalOneTimePayment:request fromSchema:@"com.yuansfer.msdk.braintree" viewControllerDelegate:self switchDelegate:self completion:^(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error) {
+    request.displayName = @"PayPal Test";
+    [YSPayPalPay requestPayPalOneTimePayment:request fromSchema:BT_URL_SCHEMA viewControllerDelegate:self switchDelegate:self completion:^(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (payPalAccount) {
             NSLog(@"Got a nonce! %@", payPalAccount.nonce);
@@ -191,9 +190,9 @@
 
 - (IBAction)tappedPayBillingButton:(id)sender {
     __weak __typeof(self)weakSelf = self;
-    // 注意传入实际金额
     BTPayPalRequest *request = [[BTPayPalRequest alloc] initWithAmount:@"0.01"];
-    [YSPayPalPay requestPayPalBillingPayment:request fromSchema:@"com.yuansfer.msdk.braintree" viewControllerDelegate:self switchDelegate:self completion:^(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error) {
+    request.displayName = @"PayPal Test";
+    [YSPayPalPay requestPayPalBillingPayment:request fromSchema:BT_URL_SCHEMA viewControllerDelegate:self switchDelegate:self completion:^(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (payPalAccount) {
             NSLog(@"Got a nonce! %@", payPalAccount.nonce);
