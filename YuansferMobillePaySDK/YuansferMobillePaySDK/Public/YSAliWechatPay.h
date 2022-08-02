@@ -46,6 +46,5 @@ typedef NS_ENUM(NSInteger, YSPayType) {
           fromScheme:(NSString *)fromScheme
                block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 
-
 @end
 
