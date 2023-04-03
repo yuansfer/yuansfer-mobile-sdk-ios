@@ -70,7 +70,7 @@
         @"recipientName":@"recipientName",
         @"state":@"state"
     };
-    [YSTestApi execHttpRequest:@"online/v3/secure-pay" data:dict token:token completion:completionHandler];
+    [YSTestApi execHttpRequest:@"creditpay/v3/process" data:dict token:token completion:completionHandler];
 }
 
 #pragma mark - private method
