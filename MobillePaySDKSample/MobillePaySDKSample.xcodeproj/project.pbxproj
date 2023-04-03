@@ -166,8 +166,6 @@
 				048C30AB25B155E300BF7F60 /* VenmoViewController.h */,
 				048C30AC25B155E300BF7F60 /* VenmoViewController.m */,
 				048C30AD25B155E300BF7F60 /* VenmoViewController.xib */,
-				04279E4C25B068B500E90086 /* YSTestApi.h */,
-				04279E4D25B068B500E90086 /* YSTestApi.m */,
 			);
 			path = Braintree;
 			sourceTree = "<group>";
@@ -213,6 +211,8 @@
 				04203B8A25A8A01700C416A1 /* URLConstant.m */,
 				575B112222141E5300D86EA9 /* ViewController.h */,
 				575B112322141E5300D86EA9 /* ViewController.m */,
+				04279E4C25B068B500E90086 /* YSTestApi.h */,
+				04279E4D25B068B500E90086 /* YSTestApi.m */,
 				575B112522141E5300D86EA9 /* Main.storyboard */,
 				575B112822141E5600D86EA9 /* Assets.xcassets */,
 				575B112A22141E5600D86EA9 /* LaunchScreen.storyboard */,

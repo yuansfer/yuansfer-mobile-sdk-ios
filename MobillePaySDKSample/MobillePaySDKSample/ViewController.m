@@ -13,6 +13,7 @@
 #import "PayPalViewController.h"
 #import "VenmoViewController.h"
 #import "DropInUIViewController.h"
+#import "YSTestApi.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <YuansferMobillePaySDK/YSAliWechatPay.h>
 //#import "YuansferMobillePaySDK.h"
@@ -137,41 +138,21 @@
         vendor = @"wechatpay";
     }
     
-    // 3、发送到后端，获取处理完的字符串。
-    NSMutableString *sign = [NSMutableString string];
-    [sign appendFormat:@"amount=%@", amount.description];
-    [sign appendFormat:@"&currency=%@", currency];
-    [sign appendFormat:@"&description=%@", description];
-    [sign appendFormat:@"&ipnUrl=%@", notifyURLStr];
-    [sign appendFormat:@"&merchantNo=%@", merchantNo];
-    [sign appendFormat:@"&note=%@", note];
-    [sign appendFormat:@"&reference=%@", orderNo];
-    [sign appendFormat:@"&settleCurrency=%@", @"USD"];
-    [sign appendFormat:@"&storeNo=%@", storeNo];
-    [sign appendFormat:@"&terminal=%@", @"APP"];
-    [sign appendFormat:@"&vendor=%@", vendor];
-    [sign appendFormat:@"&%@", [self md5String:token]];
-
-    NSMutableString *body = [NSMutableString string];
-    [body appendFormat:@"amount=%@", amount.description];
-    [body appendFormat:@"&currency=%@", currency];
-    [body appendFormat:@"&description=%@", description];
-    [body appendFormat:@"&ipnUrl=%@", notifyURLStr];
-    [body appendFormat:@"&merchantNo=%@", merchantNo];
-    [body appendFormat:@"&note=%@", note];
-    [body appendFormat:@"&reference=%@", orderNo];
-    [body appendFormat:@"&settleCurrency=%@", @"USD"];
-    [body appendFormat:@"&storeNo=%@", storeNo];
-    [body appendFormat:@"&terminal=%@", @"APP"];
-    [body appendFormat:@"&vendor=%@", vendor];
-    [body appendFormat:@"&verifySign=%@", [self md5String:[sign copy]]];
-
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@" ,BASE_URL, @"micropay/v3/prepay"]]];
-    request.timeoutInterval = 15.0f;
-    request.HTTPMethod = @"POST";
-    request.HTTPBody = [[body copy] dataUsingEncoding:NSUTF8StringEncoding];
-
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSDictionary* dict = @{
+        @"merchantNo":merchantNo,
+        @"storeNo": storeNo,
+        @"amount":amount.description,
+        @"currency": currency,
+        @"settleCurrency": @"USD",
+        @"description": description,
+        @"ipnUrl": notifyURLStr,
+        @"note":note,
+        @"reference": orderNo,
+        @"terminal":@"APP",
+        @"vendor": vendor
+    };
+    
+    [YSTestApi callWechatAlipayPrepay:dict token:token completion:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // 是否出错
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -267,23 +248,7 @@
             });
         }
     }];
-    [task resume];
-}
-
-#pragma mark - private method
-
-- (NSString *)md5String:(NSString *)string {
-    const char *str = [string UTF8String];
-    if (str == NULL) {
-        str = "";
-    }
-    unsigned char r[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(str, (CC_LONG)strlen(str), r);
-    NSString *md5Value = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-                          r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10],
-                          r[11], r[12], r[13], r[14], r[15]];
-
-    return md5Value;
+    
 }
 
 @end

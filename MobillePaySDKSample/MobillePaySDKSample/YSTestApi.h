@@ -12,10 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YSTestApi : NSObject
 
-+ (void) callPrepay:(NSString *)amount
++ (void) callWechatAlipayPrepay:(NSDictionary *) data
+                          token:(NSString *) token
+                     completion:(void (^)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))completionHandler;
+
++ (void) callBraintreePrepay:(NSString *)amount
          completion:(void (^)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))completionHandler;
 
-+ (void) callProcess:(NSString *)transactionNo
++ (void) callBraintreeProcess:(NSString *)transactionNo
      paymentMethod:(NSString *)paymentMethod
             nonce:(NSString *)nonce
           deviceData:(NSString *)deviceData

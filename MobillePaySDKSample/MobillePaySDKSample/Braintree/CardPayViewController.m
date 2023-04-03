@@ -33,7 +33,7 @@
 
 - (void) prepay {
      __weak __typeof(self)weakSelf = self;
-    [YSTestApi callPrepay:@"0.01"
+    [YSTestApi callBraintreePrepay:@"0.01"
                completion:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -106,7 +106,7 @@
 
 - (void) payProcess:(NSString *)nonce {
      __weak __typeof(self)weakSelf = self;
-    [YSTestApi callProcess:self.transactionNo paymentMethod:@"credit_card" nonce:nonce
+    [YSTestApi callBraintreeProcess:self.transactionNo paymentMethod:@"credit_card" nonce:nonce
                 deviceData:self.deviceData
          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
