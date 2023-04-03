@@ -27,7 +27,7 @@
 - (void) prepay {
     // 2、转圈。
      __weak __typeof(self)weakSelf = self;
-    [YSTestApi callPrepay:@"0.01"
+    [YSTestApi callBraintreePrepay:@"0.01"
                completion:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -101,7 +101,7 @@
 - (void) payProcess:(NSString *)nonce {
     // 2、转圈。
      __weak __typeof(self)weakSelf = self;
-    [YSTestApi callProcess:self.transactionNo paymentMethod:@"venmo_account" nonce:nonce
+    [YSTestApi callBraintreeProcess:self.transactionNo paymentMethod:@"venmo_account" nonce:nonce
                 deviceData:self.deviceData
          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
