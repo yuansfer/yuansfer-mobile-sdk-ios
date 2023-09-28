@@ -77,7 +77,7 @@ Security.framework // for WeChatPay
 > Login to the Apple Developer account, create an application, and enable the Associated Domains function for this AppID (check Associated Domains in IDENTIFIER).
 
 > Create an empty JSON format file (named apple-app-site-association, with no extension!) and place it in the root directory of the specified server, providing an HTTPS access address.
-    For example: https://www.baidu.com/.well-known/apple-app-site-association. The JSON file format is as follows:
+    For example: (https://www.baidu.com/.well-known/apple-app-site-association), The JSON file format is as follows:
     
 ```
 {

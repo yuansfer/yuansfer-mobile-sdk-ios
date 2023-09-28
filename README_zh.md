@@ -77,7 +77,7 @@ Security.framework // for WeChatPay
 > 登陆苹果开发者账号，创建应用；并开启该AppId下的Associated Domains(关联域名)功能（在IDENTIFIER中并勾选Associated Domains）。
 
 > 创建json格式的一个空文件（文件名为apple-app-site-association，并且没有后缀！）放在指定服务器根目录，提供一个Https的访问地址。
-    如：https://www.baidu.com/.well-known/apple-app-site-association，该json文件格式如下：
+    如：(https://www.baidu.com/.well-known/apple-app-site-association)，该json文件格式如下：
     
 ```
 {
