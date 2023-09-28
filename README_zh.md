@@ -73,10 +73,12 @@ Security.framework // for WeChatPay
 | PayPal或Venmo | braintree | com.yuansfer.msdk.braintree (一般以app bundle ID拼上标识符)
 
 5、微信支付为迎合 iOS 13 要求进行了部分升级（openSDK1.8.6），其中最主要的就是将跳转方式改为Universal Links为的就是对发起分享的合法性校验。
+
 > 登陆苹果开发者账号，创建应用；并开启该AppId下的Associated Domains(关联域名)功能（在IDENTIFIER中并勾选Associated Domains）。
+
 > 创建json格式的一个空文件（文件名为apple-app-site-association，并且没有后缀！）放在指定服务器根目录，提供一个Https的访问地址。
     如：https://www.baidu.com/.well-known/apple-app-site-association，该json文件格式如下：
-
+    
 ```
 {
     "applinks": {
@@ -260,7 +262,7 @@ Security.framework // for WeChatPay
   **Custom UI方式**
 
   - 调用/online/v3/secure-pay接口获取authorization绑定fragment。
-  - 获取YSApiClient.sharedInstance.apiClient实例后，调用fetchPaymentMethodNonces接口查找最近的支付方式列表，并显示包含支付类型、卡号后四位等信息。
+  - 获取YSApiClient.sharedInstance.apiClient实例后，调用fetchPaymentMethodNonces函数查找最近的支付方式列表，并显示包含支付类型、卡号后四位等信息。
 
 ## ⚠️ 注意事项
 

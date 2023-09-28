@@ -2,7 +2,7 @@
 English | [中文文档](README_zh.md)
 
 ## Overview
-yuansfer-payment-iOS is an SDK project that can quickly integrate third-party payment platforms such as WeChat Pay, Alipay, and Braintree.
+yuansfer-payment-iOS is an SDK project that enables quick integration of third-party payment platforms such as WeChat Pay, Alipay, credit cards, PayPal, Venmo, and Apple Pay.
 Integrated environment: Xcode 10.0+.
 Operating environment: iOS 8.0+.
 
@@ -12,11 +12,11 @@ The preparatory work for the access includes merchant signing, obtaining various
 
 ## Integration
 
-1、The code in MobilePaySDKSample is a test demo for reference only. The interface call in YSTestApi should be replaced with the merchant server interface in the release project, and the merchant server interface calls the Yuansfer interface.
+1、The code in MobilePaySDKSample is a test demo for reference only. The interface call in YSTestApi should be replaced with the merchant server interface in the release project, and the merchant server interface calls the Pockyt interface.
 
 2、Put the corresponding .h and .m files into the project according to the required payment method. The Public directory under YuansferMobillePaySDK contains independent payments such as WeChat Alipay, ApplePay, CardPay, PayPal, Venmo, etc. You don’t need to add the above when using Braintree’s UI with the form File, Internal is the header file of the third-party payment SDK. The demo contains library files of WeChat and Alipay. When you need to integrate WeChat or Alipay, add the contents of these two file directories to the project.
 
-**⚠️ Note: When using Braintree, you need to add a dependent library to the Podfile. For details, see the instructions for using the Podfile in the demo.**
+**⚠️ Note: When integrating with payment platforms other than WeChat Pay and Alipay, you need to add the dependency library in the Podfile. Please refer to the instructions for using the Podfile file in the demo for details.**
 
 ```
 └── YuansferMobillePaySDK
@@ -72,8 +72,13 @@ Security.framework // for WeChatPay
 | WeChatPay | weixin | wx1acf098c25647f9e(WeChat Pay App id) |
 | PayPal or Venmo | braintree | com.yuansfer.msdk.braintree (Usually use the app bundle ID to spell the identifier)
 
-5、To configure the Universal Link of the WeChat platform, first open Associated Domains and fill in our domain name, the prefix is applinks. etc. If your domain name is test.com, fill in applinks: test.com; then go to the Apple Developer Center to find the Associated Domains of the project’s AppId, turn on the switch, and obtain the Team ID and Bundle ID at the same time; create an apple- The app-site-association file (note that there is no suffix), its content is in json format, fill in the Team ID and Bundle ID in the following fields, the middle is connected by a dot, the official example is as follows:
+5、WeChat Pay has made some upgrades (openSDK1.8.6) to comply with the requirements of iOS 13. The most important change is that the jump method has been changed to Universal Links to verify the legitimacy of initiating sharing.
 
+> Login to the Apple Developer account, create an application, and enable the Associated Domains function for this AppID (check Associated Domains in IDENTIFIER).
+
+> Create an empty JSON format file (named apple-app-site-association, with no extension!) and place it in the root directory of the specified server, providing an HTTPS access address.
+    For example: https://www.baidu.com/.well-known/apple-app-site-association. The JSON file format is as follows:
+    
 ```
 {
     "applinks": {
@@ -87,7 +92,7 @@ Security.framework // for WeChatPay
     }
 }
 ```
-Put the created file in the root directory of the back-end server domain name, and ensure that `https://test.com/apple-app-site-association` is accessible; finally, go to the WeChat background to configure Universal Link, as shown in the figure. Consistent with the domain name given by the backend mentioned above, you can add a path, for example, configure it as `https://test.com/ios/` to complete the configuration of Universal Link.
+> Configure the associated domains in Xcode. Open Xcode, select project → Signing & Capabilities → + Capability, find "Associated Domains" and add it.
 
 6、Configure the application query Scheme in **Custom iOS Target Properties** in the **Info** tab of the Xcode project:
 
@@ -99,7 +104,7 @@ Put the created file in the root directory of the back-end server domain name, a
 	<string>com.venmo.touch.v2</string>
 </array>
 ```
-7、If you need to support Braintree’s Apple Pay, Card Pay, PayPal, Venmo and other payment methods, please add the corresponding library to the Podfile first. Braintree is necessary, and the others are optional. You can add them according to your needs.
+7、If you need to support Apple Pay, Card Pay, PayPal, Venmo and other payment methods, please add the corresponding library to the Podfile first. Braintree is necessary, and the others are optional. You can add them according to your needs.
 ```
 # Podfile
   # With ui, card payment is included by default, other apple pay, paypal, venmo need to add the following optional libraries
@@ -180,7 +185,7 @@ Put the created file in the root directory of the back-end server domain name, a
           fromScheme:(NSString *)fromScheme
                block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 ```
-* Initialize Braintree api client, authorization is client token or tokenization key,[[YSApiClient sharedInstance] initBraintreeClient]
+* Initialize Braintree api client, authorization is client token,[[YSApiClient sharedInstance] initBraintreeClient]
 ```objc
 - (void) initBraintreeClient:(NSString*) authorization;
 ```
@@ -241,6 +246,23 @@ Put the created file in the root directory of the back-end server domain name, a
                     switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
                                       completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
 ```
+
+* Saving payment methods such as credit cards and PayPal
+
+  Save payment methods such as credit cards and PayPal. To facilitate customers using the same payment method for future payments, saving the most recent payment method can avoid the need to repeatedly enter account information and complete payment. The client integration process is as follows:
+
+  1. Register a customer before the first payment, including information such as email, phone, and country. The customer information can be retrieved or updated as needed.
+  2. Call the /online/v3/secure-pay interface and pass in the customerNo field associated with the customer from the previous step.
+  3. Call the /creditpay/v3/process interface to complete the payment.
+   
+  **Drop-in method:**
+  
+  Following the above steps, the Drop-in method will automatically save and display the previously used payment methods such as Credit Card and PayPal for the customer in the Drop-in display panel. After selecting the payment method, the customer can proceed to complete the payment without entering any information.
+    
+  **Custom UI method:**
+
+  - Call the /online/v3/secure-pay interface to obtain the authorization and bind the fragment.
+  - After obtaining the instance of YSApiClient.sharedInstance.apiClient, call the fetchPaymentMethodNonces function to retrieve and display the list of recent payment methods, including payment type and last 4 digits of the card number.
 ## ⚠️ Announcements
 
 1、SDK call failed. First of all, please make sure that storeNo, merchantNo, and token are entered correctly. If the API call fails, please obtain relevant debugging information from the error returned by the block callback.
