@@ -70,7 +70,7 @@ Security.framework // for WeChatPay
 |:-----|:-----|:-----|
 | Alipay | alipay | yuansfer4alipay(Customize, don’t be the same as other apps） |
 | WeChatPay | weixin | wx1acf098c25647f9e(WeChat Pay App id) |
-| PayPal或Venmo | braintree | com.yuansfer.msdk.braintree (Usually use the app bundle ID to spell the identifier)
+| PayPal or Venmo | braintree | com.yuansfer.msdk.braintree (Usually use the app bundle ID to spell the identifier)
 
 5、To configure the Universal Link of the WeChat platform, first open Associated Domains and fill in our domain name, the prefix is applinks. etc. If your domain name is test.com, fill in applinks: test.com; then go to the Apple Developer Center to find the Associated Domains of the project’s AppId, turn on the switch, and obtain the Team ID and Bundle ID at the same time; create an apple- The app-site-association file (note that there is no suffix), its content is in json format, fill in the Team ID and Bundle ID in the following fields, the middle is connected by a dot, the official example is as follows:
 
