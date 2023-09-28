@@ -2,7 +2,7 @@
 [English](README.md) | 中文文档
 
 ## 概述
-yuansfer-payment-iOS 是一个可快速集成微信支付、支付宝、Braintree等第三方支付平台的SDK项目。
+yuansfer-payment-iOS 是一个可快速集成微信支付、支付宝、信用卡、PayPal、Venmo、Apple Pay等第三方支付平台的SDK项目。
 集成环境：Xcode 10.0+。
 运行环境：iOS 8.0+。
 
@@ -12,11 +12,11 @@ yuansfer-payment-iOS 是一个可快速集成微信支付、支付宝、Braintre
 
 ## 集成
 
-1、MobilePaySDKSample里的代码为测试demo，仅供参考，其中YSTestApi里的接口调用在正式项目中应替换为商家服务器接口，由商家服务器接口调用Yuansfer的接口。
+1、MobilePaySDKSample里的代码为测试demo，仅供参考，其中YSTestApi里的接口调用在正式项目中应替换为商家服务器接口，由商家服务器接口调用Pockyt的接口。
 
 2、根据需要的支付方式将相应的.h和.m文件放入项目中，YuansferMobillePaySDK下的Public目录包含微信支付宝、ApplePay、CardPay、PayPal、Venmo等独立的支付，使用Braintree的带UI的形式不必添加上述文件，Internal是第三方支付SDK的头文件, demo中包含微信和支付宝的库文件，需要集成微信或支付宝时将这两个文件目录下的内容添加到项目中。
 
-**⚠️ 注意：使用Braintree时需要在Podfile添加依赖库，详见demo中的Podfile文件的使用说明。**
+**⚠️ 注意：集成非微信支付和支付宝时需要在Podfile添加依赖库，详见demo中的Podfile文件的使用说明。**
 
 ```
 └── YuansferMobillePaySDK
@@ -72,7 +72,10 @@ Security.framework // for WeChatPay
 | WeChatPay | weixin | wx1acf098c25647f9e（微信支付 App id） |
 | PayPal或Venmo | braintree | com.yuansfer.msdk.braintree (一般以app bundle ID拼上标识符)
 
-5、配置微信平台的Universal Link, 首先将Associated Domains打开，并填写我们的域名，前缀是applinks。etc.如果你的域名是test.com，则填上applinks:test.com；其次到苹果开发者中心找到项目的AppId的Associated Domains，打开开关，同时获取到Team ID和Bundle ID; 创建一个apple-app-site-association文件(注意是没有后缀的)，其内容是json格式，把Team ID和Bundle ID填入到以下的字段当中，中间以点号相连，官方示例如下:
+5、微信支付为迎合 iOS 13 要求进行了部分升级（openSDK1.8.6），其中最主要的就是将跳转方式改为Universal Links为的就是对发起分享的合法性校验。
+> 登陆苹果开发者账号，创建应用；并开启该AppId下的Associated Domains(关联域名)功能（在IDENTIFIER中并勾选Associated Domains）。
+> 创建json格式的一个空文件（文件名为apple-app-site-association，并且没有后缀！）放在指定服务器根目录，提供一个Https的访问地址。
+    如：https://www.baidu.com/.well-known/apple-app-site-association，该json文件格式如下：
 
 ```
 {
@@ -87,7 +90,7 @@ Security.framework // for WeChatPay
     }
 }
 ```
-把创建好的文件放到后端服务器域名根目录下，保证`https://test.com/apple-app-site-association`可访问；最后去微信后台配置Universal Link, 如图所示，要与上文提到的后端给的域名一致，可以添加一个path，如此处配置为`https://test.com/ios/`，完成Universal Link的配置。
+> 在Xcode中配置关联域名。打开Xcode，选择project → Signing & Capabilities → + Capability 找到“Associated Domains”并添加。
 
 6、在 Xcode 项目 **Info** 选项卡的 **Custom iOS Target Properties** 中配置应用查询 Scheme：
 
@@ -99,7 +102,7 @@ Security.framework // for WeChatPay
 	<string>com.venmo.touch.v2</string>
 </array>
 ```
-7、需要支持Braintree的Apple Pay、Card Pay、PayPal、Venmo等支付方式请先在Podfile文件中添加相应的库,Braintree是必要的，其它的为可选，可根据需要自行添加
+7、需要支持Apple Pay、Card Pay、PayPal、Venmo等支付方式请先在Podfile文件中添加相应的库,Braintree是必要的，其它的为可选，可根据需要自行添加
 ```
 # Podfile
   # 带ui,默认包含卡支付，其它apple pay, paypal, venmo需要再添加以下各自可选库
@@ -180,7 +183,7 @@ Security.framework // for WeChatPay
           fromScheme:(NSString *)fromScheme
                block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
 ```
-* 初始化Braintree api client, authorization为client token或tokenization key,[[YSApiClient sharedInstance] initBraintreeClient]
+* 初始化Braintree api client, authorization为client token,[[YSApiClient sharedInstance] initBraintreeClient]
 ```objc
 - (void) initBraintreeClient:(NSString*) authorization;
 ```
@@ -241,6 +244,24 @@ Security.framework // for WeChatPay
                     switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
                                       completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
 ```
+
+* 保存信用卡PayPal等付款方式
+   
+  为方便同一客户再次使用相同的支付方式进行付款，保存最近的付款方式可避免重复输入账号等信息来完成支付。客户端流程如下：
+
+  1. 首次支付前注册一个客户，内容包括邮箱、电话、国家等信息。必要时可检索或更新该客户信息。 
+  2. 调用/online/v3/secure-pay接口传入上一步的customerNo字段关联客户。 
+  3. 调用/creditpay/v3/process接口继续完成支付。
+
+  **Drop-in方式**
+
+  按照以上步骤Drop-in方式将自动把该客户之前付款过的Credit Card、PayPal等支付方式保存并显示在Drop-in显示面板，客户选择支付方式后免录入继续完成支付。
+   
+  **Custom UI方式**
+
+  - 调用/online/v3/secure-pay接口获取authorization绑定fragment。
+  - 获取YSApiClient.sharedInstance.apiClient实例后，调用fetchPaymentMethodNonces接口查找最近的支付方式列表，并显示包含支付类型、卡号后四位等信息。
+
 ## ⚠️ 注意事项
 
 1、SDK 调用失败，首先请确保 storeNo、merchantNo、token 输入正确。如果 API 调用失败，请从 block 回调返回的 error 中获取相关调试信息。
