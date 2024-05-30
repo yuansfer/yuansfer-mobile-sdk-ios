@@ -7,7 +7,7 @@
 import BraintreeDropIn
 
 @objcMembers
-@objc public class DropInPayResult:NSObject, PaymentResultProtocol {
+public class DropInPayResult:NSObject, PaymentResultProtocol {
     public let respCode: String
     public let respMsg: String?
     public let dropInResult: BTDropInResult?

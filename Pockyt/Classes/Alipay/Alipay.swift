@@ -5,7 +5,6 @@
 //  Created by fly.zhu on 2024/5/17.
 //
 @objcMembers
-@objc(Alipay)
 public class Alipay: NSObject, PaymentProtocol {
     
     private let payInfo: String

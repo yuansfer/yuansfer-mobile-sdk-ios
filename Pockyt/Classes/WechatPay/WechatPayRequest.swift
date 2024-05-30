@@ -6,7 +6,7 @@
 //
 
 @objcMembers
-@objc public class WechatPayRequest: NSObject {
+public class WechatPayRequest: NSObject {
     public let partnerId: String
     public let prepayId: String
     public let packageValue: String

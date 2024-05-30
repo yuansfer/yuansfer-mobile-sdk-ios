@@ -6,7 +6,6 @@
 //
 
 @objcMembers
-@objc(WechatPay)
 public class WechatPay: NSObject, PaymentProtocol {
 
     private let request: WechatPayRequest

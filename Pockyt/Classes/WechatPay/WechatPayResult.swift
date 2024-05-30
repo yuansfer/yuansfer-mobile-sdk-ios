@@ -6,7 +6,7 @@
 //
 
 @objcMembers
-@objc public class WechatPayResult: NSObject, PaymentResultProtocol {
+public class WechatPayResult: NSObject, PaymentResultProtocol {
     public let respCode: String
     public let respMsg: String?
     public let respError: String?

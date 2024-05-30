@@ -6,7 +6,6 @@
 //
 
 @objcMembers
-@objc(Pockyt)
 public class Pockyt: NSObject {
     public static let shared = Pockyt()
     private var paymentInstances = [String: any PaymentProtocol]()

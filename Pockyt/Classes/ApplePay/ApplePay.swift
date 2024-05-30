@@ -7,7 +7,6 @@
 import Braintree
 
 @objcMembers
-@objc(ApplePay)
 public class ApplePay: NSObject, PaymentProtocol, PKPaymentAuthorizationViewControllerDelegate {
       
     private let viewController: UIViewController

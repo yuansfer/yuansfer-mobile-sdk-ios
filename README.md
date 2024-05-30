@@ -1,6 +1,6 @@
 ## Introduction
 
-[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.0-blue)](https://cocoapods.org/pods/Pockyt)
+[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.0-blue)](https://cocoapods.org/pods/Pockyt)  
 This is a payment sdk that supports mainstream payment methods such as WeChat Pay, Alipay and Braintree etc.
 
 ## Getting Started
@@ -22,14 +22,14 @@ To install it, simply add the following line to your Podfile:
 It is important to note that 'Pockyt/DropIn' will automatically include other Braintree payment methods. 
 DropIn is a quick integration method using the official UI library, however you still need to import the submodules from the SDK for easy usage. while non-DropIn methods require individual addition of each payment component.
 ```ruby
-  pod 'Pockyt/WechatPay', :path => '../'
-  pod 'Pockyt/Alipay', :path => '../'
-  pod 'Pockyt/DropIn', :path => '../'
-  pod 'Pockyt/ApplePay', :path => '../'
-  pod 'Pockyt/CardPal', :path => '../'
-  pod 'Pockyt/Venmo', :path => '../'
-  pod 'Pockyt/ThreeDSecure', :path => '../'
-  pod 'Pockyt/DataCollect', :path => '../'
+  pod 'Pockyt/WechatPay'
+  pod 'Pockyt/Alipay'
+  pod 'Pockyt/DropIn'
+  pod 'Pockyt/ApplePay'
+  pod 'Pockyt/CardPal'
+  pod 'Pockyt/Venmo'
+  pod 'Pockyt/ThreeDSecure'
+  pod 'Pockyt/DataCollect'
 ```
 
 ## Configuration
@@ -39,18 +39,18 @@ DropIn is a quick integration method using the official UI library, however you 
 
 ### WeChat Pay
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add a "URL Scheme" with the application ID that you have registered.
-- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "LSApplicationQueriesSchemes" section, add "weixin" and "weixinULAPI".
+- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "Queried URL Schemes" section, add "weixin" and "weixinULAPI".
 ```xml
-<key>LSApplicationQueriesSchemes</key>
+<key>Queried URL Schemes</key>
 <array>
   <string>weixin</string>
   <string>weixinULAPI</string>
 </array>
 ```
 - Configuring Universal Links for the application.
-> Configure Universal Links for your application according to the Apple documentation(https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content).
-> In Xcode, Turn on the "Associated Domains" switch and add the Universal Links domain to the configuration.
-> Please go to the WeChat Open Platform - Developer Application Registration page to register. After registering and selecting the mobile application for configuration, you will obtain an App ID that can be used immediately for development. However, after the application registration is completed, it still needs to go through the submission and review process. Only applications that pass the review can be officially published and used.
+1. Configure Universal Links for your application according to the Apple documentation(https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content).  
+2. In Xcode, Turn on the "Associated Domains" switch and add the Universal Links domain to the configuration.  
+3. Please go to the WeChat Open Platform - Developer Application Registration page to register. After registering and selecting the mobile application for configuration, you will obtain an App ID that can be used immediately for development. However, after the application registration is completed, it still needs to go through the submission and review process. Only applications that pass the review can be officially published and used.  
 
 ### Drop-in UI
 - Xcode 12+
@@ -62,7 +62,7 @@ DropIn is a quick integration method using the official UI library, however you 
     Add a "URL Scheme" with the application identifier(begin with your app's bundle ID), such as "com.yuansfer.msdk.pockyt2braintree".
 - You must add the following to the queries schemes allowlist in your app's info.plist:
 ```xml
-<key>LSApplicationQueriesSchemes</key>
+<key>Queried URL Schemes</key>
 <array>
   <string>com.venmo.touch.v2</string>
 </array>
@@ -74,12 +74,17 @@ DropIn is a quick integration method using the official UI library, however you 
 ```
 
 ### Apple Pay
-
 - In order to use Apple Pay on a real device, you must configure an Apple Pay Merchant ID and an Apple Pay payment processing certificate in Apple's Developer Center, [Offical guide](https://developer.paypal.com/braintree/docs/guides/apple-pay/configuration/ios/v5).
 - In Xcode, enable Apple Pay under Capabilities in your Project Settings. Then enable both Apple Pay Merchant IDs. It is important that you compile your app with a provisioning profile for the Apple development team with an Apple Pay Merchant ID. Apple Pay does not support enterprise provisioning.
 
 ## How to use
 
+### Swift language
+
+- First, import the library at the top of the class file.
+```swift
+import Pockyt
+```
 - For WeChat Pay, Alipay, and Venmo, you need to override the following methods in the AppDelegate:
 ```swift
 func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
@@ -94,6 +99,19 @@ func application(_ application: UIApplication, open url: URL, options: [UIApplic
 // For WeChat Pay
 func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
     return Pockyt.shared.handleOpenUniversalLink(userActivity)
+}
+```
+- If your application has adapted to SceneDelegate, please configure the following code in the SceneDelegate:
+```swift
+func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    if let urlContext = URLContexts.first {
+        Pockyt.shared.handleOpenURL(urlContext.url)
+    }
+}
+  
+// For WeChat Pay
+func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+    Pockyt.shared.handleOpenUniversalLink(userActivity)
 }
 ```
 - After calling the Pockyt prepayment API(`/micropay/v3/prepay` or `/online/v3/secure-pay`), create a payment object and call the Pockyt.shared.requestPay method.
@@ -186,7 +204,7 @@ applePay.initPaymentRequest() { paymentRequest, error in
         }
     }
 }
-// Then, present the Apple Pay sheet
+// Secondly, present the Apple Pay sheet
 private func showApplePaySheet(paymentRequest: PKPaymentRequest) {
     paymentRequest.requiredBillingContactFields = [.postalAddress]
     // Set other PKPaymentRequest properties here
@@ -199,7 +217,7 @@ private func showApplePaySheet(paymentRequest: PKPaymentRequest) {
     ]
     // ...
 }
-// Secondly, present the Apple Pay authorization view controller
+// Then, present the Apple Pay authorization view controller
 private func presentAuthorizationViewController(_ applePay: ApplePay) {
     applePay.requestPay() { result in
         DispatchQueue.main.async {
@@ -222,9 +240,33 @@ if (apiSuccess) {
 ```
 - For Braintree, After obtaining the nonce from the payment result, call the Pockyt process API (`/creditpay/v3/process`) to complete the payment.
 
+### Objective-C language
+- First, import the library at the top of the '.m' file.
+```objc
+#import "Pockyt-Swift.h"
+```
+- Please refer to the above configuration in Swift to add the configuration for returning to the application from the payment application in either AppDelegate or SceneDelegate.
+- In Objective-C language, instead of calling the unified Pockyt's requestPay method, the payment can be initiated directly through the corresponding payment implementation class's requestPay method.
+```objc
+// For Alipay
+Alipay *alipay = [[Alipay alloc] initWithPayInfo:payInfo fromScheme:@"pockytToalipay"];
+[a requestPayWithCompletion: ^(AlipayResult * result) {
+    NSLog(@"Alipay result: %d, %d, %@", result.isSuccessful, result.isCancelled, result.memo);
+}];
+
+// For WeChat Pay
+WechatPayRequest *request = [[WechatPayRequest alloc] initWithPartnerId:partnerId prepayId:prepayId packageValue:packageValue nonceStr:nonceStr timeStamp:timeStamp sign:sign];
+WechatPay *wechatPay = [[WechatPay alloc] init:request];
+[wechatPay requestPayWithCompletion:^(WechatPayResult * result) {
+    NSLog(@"Wechat Pay result: %d, %d, %@", result.isSuccessful, result.isCancelled, result.respMsg);
+}];
+
+// Other payment methods are similar
+// ...
+```
 ## Note
 
-- 'deviceData' is used to reduce the chargeback rate. It is recommended to use the collectData method of DataCollector to obtain and submit the data to the server for processing.
+- The 'deviceData' is used to reduce the chargeback rate. It is recommended to use the collectData method of DataCollector to obtain and submit the data to the server for processing.
 - If you pass a 'customerNo' when generating a client token, Drop-in will display that customer's saved payment methods and automatically add any newly-entered payment methods to their Vault record. Create customer api: https://docs.pockyt.io/reference/register-customer
     If vaulted payment methods exist, this is how they will appear in Drop-in.
 - For detailed usage of the SDK, please refer to the example provided for Pockyt.

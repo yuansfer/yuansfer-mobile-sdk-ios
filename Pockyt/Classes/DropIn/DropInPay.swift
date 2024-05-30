@@ -9,7 +9,6 @@ import BraintreeDropIn
 import Braintree
 
 @objcMembers
-@objc(DropInPay)
 public class DropInPay: NSObject, PaymentProtocol {
       
     private let uiViewController: UIViewController

@@ -6,7 +6,7 @@
 //
 
 @objcMembers
-@objc public class AlipayResult: NSObject, PaymentResultProtocol {
+public class AlipayResult: NSObject, PaymentResultProtocol {
     public let respCode: String
     public let respMsg: String?
     public let memo: String?

@@ -8,7 +8,7 @@
 import Braintree
 
 @objcMembers
-@objc public class ApplePayResult: NSObject, PaymentResultProtocol {
+public class ApplePayResult: NSObject, PaymentResultProtocol {
     public let respCode: String
     public let respMsg: String?
     

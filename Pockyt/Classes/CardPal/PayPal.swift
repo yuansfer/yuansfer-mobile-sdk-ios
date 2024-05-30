@@ -7,7 +7,6 @@
 import Braintree
 
 @objcMembers
-@objc(PayPal)
 public class PayPal:NSObject, PaymentProtocol {
         
     private let braintreeClient: BTAPIClient?

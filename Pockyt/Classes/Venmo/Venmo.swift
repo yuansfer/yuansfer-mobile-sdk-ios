@@ -8,7 +8,6 @@
 import Braintree
 
 @objcMembers
-@objc(Venmo)
 public class Venmo:NSObject, PaymentProtocol {
       
     private let braintreeClient: BTAPIClient

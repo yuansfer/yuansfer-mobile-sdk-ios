@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'Pockyt'
-  s.version      = '0.1.0'
+  s.version      = '0.5.0'
   s.summary      = 'Pockyt Mobile iOS SDK'
   s.description  = <<-DESC
                    A simple and user-friendly iOS payment SDK that supports payment methods such as WeChat Pay, Alipay, Braintree, and more.

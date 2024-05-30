@@ -7,7 +7,7 @@
 import Braintree
 
 @objcMembers
-@objc public class CardPayResult: NSObject, PaymentResultProtocol {
+public class CardPayResult: NSObject, PaymentResultProtocol {
     public let respCode: String
     public let respMsg: String?
     public let tokenizedCard: BTCardNonce?
