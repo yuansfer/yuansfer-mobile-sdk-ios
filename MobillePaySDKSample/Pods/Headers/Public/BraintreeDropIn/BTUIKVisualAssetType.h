@@ -1,1 +1,0 @@
-../../../BraintreeDropIn/BraintreeUIKit/Public/BTUIKVisualAssetType.h

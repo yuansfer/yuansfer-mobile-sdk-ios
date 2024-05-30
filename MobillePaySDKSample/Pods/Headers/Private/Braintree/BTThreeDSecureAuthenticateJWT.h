@@ -1,1 +1,0 @@
-../../../Braintree/BraintreePaymentFlow/ThreeDSecure/BTThreeDSecureAuthenticateJWT.h

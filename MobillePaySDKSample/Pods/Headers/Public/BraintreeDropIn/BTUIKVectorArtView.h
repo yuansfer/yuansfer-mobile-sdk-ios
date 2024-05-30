@@ -1,1 +1,0 @@
-../../../BraintreeDropIn/BraintreeUIKit/Public/BTUIKVectorArtView.h
