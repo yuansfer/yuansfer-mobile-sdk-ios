@@ -11,7 +11,7 @@ This is a payment sdk that supports mainstream payment methods such as WeChat Pa
 
 ## Installation
 
-- Pockyt is available through [CocoaPods](https://cocoapods.org). Due to the independence of payment methods, 
+- Pockyt is available through CocoaPods, Due to the independence of payment methods, 
 you are free to choose which payment methods you want to install and combine. 
 Pockyt includes Alipay and WeChat Pay by default, if only these two methods are needed.
 To install it, simply add the following line to your Podfile:
@@ -36,9 +36,16 @@ DropIn is a quick integration method using the official UI library, however you 
 
 ### Alipay
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add a "URL Scheme" with the application identifier, such as "pockyt2alipay". It is recommended to have a distinctive identifier that does not overlap with other merchant apps. Otherwise, it may result in the inability to correctly redirect back to the merchant's app from Alipay.
+<div align=center>
+<img src="url_type_alipay.png" />
+</div>
 
 ### WeChat Pay
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add a "URL Scheme" with the application ID that you have registered.
+<div align=center>
+<img src="url_type_wechat.png" />
+</div>
+
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "Queried URL Schemes" section, add "weixin" and "weixinULAPI".
 ```xml
 <key>Queried URL Schemes</key>
@@ -48,7 +55,7 @@ DropIn is a quick integration method using the official UI library, however you 
 </array>
 ```
 - Configuring Universal Links for the application.
-1. Configure Universal Links for your application according to the Apple documentation(https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content).  
+1. Configure Universal Links for your application according to the [Apple documentation](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content).  
 2. In Xcode, Turn on the "Associated Domains" switch and add the Universal Links domain to the configuration.  
 3. Please go to the WeChat Open Platform - Developer Application Registration page to register. After registering and selecting the mobile application for configuration, you will obtain an App ID that can be used immediately for development. However, after the application registration is completed, it still needs to go through the submission and review process. Only applications that pass the review can be officially published and used.  
 
@@ -60,6 +67,10 @@ DropIn is a quick integration method using the official UI library, however you 
 ### Venmo
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, Add the Identifier as "braintree". Please note that "braintree" is a fixed term and cannot be changed, as it will affect the integration of Venmo.
     Add a "URL Scheme" with the application identifier(begin with your app's bundle ID), such as "com.yuansfer.msdk.pockyt2braintree".
+<div align=center>
+<img src="url_type_venmo.png" />
+</div>
+
 - You must add the following to the queries schemes allowlist in your app's info.plist:
 ```xml
 <key>Queried URL Schemes</key>
@@ -250,7 +261,7 @@ if (apiSuccess) {
 ```objc
 // For Alipay
 Alipay *alipay = [[Alipay alloc] initWithPayInfo:payInfo fromScheme:@"pockytToalipay"];
-[a requestPayWithCompletion: ^(AlipayResult * result) {
+[alipay requestPayWithCompletion: ^(AlipayResult * result) {
     NSLog(@"Alipay result: %d, %d, %@", result.isSuccessful, result.isCancelled, result.memo);
 }];
 
@@ -267,6 +278,6 @@ WechatPay *wechatPay = [[WechatPay alloc] init:request];
 ## Note
 
 - The 'deviceData' is used to reduce the chargeback rate. It is recommended to use the collectData method of DataCollector to obtain and submit the data to the server for processing.
-- If you pass a 'customerNo' when generating a client token, Drop-in will display that customer's saved payment methods and automatically add any newly-entered payment methods to their Vault record. Create customer api: https://docs.pockyt.io/reference/register-customer
+- If you pass a 'customerNo' when generating a client token, Drop-in will display that customer's saved payment methods and automatically add any newly-entered payment methods to their Vault record. [Create customer api](https://docs.pockyt.io/reference/register-customer)
     If vaulted payment methods exist, this is how they will appear in Drop-in.
-- For detailed usage of the SDK, please refer to the example provided for Pockyt.
+- For other detailed usage, please refer to the example program.
