@@ -1,1 +1,0 @@
-../../../Braintree/BraintreeUnionPay/Public/BraintreeUnionPay.h

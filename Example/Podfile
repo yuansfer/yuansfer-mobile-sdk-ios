@@ -1,0 +1,14 @@
+use_frameworks!
+
+platform :ios, '12.0'
+
+target 'Pockyt_Example' do
+  pod 'Pockyt/WechatPay', :path => '../'
+  pod 'Pockyt/Alipay', :path => '../'
+  pod 'Pockyt/DropIn', :path => '../'
+  pod 'Pockyt/ApplePay', :path => '../'
+  pod 'Pockyt/CardPal', :path => '../'
+  pod 'Pockyt/Venmo', :path => '../'
+  pod 'Pockyt/ThreeDSecure', :path => '../'
+  pod 'Pockyt/DataCollect', :path => '../'
+end

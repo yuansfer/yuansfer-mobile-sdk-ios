@@ -1,1 +1,0 @@
-../../../Braintree/BraintreeUnionPay/Public/BTConfiguration+UnionPay.h

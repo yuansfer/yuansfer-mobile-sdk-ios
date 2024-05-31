@@ -1,1 +1,0 @@
-../../../BraintreeDropIn/BraintreeUIKit/Vector Art/BTUIKAmExVectorArtView.h

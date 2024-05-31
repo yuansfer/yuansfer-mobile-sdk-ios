@@ -1,258 +1,269 @@
-## Language
-English | [中文文档](README_zh.md)
+## Introduction
 
-## Overview
-yuansfer-payment-iOS is an SDK project that can quickly integrate third-party payment platforms such as WeChat Pay, Alipay, and Braintree.
-Integrated environment: Xcode 10.0+.
-Operating environment: iOS 8.0+.
+[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.0-blue)](https://cocoapods.org/pods/Pockyt)  
+This is a payment sdk that supports mainstream payment methods such as WeChat Pay, Alipay and Braintree etc.
 
-## Pre-access preparation
+## Getting Started
 
-The preparatory work for the access includes merchant signing, obtaining various KEYs (merchantNo, storeNo, token), and merchant back-end order notification interface development, etc.
+- Before integrating the payment, please contact the Pockyt team to create an account. We may require you to submit documentation files.
+- For Wechat Pay, configure the bundle identifier and universal links in the WeChat Open Platform. [official guide](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html)
+- For Braintree, please contact the Pockyt team to confirm the payment mode. When integrating with Braintree, you will need to create an account and configure it on the official platform.[official guide](https://developer.paypal.com/braintree/docs/guides/overview)
 
-## Integration
+## Installation
 
-1、The code in MobilePaySDKSample is a test demo for reference only. The interface call in YSTestApi should be replaced with the merchant server interface in the release project, and the merchant server interface calls the Yuansfer interface.
-
-2、Put the corresponding .h and .m files into the project according to the required payment method. The Public directory under YuansferMobillePaySDK contains independent payments such as WeChat Alipay, ApplePay, CardPay, PayPal, Venmo, etc. You don’t need to add the above when using Braintree’s UI with the form File, Internal is the header file of the third-party payment SDK. The demo contains library files of WeChat and Alipay. When you need to integrate WeChat or Alipay, add the contents of these two file directories to the project.
-
-**⚠️ Note: When using Braintree, you need to add a dependent library to the Podfile. For details, see the instructions for using the Podfile in the demo.**
-
+- Pockyt is available through CocoaPods, Due to the independence of payment methods, 
+you are free to choose which payment methods you want to install and combine. 
+Pockyt includes Alipay and WeChat Pay by default, if only these two methods are needed.
+To install it, simply add the following line to your Podfile:
+```ruby
+  pod 'Pockyt'
 ```
-└── YuansferMobillePaySDK
-    ├── Public
-    │   ├── YSAliWechatPay.h/.m
-    │   └── YSApiClient.h/.m
-    │   └── YSCardPay.h/.m
-    │   └── YSApplePay.h/.m
-    │   └── YSPayPalPay.h/.m
-    │   └── YSVenmoPay.h/.m
-    ├── Internal
-        ├── WXApi.h
-        ├── WXApiObject.h
-        ├── APayAuthInfo.h
-        └── AlipaySDK.a
-        └── ...
-└── MobillePaySDKSample
-    ├── WeChatSDK
-        ├── WXApi.h
-        ├── WXApiObject.h
-        ├── WechatAuthSDK.h
-        ├── libWeChatSDK.a
-    ├── AlipaySDK
-        ├── AlipaySDK.bundle
-        ├── AlipaySDK.framework
+- Below are the separate installation forms for various payment methods, to be downloaded as 'Pockyt/xxx' sub-components. 
+It is important to note that 'Pockyt/DropIn' will automatically include other Braintree payment methods. 
+DropIn is a quick integration method using the official UI library, however you still need to import the submodules from the SDK for easy usage. while non-DropIn methods require individual addition of each payment component.
+```ruby
+  pod 'Pockyt/WechatPay'
+  pod 'Pockyt/Alipay'
+  pod 'Pockyt/DropIn'
+  pod 'Pockyt/ApplePay'
+  pod 'Pockyt/CardPal'
+  pod 'Pockyt/Venmo'
+  pod 'Pockyt/ThreeDSecure'
+  pod 'Pockyt/DataCollect'
 ```
 
-2、In the **Linking** -> **Other Linker Flags** option of the **Build Settings** tab of the Xcode project, add the `-ObjC` parameter.
+## Configuration
 
-3、Add the following dependencies to **Link Binary With Libraries** in the **Build Phases** tab of the Xcode project:
+### Alipay
+- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add a "URL Scheme" with the application identifier, such as "pockyt2alipay". It is recommended to have a distinctive identifier that does not overlap with other merchant apps. Otherwise, it may result in the inability to correctly redirect back to the merchant's app from Alipay.
+<div align=center>
+<img src="config01.png" />
+</div>
 
+### WeChat Pay
+- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add a "URL Scheme" with the application ID that you have registered.
+<div align=center>
+<img src="config02.png" />
+</div>
+
+- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "Queried URL Schemes" section, add "weixin" and "weixinULAPI".
+<div align=center>
+<img src="config04.png" />
+</div>
+
+- Configuring Universal Links for the application.
+1. Configure Universal Links for your application according to the [apple documentation](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content).  
+2. In Xcode, Turn on the "Associated Domains" switch and add the Universal Links domain to the configuration. 
+<div align=center>
+<img src="config08.png" />
+</div>
+3. Please go to the WeChat Open Platform - Developer Application Registration page to register. After registering and selecting the mobile application for configuration, you will obtain an App ID that can be used immediately for development. However, after the application registration is completed, it still needs to go through the submission and review process. Only applications that pass the review can be officially published and used.  
+
+### Drop-in UI
+- Xcode 12+
+- A minimum deployment target of iOS 12.0
+- Swift 5.1+ (or Objective-C)
+
+### Venmo
+- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, Add the Identifier as "braintree". Please note that "braintree" is a fixed term and cannot be changed, as it will affect the integration of Venmo.
+    Add a "URL Scheme" with the application identifier(begin with your app's bundle ID), such as "com.yuansfer.msdk.pockyt2braintree".
+<div align=center>
+<img src="config03.png" />
+</div>
+
+- You must add the following to the queries schemes allowlist in your app's info.plist:
+<div align=center>
+<img src="config05.png" />
+</div>
+
+- You must have a display name in your app's info.plist to help Venmo identify your application:
+<div align=center>
+<img src="config06.png" />
+</div>
+
+### Apple Pay
+- In order to use Apple Pay on a real device, you must configure an Apple Pay Merchant ID and an Apple Pay payment processing certificate in Apple's Developer Center, [offical guide](https://developer.paypal.com/braintree/docs/guides/apple-pay/configuration/ios/v5).
+- In Xcode, enable Apple Pay under Capabilities in your Project Settings. Then enable both Apple Pay Merchant IDs. It is important that you compile your app with a provisioning profile for the Apple development team with an Apple Pay Merchant ID. Apple Pay does not support enterprise provisioning.
+<div align=center>
+<img src="config07.png" />
+</div>
+
+## How to use
+
+### Swift language
+
+- First, import the library at the top of the class file.
+```swift
+import Pockyt
 ```
-libc++.tbd // for Alipay, WeChatPay
-libz.tbd // for Alipay, WeChatPay
-libsqlite3.0.dylib // for WeChatPay
-SystemConfiguration.framework // for Alipay, WeChatPay
-CoreTelephony.framework // for Alipay, WeChatPay
-QuartzCore.framework // for Alipay
-CoreText.framework // for Alipay
-CoreGraphics.framework // for Alipay, WeChatPay
-UIKit.framework // for Alipay, WeChatPay
-Foundation.framework // for Alipay, WeChatPay
-CFNetwork.framework // for Alipay, WeChatPay
-CoreMotion.framework // for Alipay
-Security.framework // for WeChatPay
+- For WeChat Pay, Alipay, and Venmo, you need to override the following methods in the AppDelegate:
+```swift
+func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    return Pockyt.shared.handleOpenURL(url)
+}
+  
+@available(iOS 9.0, *)
+func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    return Pockyt.shared.handleOpenURL(url)
+}
+
+// For WeChat Pay
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    return Pockyt.shared.handleOpenUniversalLink(userActivity)
+}
 ```
-
-4、Configure URL Scheme in **URLTypes** on the **Info** tab of the Xcode project：
-
-| |Identifier|URL Schemes|
-|:-----|:-----|:-----|
-| Alipay | alipay | yuansfer4alipay(Customize, don’t be the same as other apps） |
-| WeChatPay | weixin | wx1acf098c25647f9e(WeChat Pay App id) |
-| PayPal或Venmo | braintree | com.yuansfer.msdk.braintree (Usually use the app bundle ID to spell the identifier)
-
-5、To configure the Universal Link of the WeChat platform, first open Associated Domains and fill in our domain name, the prefix is applinks. etc. If your domain name is test.com, fill in applinks: test.com; then go to the Apple Developer Center to find the Associated Domains of the project’s AppId, turn on the switch, and obtain the Team ID and Bundle ID at the same time; create an apple- The app-site-association file (note that there is no suffix), its content is in json format, fill in the Team ID and Bundle ID in the following fields, the middle is connected by a dot, the official example is as follows:
-
-```
-{
-    "applinks": {
-        "apps": [],
-        "details": [
-            {
-                "appID": "Team ID.Bundle ID",
-                "paths": [ "*" ]
-            }
-        ]
+- If your application has adapted to SceneDelegate, please configure the following code in the SceneDelegate:
+```swift
+func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    if let urlContext = URLContexts.first {
+        Pockyt.shared.handleOpenURL(urlContext.url)
     }
 }
+  
+// For WeChat Pay
+func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+    Pockyt.shared.handleOpenUniversalLink(userActivity)
+}
 ```
-Put the created file in the root directory of the back-end server domain name, and ensure that `https://test.com/apple-app-site-association` is accessible; finally, go to the WeChat background to configure Universal Link, as shown in the figure. Consistent with the domain name given by the backend mentioned above, you can add a path, for example, configure it as `https://test.com/ios/` to complete the configuration of Universal Link.
-
-6、Configure the application query Scheme in **Custom iOS Target Properties** in the **Info** tab of the Xcode project:
-
-```
-<key>LSApplicationQueriesSchemes</key>
-<array>
-	<string>weixin</string>
-	<string>weixinULAPI</string>
-	<string>com.venmo.touch.v2</string>
-</array>
-```
-7、If you need to support Braintree’s Apple Pay, Card Pay, PayPal, Venmo and other payment methods, please add the corresponding library to the Podfile first. Braintree is necessary, and the others are optional. You can add them according to your needs.
-```
-# Podfile
-  # With ui, card payment is included by default, other apple pay, paypal, venmo need to add the following optional libraries
-  pod 'BraintreeDropIn' , '~> 8.1.2'
-  # Without ui, Braintree is required for Core, others are optional for their respective libraries
-  pod 'Braintree'
-  pod 'Braintree/Apple-Pay'
-  pod 'Braintree/Card'
-  pod 'Braintree/PayPal'
-  pod 'Braintree/Venmo'
-  # deviceData collection, it is recommended to report
-  pod 'Braintree/DataCollector'
-```
-## Use
-
-1、Use the `-handleOpenURL:` method in `AppDelegate.m` to handle redirects from Alipay, WeChat, and Venmo clients. In addition, if you access PayPal or Venmo, you need to set the URL Scheme.
-
-```objc
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [BTAppSwitch setReturnURLScheme:@"com.yuansfer.msdk.braintree"];
-    return YES;
+- After calling the Pockyt prepayment API(`/micropay/v3/prepay` or `/online/v3/secure-pay`), create a payment object and call the Pockyt.shared.requestPay method.
+```swift
+// For Alipay
+let payment = Alipay(payInfo: payInfo, fromScheme: "pockyt2alipay")
+Pockyt.shared.requestPay(payment) { result in
+    print("Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result)")
 }
 
-#pragma mark - handle open URL
+// For WeChat Pay
+let request = WechatPayRequest(partnerId: partnerid, prepayId: prepayid, packageValue: package, nonceStr: noncestr, timeStamp: timestamp, sign: sign)
+Pockyt.shared.requestPay(WechatPay(request)) { result in
+    print("Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result)")
+}
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {    
-     BOOL aliWechatUrl = [[YSAliWechatPay sharedInstance] handleOpenURL:url];
-     if (!aliWechatUrl) {
-        BOOL ppUrl = [YSPayPalPay handleOpenURL:url
-                              sourceApplication:sourceApplication];
-        if (!ppUrl) {
-            return [YSVenmoPay handleOpenURL:url
-                           sourceApplication:sourceApplication];
+// For Drop-in UI
+let dropReq = BTDropInRequest()
+// BTDropInRequest has many configuration options
+// ThreeDSeucre for card, optional
+// dropReq.threeDSecureRequest = createThreeDSecure()
+let payment = DropInPay(uiViewController: self, clientToken: authorization, dropInRequest: dropReq)
+Pockyt.shared.requestPay(payment) { result in
+    if let nonce = result.dropInResult?.paymentMethod?.nonce{
+        print("Obtained nonce: \(result.isSuccessful), cancelled: \(result.isCancelled), nonce: \(nonce)")
+    } else if .applePay == result.dropInResult?.paymentMethodType {
+        print(result.respMsg)
+        // Note that Apple Pay requires continuing the payment flow initiation
+        self.startApplePay()
+    } else if let error = result.respMsg {
+        print("Failed to obtain nonce, cancelled: \(result.isCancelled), error: \(error)")
+    } else {
+        print("Failed to obtain nonce, cancelled: \(result.isCancelled)")
+    }
+}
+
+// For PayPal
+let request = BTPayPalCheckoutRequest(amount: "1.00")
+let request = BTPayPalVaultRequest()
+let paypal = PayPal(authorization: HttpUtils.CLIENT_TOKEN, paypalRequest: request)
+Pockyt.shared.requestPay(paypal) { result in
+    if result.isSuccessful {
+        if let nonce = result.paypalAccountNonce?.nonce {
+            print("Obtained nonce: \(nonce)")
+        } else {
+            print("Failed to obtain nonce")
         }
-     }
-     return NO;
-}
-
-
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    BOOL aliWechatUrl = [[YSAliWechatPay sharedInstance] handleOpenURL:url];
-    if (!aliWechatUrl) {
-       BOOL ppUrl = [YSPayPalPay handleOpenURL:url
-                                       options:options];
-       if (!ppUrl) {
-           return [YSVenmoPay handleOpenURL:url
-                                    options:options];
-       }
+    } else {
+        print("Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")")
     }
-    return NO;
 }
 
-#pragma mark - handle universal link
-
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler {
-    return [[YSAliWechatPay sharedInstance] handleUniversalLink:userActivity];
+// For Venmo
+let request = BTVenmoRequest()
+request.paymentMethodUsage = .multiUse
+let venmo = Venmo(authorization: HttpUtils.CLIENT_TOKEN, venmoRequest: request)
+Pockyt.shared.requestPay(venmo) { result in
+    if result.isSuccessful {
+        if let nonce = result.venmoNonce?.nonce {
+            print("Obtained nonce: \(nonce)")
+        } else {
+            print("Failed to obtain nonce")
+        }
+    } else {
+        print("Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")")
+    }
 }
 
+// For Apple Pay, There are a few additional steps in the payment process compared to the ones mentioned above
+// First, initialize the Apple Pay request parameters
+let applePay = ApplePay(viewController: self, authorization: HttpUtils.CLIENT_TOKEN)
+applePay.initPaymentRequest() { paymentRequest, error in
+    if let paymentRequest = paymentRequest {
+        print("Payment request initialized")
+        self.showApplePaySheet(paymentRequest: paymentRequest)
+        self.presentAuthorizationViewController(applePay)
+    } else {
+        print("Failed to initialize payment request")
+    }
+}
+// Secondly, present the Apple Pay sheet
+private func showApplePaySheet(paymentRequest: PKPaymentRequest) {
+    paymentRequest.requiredBillingContactFields = [.postalAddress]
+    // Set other PKPaymentRequest properties here
+    paymentRequest.merchantCapabilities = .capability3DS
+    paymentRequest.paymentSummaryItems =
+    [
+        PKPaymentSummaryItem(label: "test_item", amount: NSDecimalNumber(string: "0.02")),
+        // Add add'l payment summary items...
+        PKPaymentSummaryItem(label: "Pockyt.io", amount: NSDecimalNumber(string: "0.02")),
+    ]
+    // ...
+}
+// Then, present the Apple Pay authorization view controller
+private func presentAuthorizationViewController(_ applePay: ApplePay) {
+    applePay.requestPay() { result in
+        if result.isSuccessful {
+            print("Payment processing, please wait...")
+            self.submitNonceToServer(applePay: applePay, transactionNo: "xxx", nonce: result.applePayNonce!.nonce)
+            print("Payment successful, nonce: \(result.applePayNonce!.nonce)")
+        } else {
+            print(result.respMsg)
+        }
+    }
+}
+// Finally, Submit the Apple Pay nonce to your server, Notify the Apple Pay wallet of the payment status based on the API result
+if (apiSuccess) {
+    applePay.notifyPaymentCompletion(true)
+} else {
+    applePay.notifyPaymentCompletion(false)
+}
 ```
+- For Braintree, After obtaining the nonce from the payment result, call the Pockyt process API (`/creditpay/v3/process`) to complete the payment.
 
-2、Initiate payment wherever payment needs to be called.
-* Initiate WeChat payment,[[YSAliWechatPay sharedInstance] requestWechatPayment]
+### Objective-C language
+- First, import the library at the top of the '.m' file.
 ```objc
-- (void) requestWechatPayment:(NSString *)partnerid
-                     prepayid:(NSString *)prepayid
-                     noncestr:(NSString *)noncestr
-                    timestamp:(NSString *)timestamp
-                      package:(NSString *)package
-                         sign:(NSString *)sign
-                        appId:(NSString *)appId
-                      uniLink:(NSString *)uniLink
-                        block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
+#import "Pockyt-Swift.h"
 ```
-* Initiate Alipay payment,[[YSAliWechatPay sharedInstance] requestAliPayment]
+- Please refer to the above configuration in Swift to add the configuration for returning to the application from the payment application in either AppDelegate or SceneDelegate.
+- In Objective-C language, instead of calling the unified Pockyt's requestPay method, the payment can be initiated directly through the corresponding payment implementation class's requestPay method.
 ```objc
-- (void) requestAliPayment:(NSString *)payInfo
-          fromScheme:(NSString *)fromScheme
-               block:(void (^)(NSDictionary * _Nullable results, NSError * _Nullable error))block;
+// For Alipay
+Alipay *alipay = [[Alipay alloc] initWithPayInfo:payInfo fromScheme:@"pockytToalipay"];
+[alipay requestPayWithCompletion: ^(AlipayResult * result) {
+    NSLog(@"Alipay result: %d, %d, %@", result.isSuccessful, result.isCancelled, result.memo);
+}];
+
+// For WeChat Pay
+WechatPayRequest *request = [[WechatPayRequest alloc] initWithPartnerId:partnerId prepayId:prepayId packageValue:packageValue nonceStr:nonceStr timeStamp:timeStamp sign:sign];
+WechatPay *wechatPay = [[WechatPay alloc] init:request];
+[wechatPay requestPayWithCompletion:^(WechatPayResult * result) {
+    NSLog(@"Wechat Pay result: %d, %d, %@", result.isSuccessful, result.isCancelled, result.respMsg);
+}];
+
+// Other payment methods are similar
+// ...
 ```
-* Initialize Braintree api client, authorization is client token or tokenization key,[[YSApiClient sharedInstance] initBraintreeClient]
-```objc
-- (void) initBraintreeClient:(NSString*) authorization;
-```
-* Initiate Drop-In UI tab payment
-```objc
-[[BTDropInController alloc] initWithAuthorization:self.authToken request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error);
-```
-* Check whether Apple Pay is available, [[YSApplePay sharedInstance] canApplePayment]
-```objc
-- (bool) canApplePayment;
-```
-* Initiating Apple Pay, there are two calling methods: block and delegate
-```objc
-//block
-- (void) requestApplePayment:(UIViewController*) viewController
-                        paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig
-                        shippingMethodUpdate:(void(^)(PKShippingMethod *shippingMethod, PKPaymentRequestShippingMethodUpdateBlock shippingMethodUpdateBlock)) shippingMethodReponse
-                        authorizaitonResponse:(void(^)(BTApplePayCardNonce *tokenizedApplePayPayment, NSError *error,
-                               PKPaymentAuthorizationResultBlock authorizationResult)) authorizaitonResponse;
-//delegate
-- (void) requestApplePayment:(UIViewController*) viewController
-                            delegate:(id<PKPaymentAuthorizationViewControllerDelegate>) delegate
-                      paymentRequest:(void(^)(PKPaymentRequest * _Nullable paymentRequest, NSError * _Nullable error)) paymentRequestConfig;
-//Implement the following delegate method by yourself
-- (void)paymentAuthorizationViewControllerDidFinish:(__unused PKPaymentAuthorizationViewController *)controller;
+## Note
 
-- (void)paymentAuthorizationViewController:(__unused PKPaymentAuthorizationViewController *)controller
-                       didAuthorizePayment:(PKPayment *)payment
-                                   handler:(void (^)(PKPaymentAuthorizationResult * _Nonnull))completion;
-
-- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
-                   didSelectShippingMethod:(PKShippingMethod *)shippingMethod
-                                   handler:(void (^)(PKPaymentRequestShippingMethodUpdate * _Nonnull)) completion;
-```
-* Initiate a credit or debit card payment,[YSCardPay requestCardPayment]
-```objc
-+ (void) requestCardPayment:(BTCard *)card
-                 completion:(void (^)(BTCardNonce * _Nullable tokenizedCard, NSError * _Nullable error))completion;
-```
-* Initiate Venmo client payment,[YSVenmoPay requestVenmoPayment]
-```objc
-+ (void) requestVenmoPayment:(BOOL)vault
-                  fromSchema:(NSString *)fromScheme
-                  completion:(void (^)(BTVenmoAccountNonce *venmoAccount, NSError *error))completionBlock;
-```
-* There are two ways to initiate a PayPal payment:Vault和Checkout,[YSPayPalPay requestPayPal]
-```objc
-+ (void) requestPayPalOneTimePayment:(BTPayPalRequest *)request
-                        fromSchema:(NSString *)fromScheme
-            viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
-                    switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
-                                      completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
-
-
-+ (void) requestPayPalBillingPayment:(BTPayPalRequest *)request
-                        fromSchema:(NSString *)fromScheme
-            viewControllerDelegate:(id<BTViewControllerPresentingDelegate>) viewControllerDelegate
-                    switchDelegate:(id<BTAppSwitchDelegate>) switchDelegate
-                                      completion:(void (^)(BTPayPalAccountNonce * _Nullable payPalAccount, NSError * _Nullable error)) completion;
-```
-## ⚠️ Announcements
-
-1、SDK call failed. First of all, please make sure that storeNo, merchantNo, and token are entered correctly. If the API call fails, please obtain relevant debugging information from the error returned by the block callback.
-
-2、After jumping to Alipay and WeChat, it fails to jump back to the merchant app. Please check whether the merchant app has configured the URL Scheme correctly and passed the correct Scheme in the interface; whether the jump method is supported in `AppDelegate.m`.
-
-3、When calling the order and payment interface, please make sure to add the Alipay mobile payment SDK; when calling the WeChat payment, please make sure to add the WeChat payment SDK; when calling various payments under Braintree, make sure to add the corresponding pod sdk .
-
-4、When referencing the old version of BraintreeDropIn, an error such as'topLayoutGuide' is deprecated: first deprecated in iOS 11.0 will appear in the source code of Braintree DropIn. This problem has been fixed in 8.1.0. Just specify a version higher than 8.1.0.
-
-5、According to the actual needs of the integrated payment method, the corresponding files are selectively added. Podfile also selectively installs the Braintree dependency library. Podfile is not required for WeChat or Alipay.
-
-6、It cannot be called up or called back through the universal link. Please refer to the relevant configuration rules.
-
-7、For other detailed usage, please refer to the example in MobilePaySDKSample, The example is for reference only and should not be used directly in the project.
+- The 'deviceData' is used to reduce the chargeback rate. It is recommended to use the collectData method of DataCollector to obtain and submit the data to the server for processing.
+- If you pass a 'customerNo' when generating a client token, Drop-in will display that customer's saved payment methods and automatically add any newly-entered payment methods to their Vault record. [create customer api](https://docs.pockyt.io/reference/register-customer)
+    If vaulted payment methods exist, this is how they will appear in Drop-in.
+- For other detailed usage, please refer to the example program.
