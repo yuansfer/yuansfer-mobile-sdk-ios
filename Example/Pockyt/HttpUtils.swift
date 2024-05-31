@@ -12,12 +12,11 @@ import CommonCrypto
 class HttpUtils {
       
     static let BASE_URL = "https://mapi.yuansfer.yunkeguan.com"
+    static let UNIVERSAL_LINK = "https://mapi.yuansfer.yunkeguan.com/ios/"
     static let MERCHANT_NO = "200014"
     static let STORE_NO = "300043"
     static let API_TOKEN = "xxx"
-    
     static let APP_ID = "xxx"
-    static let UNIVERSAL_LINK = "https://mapi.yuansfer.yunkeguan.com/ios/"
     static let CLIENT_TOKEN = "xxx"
     
     static func doPost(path: String, data: [String: Any], token: String, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {

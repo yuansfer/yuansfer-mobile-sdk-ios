@@ -37,26 +37,26 @@ DropIn is a quick integration method using the official UI library, however you 
 ### Alipay
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add a "URL Scheme" with the application identifier, such as "pockyt2alipay". It is recommended to have a distinctive identifier that does not overlap with other merchant apps. Otherwise, it may result in the inability to correctly redirect back to the merchant's app from Alipay.
 <div align=center>
-<img src="url_type_alipay.png" />
+<img src="config01.png" />
 </div>
 
 ### WeChat Pay
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add a "URL Scheme" with the application ID that you have registered.
 <div align=center>
-<img src="url_type_wechat.png" />
+<img src="config02.png" />
 </div>
 
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "Queried URL Schemes" section, add "weixin" and "weixinULAPI".
-```xml
-<key>Queried URL Schemes</key>
-<array>
-  <string>weixin</string>
-  <string>weixinULAPI</string>
-</array>
-```
+<div align=center>
+<img src="config04.png" />
+</div>
+
 - Configuring Universal Links for the application.
 1. Configure Universal Links for your application according to the [Apple documentation](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content).  
-2. In Xcode, Turn on the "Associated Domains" switch and add the Universal Links domain to the configuration.  
+2. In Xcode, Turn on the "Associated Domains" switch and add the Universal Links domain to the configuration. 
+<div align=center>
+<img src="config08.png" />
+</div>
 3. Please go to the WeChat Open Platform - Developer Application Registration page to register. After registering and selecting the mobile application for configuration, you will obtain an App ID that can be used immediately for development. However, after the application registration is completed, it still needs to go through the submission and review process. Only applications that pass the review can be officially published and used.  
 
 ### Drop-in UI
@@ -68,25 +68,25 @@ DropIn is a quick integration method using the official UI library, however you 
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, Add the Identifier as "braintree". Please note that "braintree" is a fixed term and cannot be changed, as it will affect the integration of Venmo.
     Add a "URL Scheme" with the application identifier(begin with your app's bundle ID), such as "com.yuansfer.msdk.pockyt2braintree".
 <div align=center>
-<img src="url_type_venmo.png" />
+<img src="config03.png" />
 </div>
 
 - You must add the following to the queries schemes allowlist in your app's info.plist:
-```xml
-<key>Queried URL Schemes</key>
-<array>
-  <string>com.venmo.touch.v2</string>
-</array>
-```
+<div align=center>
+<img src="config05.png" />
+</div>
+
 - You must have a display name in your app's info.plist to help Venmo identify your application:
-```xml
-<key>CFBundleDisplayName</key>
-<string>Your App Name</string>
-```
+<div align=center>
+<img src="config06.png" />
+</div>
 
 ### Apple Pay
 - In order to use Apple Pay on a real device, you must configure an Apple Pay Merchant ID and an Apple Pay payment processing certificate in Apple's Developer Center, [Offical guide](https://developer.paypal.com/braintree/docs/guides/apple-pay/configuration/ios/v5).
 - In Xcode, enable Apple Pay under Capabilities in your Project Settings. Then enable both Apple Pay Merchant IDs. It is important that you compile your app with a provisioning profile for the Apple development team with an Apple Pay Merchant ID. Apple Pay does not support enterprise provisioning.
+<div align=center>
+<img src="config07.png" />
+</div>
 
 ## How to use
 
@@ -130,17 +130,13 @@ func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
 // For Alipay
 let payment = Alipay(payInfo: payInfo, fromScheme: "pockyt2alipay")
 Pockyt.shared.requestPay(payment) { result in
-    DispatchQueue.main.async {
-        self.resultLabel.text = "Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result)"
-    }
+    print("Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result)")
 }
 
 // For WeChat Pay
 let request = WechatPayRequest(partnerId: partnerid, prepayId: prepayid, packageValue: package, nonceStr: noncestr, timeStamp: timestamp, sign: sign)
 Pockyt.shared.requestPay(WechatPay(request)) { result in
-    DispatchQueue.main.async {
-        self.resultLabel.text = "Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result)"
-    }
+    print("Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result)")
 }
 
 // For Drop-in UI
@@ -150,18 +146,16 @@ let dropReq = BTDropInRequest()
 // dropReq.threeDSecureRequest = createThreeDSecure()
 let payment = DropInPay(uiViewController: self, clientToken: authorization, dropInRequest: dropReq)
 Pockyt.shared.requestPay(payment) { result in
-    DispatchQueue.main.async {
-        if let nonce = result.dropInResult?.paymentMethod?.nonce{
-            self.resultLabel.text = "Obtained nonce: \(result.isSuccessful), cancelled: \(result.isCancelled), nonce: \(nonce)"
-        } else if .applePay == result.dropInResult?.paymentMethodType {
-            self.resultLabel.text = result.respMsg
-            // Note that Apple Pay requires continuing the payment flow initiation
-            self.startApplePay()
-        } else if let error = result.respMsg {
-            self.resultLabel.text = "Failed to obtain nonce, cancelled: \(result.isCancelled), error: \(error)"
-        } else {
-            self.resultLabel.text = "Failed to obtain nonce, cancelled: \(result.isCancelled)"
-        }
+    if let nonce = result.dropInResult?.paymentMethod?.nonce{
+        print("Obtained nonce: \(result.isSuccessful), cancelled: \(result.isCancelled), nonce: \(nonce)")
+    } else if .applePay == result.dropInResult?.paymentMethodType {
+        print(result.respMsg)
+        // Note that Apple Pay requires continuing the payment flow initiation
+        self.startApplePay()
+    } else if let error = result.respMsg {
+        print("Failed to obtain nonce, cancelled: \(result.isCancelled), error: \(error)")
+    } else {
+        print("Failed to obtain nonce, cancelled: \(result.isCancelled)")
     }
 }
 
@@ -170,16 +164,14 @@ let request = BTPayPalCheckoutRequest(amount: "1.00")
 let request = BTPayPalVaultRequest()
 let paypal = PayPal(authorization: HttpUtils.CLIENT_TOKEN, paypalRequest: request)
 Pockyt.shared.requestPay(paypal) { result in
-    DispatchQueue.main.async {
-        if result.isSuccessful {
-            if let nonce = result.paypalAccountNonce?.nonce {
-                self.resultLabel.text = "Obtained nonce: \(nonce)"
-            } else {
-                self.resultLabel.text = "Failed to obtain nonce"
-            }
+    if result.isSuccessful {
+        if let nonce = result.paypalAccountNonce?.nonce {
+            print("Obtained nonce: \(nonce)")
         } else {
-            self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
+            print("Failed to obtain nonce")
         }
+    } else {
+        print("Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")")
     }
 }
 
@@ -188,16 +180,14 @@ let request = BTVenmoRequest()
 request.paymentMethodUsage = .multiUse
 let venmo = Venmo(authorization: HttpUtils.CLIENT_TOKEN, venmoRequest: request)
 Pockyt.shared.requestPay(venmo) { result in
-    DispatchQueue.main.async {
-        if result.isSuccessful {
-            if let nonce = result.venmoNonce?.nonce {
-                self.resultLabel.text = "Obtained nonce: \(nonce)"
-            } else {
-                self.resultLabel.text = "Failed to obtain nonce"
-            }
+    if result.isSuccessful {
+        if let nonce = result.venmoNonce?.nonce {
+            print("Obtained nonce: \(nonce)")
         } else {
-            self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
+            print("Failed to obtain nonce")
         }
+    } else {
+        print("Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")")
     }
 }
 
@@ -205,14 +195,12 @@ Pockyt.shared.requestPay(venmo) { result in
 // First, initialize the Apple Pay request parameters
 let applePay = ApplePay(viewController: self, authorization: HttpUtils.CLIENT_TOKEN)
 applePay.initPaymentRequest() { paymentRequest, error in
-    DispatchQueue.main.async {
-        if let paymentRequest = paymentRequest {
-            self.resultLabel.text = "Payment request initialized"
-            self.showApplePaySheet(paymentRequest: paymentRequest)
-            self.presentAuthorizationViewController(applePay)
-        } else {
-            self.resultLabel.text = "Failed to initialize payment request"
-        }
+    if let paymentRequest = paymentRequest {
+        print("Payment request initialized")
+        self.showApplePaySheet(paymentRequest: paymentRequest)
+        self.presentAuthorizationViewController(applePay)
+    } else {
+        print("Failed to initialize payment request")
     }
 }
 // Secondly, present the Apple Pay sheet
@@ -231,14 +219,12 @@ private func showApplePaySheet(paymentRequest: PKPaymentRequest) {
 // Then, present the Apple Pay authorization view controller
 private func presentAuthorizationViewController(_ applePay: ApplePay) {
     applePay.requestPay() { result in
-        DispatchQueue.main.async {
-            if result.isSuccessful {
-                self.resultLabel.text = "Payment processing, please wait..."
-                self.submitNonceToServer(applePay: applePay, transactionNo: "xxx", nonce: result.applePayNonce!.nonce)
-                self.resultLabel.text = "Payment successful, nonce: \(result.applePayNonce!.nonce)"
-            } else {
-                self.resultLabel.text = result.respMsg
-            }
+        if result.isSuccessful {
+            print("Payment processing, please wait...")
+            self.submitNonceToServer(applePay: applePay, transactionNo: "xxx", nonce: result.applePayNonce!.nonce)
+            print("Payment successful, nonce: \(result.applePayNonce!.nonce)")
+        } else {
+            print(result.respMsg)
         }
     }
 }
@@ -278,6 +264,6 @@ WechatPay *wechatPay = [[WechatPay alloc] init:request];
 ## Note
 
 - The 'deviceData' is used to reduce the chargeback rate. It is recommended to use the collectData method of DataCollector to obtain and submit the data to the server for processing.
-- If you pass a 'customerNo' when generating a client token, Drop-in will display that customer's saved payment methods and automatically add any newly-entered payment methods to their Vault record. [Create customer api](https://docs.pockyt.io/reference/register-customer)
+- If you pass a 'customerNo' when generating a client token, Drop-in will display that customer's saved payment methods and automatically add any newly-entered payment methods to their Vault record. [create customer api](https://docs.pockyt.io/reference/register-customer)
     If vaulted payment methods exist, this is how they will appear in Drop-in.
 - For other detailed usage, please refer to the example program.

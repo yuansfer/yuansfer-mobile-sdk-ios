@@ -58,7 +58,6 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>com.venmo.touch.v2</string>
-		<string>weixinURLParamsAPI</string>
 		<string>weixinULAPI</string>
 		<string>weixin</string>
 	</array>
