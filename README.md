@@ -52,7 +52,7 @@ DropIn is a quick integration method using the official UI library, however you 
 </div>
 
 - Configuring Universal Links for the application.
-1. Configure Universal Links for your application according to the [Apple documentation](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content).  
+1. Configure Universal Links for your application according to the [apple documentation](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content).  
 2. In Xcode, Turn on the "Associated Domains" switch and add the Universal Links domain to the configuration. 
 <div align=center>
 <img src="config08.png" />
@@ -82,7 +82,7 @@ DropIn is a quick integration method using the official UI library, however you 
 </div>
 
 ### Apple Pay
-- In order to use Apple Pay on a real device, you must configure an Apple Pay Merchant ID and an Apple Pay payment processing certificate in Apple's Developer Center, [Offical guide](https://developer.paypal.com/braintree/docs/guides/apple-pay/configuration/ios/v5).
+- In order to use Apple Pay on a real device, you must configure an Apple Pay Merchant ID and an Apple Pay payment processing certificate in Apple's Developer Center, [offical guide](https://developer.paypal.com/braintree/docs/guides/apple-pay/configuration/ios/v5).
 - In Xcode, enable Apple Pay under Capabilities in your Project Settings. Then enable both Apple Pay Merchant IDs. It is important that you compile your app with a provisioning profile for the Apple development team with an Apple Pay Merchant ID. Apple Pay does not support enterprise provisioning.
 <div align=center>
 <img src="config07.png" />
