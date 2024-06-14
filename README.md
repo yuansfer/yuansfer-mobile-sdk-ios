@@ -1,6 +1,6 @@
 ## Introduction
 
-[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.2-blue)](https://cocoapods.org/pods/Pockyt)  
+[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.3-blue)](https://cocoapods.org/pods/Pockyt)  
 This is a payment sdk that supports mainstream payment methods such as WeChat Pay, Alipay, Cash App and Braintree etc.
 
 ## Getting Started
