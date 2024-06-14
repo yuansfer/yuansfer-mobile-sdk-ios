@@ -61,7 +61,7 @@ public class CashApp: NSObject, PaymentProtocol, CashAppPayObserver {
     }
     
     private func getCashAppSchemeUrl() -> String {
-        var scheme = PockytUtility.getSchemeUrl(for: "cashapp")
+        let scheme = PockytUtility.getSchemeUrl(for: "cashapp")
         return "\(scheme)://callback"
     }
     
