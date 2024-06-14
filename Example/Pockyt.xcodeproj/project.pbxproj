@@ -15,6 +15,7 @@
 		042614A62BFB476000D893A1 /* VenmoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042614A52BFB476000D893A1 /* VenmoViewController.swift */; };
 		042614A82BFB477A00D893A1 /* ApplePayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042614A72BFB477A00D893A1 /* ApplePayViewController.swift */; };
 		042614AA2BFB8BAB00D893A1 /* HttpUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042614A92BFB8BAB00D893A1 /* HttpUtils.swift */; };
+		047A66792C1AE6A00061C98A /* CashAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047A66782C1AE6A00061C98A /* CashAppViewController.swift */; };
 		5D397DE23C11631332863975 /* Pods_Pockyt_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E33162F461D53CA3B45E05 /* Pods_Pockyt_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 		042614A52BFB476000D893A1 /* VenmoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoViewController.swift; sourceTree = "<group>"; };
 		042614A72BFB477A00D893A1 /* ApplePayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayViewController.swift; sourceTree = "<group>"; };
 		042614A92BFB8BAB00D893A1 /* HttpUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtils.swift; sourceTree = "<group>"; };
+		047A66782C1AE6A00061C98A /* CashAppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashAppViewController.swift; sourceTree = "<group>"; };
 		049262E12BFDD73B00418379 /* Pockyt_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pockyt_Example.entitlements; sourceTree = "<group>"; };
 		1C44B17FAB70E82396085E4B /* Pods-Pockyt_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pockyt_Example.debug.xcconfig"; path = "Target Support Files/Pods-Pockyt_Example/Pods-Pockyt_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		30BDF09B627E7C3F2DFB4918 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				0426149B2BFB42E900D893A1 /* AlipayViewController.swift */,
+				047A66782C1AE6A00061C98A /* CashAppViewController.swift */,
 				0426149D2BFB46C900D893A1 /* WechatPayViewController.swift */,
 				0426149F2BFB46F000D893A1 /* DropInViewController.swift */,
 				042614A12BFB470D00D893A1 /* CardPayViewController.swift */,
@@ -243,6 +246,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Pockyt_Example/Pods-Pockyt_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Braintree/Braintree.framework",
 				"${BUILT_PRODUCTS_DIR}/BraintreeDropIn/BraintreeDropIn.framework",
+				"${BUILT_PRODUCTS_DIR}/CashAppPayKit/PayKit.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Braintree/PayPalDataCollector/PPRiskMagnes.framework/PPRiskMagnes",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Braintree/ThreeDSecure/CardinalMobile.framework/CardinalMobile",
 			);
@@ -250,6 +254,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Braintree.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BraintreeDropIn.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PayKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PPRiskMagnes.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardinalMobile.framework",
 			);
@@ -295,6 +300,7 @@
 				042614A02BFB46F000D893A1 /* DropInViewController.swift in Sources */,
 				042614A22BFB470D00D893A1 /* CardPayViewController.swift in Sources */,
 				0426149C2BFB42E900D893A1 /* AlipayViewController.swift in Sources */,
+				047A66792C1AE6A00061C98A /* CashAppViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				042614AA2BFB8BAB00D893A1 /* HttpUtils.swift in Sources */,
 			);

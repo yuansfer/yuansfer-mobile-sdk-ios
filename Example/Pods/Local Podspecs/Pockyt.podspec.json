@@ -1,6 +1,6 @@
 {
   "name": "Pockyt",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "summary": "Pockyt Mobile iOS SDK",
   "description": "A simple and user-friendly iOS payment SDK that supports payment methods such as WeChat Pay, Alipay, Braintree, and more.",
   "homepage": "https://pockyt.io",
@@ -16,7 +16,7 @@
   },
   "source": {
     "git": "https://github.com/yuansfer/yuansfer-mobile-sdk-ios.git",
-    "tag": "0.1.0"
+    "tag": "0.5.0"
   },
   "requires_arc": true,
   "default_subspecs": [
@@ -135,6 +135,18 @@
         ],
         "Braintree/PayPalDataCollector": [
           "~> 5.26.0"
+        ]
+      }
+    },
+    {
+      "name": "CashApp",
+      "source_files": "Pockyt/Classes/CashApp/*.swift",
+      "dependencies": {
+        "Pockyt/Core": [
+
+        ],
+        "CashAppPayKit": [
+          "~> 0.6.1"
         ]
       }
     }

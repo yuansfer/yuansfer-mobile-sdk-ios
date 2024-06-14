@@ -31,29 +31,33 @@ PODS:
     - Braintree/ThreeDSecure (~> 5.19)
     - Braintree/UnionPay (~> 5.19)
     - Braintree/Venmo (~> 5.19)
-  - Pockyt/Alipay (0.1.0):
+  - CashAppPayKit (0.6.1)
+  - Pockyt/Alipay (0.5.0):
     - AlipaySDK-iOS (~> 15.8.11)
     - Pockyt/Core
-  - Pockyt/ApplePay (0.1.0):
+  - Pockyt/ApplePay (0.5.0):
     - Braintree/ApplePay (~> 5.26.0)
     - Pockyt/Core
-  - Pockyt/CardPal (0.1.0):
+  - Pockyt/CardPal (0.5.0):
     - Braintree (~> 5.26.0)
     - Pockyt/Core
-  - Pockyt/Core (0.1.0)
-  - Pockyt/DataCollect (0.1.0):
+  - Pockyt/CashApp (0.5.0):
+    - CashAppPayKit (~> 0.6.1)
+    - Pockyt/Core
+  - Pockyt/Core (0.5.0)
+  - Pockyt/DataCollect (0.5.0):
     - Braintree/PayPalDataCollector (~> 5.26.0)
     - Pockyt/Core
-  - Pockyt/DropIn (0.1.0):
+  - Pockyt/DropIn (0.5.0):
     - BraintreeDropIn (~> 9.8.0)
     - Pockyt/Core
-  - Pockyt/ThreeDSecure (0.1.0):
+  - Pockyt/ThreeDSecure (0.5.0):
     - Braintree/ThreeDSecure (~> 5.26.0)
     - Pockyt/Core
-  - Pockyt/Venmo (0.1.0):
+  - Pockyt/Venmo (0.5.0):
     - Braintree/Venmo (~> 5.26.0)
     - Pockyt/Core
-  - Pockyt/WechatPay (0.1.0):
+  - Pockyt/WechatPay (0.5.0):
     - Pockyt/Core
     - WechatOpenSDK-XCFramework (~> 2.0.2)
   - WechatOpenSDK-XCFramework (2.0.4)
@@ -62,6 +66,7 @@ DEPENDENCIES:
   - Pockyt/Alipay (from `../`)
   - Pockyt/ApplePay (from `../`)
   - Pockyt/CardPal (from `../`)
+  - Pockyt/CashApp (from `../`)
   - Pockyt/DataCollect (from `../`)
   - Pockyt/DropIn (from `../`)
   - Pockyt/ThreeDSecure (from `../`)
@@ -73,6 +78,7 @@ SPEC REPOS:
     - AlipaySDK-iOS
     - Braintree
     - BraintreeDropIn
+    - CashAppPayKit
     - WechatOpenSDK-XCFramework
 
 EXTERNAL SOURCES:
@@ -83,9 +89,10 @@ SPEC CHECKSUMS:
   AlipaySDK-iOS: 5e6011fbd546e7db6b43c1f527d164ee63f3d7cb
   Braintree: 53d39d5349a6316dc455b03334e869f43d6b51bd
   BraintreeDropIn: 3d53945d1c0a2d050f094bbad7596e9f65a6993a
-  Pockyt: 6366577a2d420a83f844fcd0a8f3a9615e5b6d02
+  CashAppPayKit: b1c25556eebb1237d9e7f391106fea4da2fc6c39
+  Pockyt: 419f0c9c8ca2d6f75215c998766b6f9148f50122
   WechatOpenSDK-XCFramework: 36fb2bea0754266c17184adf4963d7e6ff98b69f
 
-PODFILE CHECKSUM: e622f7d5bcaacb4595fe2daed3775e4cadb79139
+PODFILE CHECKSUM: 50cf5f17110a5a17498d77d0523a80fd87c26630
 
 COCOAPODS: 1.15.2

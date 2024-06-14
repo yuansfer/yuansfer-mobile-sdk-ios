@@ -56,16 +56,14 @@ class VenmoViewController: UIViewController {
         request.paymentMethodUsage = .multiUse
         let venmo = Venmo(authorization: HttpUtils.CLIENT_TOKEN, venmoRequest: request)
         Pockyt.shared.requestPay(venmo) { result in
-            DispatchQueue.main.async {
-                if result.isSuccessful {
-                    if let nonce = result.venmoNonce?.nonce {
-                        self.resultLabel.text = "Obtained nonce: \(nonce)"
-                    } else {
-                        self.resultLabel.text = "Failed to obtain nonce"
-                    }
+            if result.isSuccessful {
+                if let nonce = result.venmoNonce?.nonce {
+                    self.resultLabel.text = "Obtained nonce: \(nonce)"
                 } else {
-                    self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
+                    self.resultLabel.text = "Failed to obtain nonce"
                 }
+            } else {
+                self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
             }
         }
     }

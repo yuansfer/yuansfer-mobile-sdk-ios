@@ -63,14 +63,12 @@ class ApplePayViewController: UIViewController {
     @objc func tappedApplePay() {
         let applePay = ApplePay(viewController: self, authorization: HttpUtils.CLIENT_TOKEN)
         applePay.initPaymentRequest() { paymentRequest, error in
-            DispatchQueue.main.async {
-                if let paymentRequest = paymentRequest {
-                    self.resultLabel.text = "Payment request initialized"
-                    self.showApplePaySheet(paymentRequest: paymentRequest)
-                    self.presentAuthorizationViewController(applePay)
-                } else {
-                    self.resultLabel.text = "Failed to initialize payment request"
-                }
+            if let paymentRequest = paymentRequest {
+                self.resultLabel.text = "Payment request initialized"
+                self.showApplePaySheet(paymentRequest: paymentRequest)
+                self.presentAuthorizationViewController(applePay)
+            } else {
+                self.resultLabel.text = "Failed to initialize payment request"
             }
         }
     }
@@ -89,14 +87,12 @@ class ApplePayViewController: UIViewController {
     
     private func presentAuthorizationViewController(_ applePay: ApplePay) {
         applePay.requestPay() { result in
-            DispatchQueue.main.async {
-                if result.isSuccessful {
-                    self.resultLabel.text = "Payment processing, please wait..."
-                    self.submitNonceToServer(applePay: applePay, transactionNo: "xxx", nonce: result.applePayNonce!.nonce)
-                    self.resultLabel.text = "Payment successful, nonce: \(result.applePayNonce!.nonce)"
-                } else {
-                    self.resultLabel.text = result.respMsg
-                }
+            if result.isSuccessful {
+                self.resultLabel.text = "Payment processing, please wait..."
+                self.resultLabel.text = "Obtained nonce: \(result.applePayNonce!.nonce)"
+                self.submitNonceToServer(applePay: applePay, transactionNo: "xxx", nonce: result.applePayNonce!.nonce)
+            } else {
+                self.resultLabel.text = result.respMsg
             }
         }
     }

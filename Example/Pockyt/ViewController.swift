@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     }
       
     func setupButtons() {
-        let buttonTitles = ["Alipay", "WechatPay", "Drop In", "CardPay", "PayPal", "Venmo", "Apple Pay"]
+        let buttonTitles = ["Alipay", "WechatPay", "Drop In", "CardPay", "PayPal", "Venmo", "Apple Pay", "Cash App"]
         let buttonHeight: CGFloat = 50
         let spacing: CGFloat = 10
         var yOffset: CGFloat = 100
@@ -77,6 +77,10 @@ class ViewController: UIViewController {
         case "Apple Pay":
             let applePayViewController = ApplePayViewController()
             let navigationController = UINavigationController(rootViewController: applePayViewController)
+            present(navigationController, animated: true, completion: nil)
+        case "Cash App":
+            let cashAppViewController = CashAppViewController()
+            let navigationController = UINavigationController(rootViewController: cashAppViewController)
             present(navigationController, animated: true, completion: nil)
         default:
             break

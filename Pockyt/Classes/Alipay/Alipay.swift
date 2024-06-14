@@ -8,18 +8,16 @@
 public class Alipay: NSObject, PaymentProtocol {
     
     private let payInfo: String
-    private let fromScheme: String
     private var payCompletion: ((PayResult) -> Void)?
       
-    public init(payInfo: String, fromScheme: String) {
-        self.fromScheme = fromScheme
+    public init(_ payInfo: String) {
         self.payInfo = payInfo
     }
         
     public func requestPay(completion: @escaping (AlipayResult) -> Void) {
         self.payCompletion = completion
         Pockyt.shared.setPaymentInstance(self)
-        AlipaySDK.defaultService().payOrder(payInfo, fromScheme: fromScheme) { [weak self] result in
+        AlipaySDK.defaultService().payOrder(payInfo, fromScheme: PockytUtility.getSchemeUrl(for: "alipay")) { [weak self] result in
             guard let self = self else { return }
             let payResult = self.parseResult(result)
             completion(payResult)

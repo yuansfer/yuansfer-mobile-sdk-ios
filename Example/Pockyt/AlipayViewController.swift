@@ -145,11 +145,9 @@ class AlipayViewController: UIViewController {
     }
     
     private func submitPayment(payInfo: String) {
-        let payment = Alipay(payInfo: payInfo, fromScheme: "pockyt2alipay")
+        let payment = Alipay(payInfo)
         Pockyt.shared.requestPay(payment) { result in
-            DispatchQueue.main.async {
-                self.resultLabel.text = "Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result.memo ?? "")"
-            }
+            self.resultLabel.text = "Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result.memo ?? "")"
         }
     }
 }

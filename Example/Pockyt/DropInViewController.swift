@@ -157,18 +157,16 @@ class DropInViewController: UIViewController {
         // dropReq.threeDSecureRequest = createThreeDSecure()
         let payment = DropInPay(uiViewController: self, clientToken: authorization, dropInRequest: dropReq)
         Pockyt.shared.requestPay(payment) { result in
-            DispatchQueue.main.async {
-                if let nonce = result.dropInResult?.paymentMethod?.nonce{
-                    self.resultLabel.text = "Obtained nonce: \(result.isSuccessful), cancelled: \(result.isCancelled), nonce: \(nonce)"
-                } else if .applePay == result.dropInResult?.paymentMethodType {
-                    self.resultLabel.text = result.respMsg
-                    // Note that Apple Pay requires continuing the payment flow initiation
-                    self.startApplePay()
-                } else if let error = result.respMsg {
-                    self.resultLabel.text = "Failed to obtain nonce, cancelled: \(result.isCancelled), error: \(error)"
-                } else {
-                    self.resultLabel.text = "Failed to obtain nonce, cancelled: \(result.isCancelled)"
-                }
+            if let nonce = result.dropInResult?.paymentMethod?.nonce{
+                self.resultLabel.text = "Obtained nonce: \(result.isSuccessful), cancelled: \(result.isCancelled), nonce: \(nonce)"
+            } else if .applePay == result.dropInResult?.paymentMethodType {
+                self.resultLabel.text = result.respMsg
+                // Note that Apple Pay requires continuing the payment flow initiation
+                self.startApplePay()
+            } else if let error = result.respMsg {
+                self.resultLabel.text = "Failed to obtain nonce, cancelled: \(result.isCancelled), error: \(error)"
+            } else {
+                self.resultLabel.text = "Failed to obtain nonce, cancelled: \(result.isCancelled)"
             }
         }
     }

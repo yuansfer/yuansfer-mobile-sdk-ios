@@ -165,9 +165,7 @@ class WechatPayViewController: UIViewController {
         
         let request = WechatPayRequest(partnerId: partnerid, prepayId: prepayid, packageValue: package, nonceStr: noncestr, timeStamp: timestamp, sign: sign)
         Pockyt.shared.requestPay(WechatPay(request)) { result in
-            DispatchQueue.main.async {
-                self.resultLabel.text = "Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result.respMsg ?? "")"
-            }
+            self.resultLabel.text = "Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result.respMsg ?? "")"
         }
     }
 }

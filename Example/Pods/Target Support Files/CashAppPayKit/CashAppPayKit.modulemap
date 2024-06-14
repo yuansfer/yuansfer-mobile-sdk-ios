@@ -1,0 +1,6 @@
+framework module PayKit {
+  umbrella header "CashAppPayKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -11,4 +11,5 @@ target 'Pockyt_Example' do
   pod 'Pockyt/Venmo', :path => '../'
   pod 'Pockyt/ThreeDSecure', :path => '../'
   pod 'Pockyt/DataCollect', :path => '../'
+  pod 'Pockyt/CashApp', :path => '../'
 end

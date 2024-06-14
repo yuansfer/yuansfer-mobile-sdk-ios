@@ -65,16 +65,14 @@ class PayPalViewController: UIViewController {
         let checkoutRequest = BTPayPalCheckoutRequest(amount: "1.00")
         let paypal = PayPal(authorization: HttpUtils.CLIENT_TOKEN, paypalRequest: checkoutRequest)
         Pockyt.shared.requestPay(paypal) { result in
-            DispatchQueue.main.async {
-                if result.isSuccessful {
-                    if let nonce = result.paypalAccountNonce?.nonce {
-                        self.resultLabel.text = "Obtained nonce: \(nonce)"
-                    } else {
-                        self.resultLabel.text = "Failed to obtain nonce"
-                    }
+            if result.isSuccessful {
+                if let nonce = result.paypalAccountNonce?.nonce {
+                    self.resultLabel.text = "Obtained nonce: \(nonce)"
                 } else {
-                    self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
+                    self.resultLabel.text = "Failed to obtain nonce"
                 }
+            } else {
+                self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
             }
         }
     }
@@ -83,16 +81,14 @@ class PayPalViewController: UIViewController {
         let vaultRequest = BTPayPalVaultRequest()
         let paypal = PayPal(authorization: HttpUtils.CLIENT_TOKEN, paypalRequest: vaultRequest)
         Pockyt.shared.requestPay(paypal) { result in
-            DispatchQueue.main.async {
-                if result.isSuccessful {
-                    if let nonce = result.paypalAccountNonce?.nonce {
-                        self.resultLabel.text = "Obtained nonce: \(nonce)"
-                    } else {
-                        self.resultLabel.text = "Failed to obtain nonce"
-                    }
+            if result.isSuccessful {
+                if let nonce = result.paypalAccountNonce?.nonce {
+                    self.resultLabel.text = "Obtained nonce: \(nonce)"
                 } else {
-                    self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
+                    self.resultLabel.text = "Failed to obtain nonce"
                 }
+            } else {
+                self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
             }
         }
     }

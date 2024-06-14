@@ -49,7 +49,17 @@
 			<string>braintree</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.yuansfer.msdk.pockyt2braintree</string>
+				<string>pockyt2braintree</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>cashapp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>pockyt2cashapp</string>
 			</array>
 		</dict>
 	</array>

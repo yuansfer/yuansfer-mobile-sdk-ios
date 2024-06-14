@@ -7,7 +7,7 @@
 import Braintree
 
 @objcMembers
-public class CardPay:NSObject, PaymentProtocol {
+public class CardPay: NSObject, PaymentProtocol {
       
     private let braintreeClient: BTAPIClient
     private let btCard: BTCard

@@ -130,16 +130,14 @@ class CardPayViewController: UIViewController {
         let cardPay = CardPay(authorization: HttpUtils.CLIENT_TOKEN, btCard: card)
             
         Pockyt.shared.requestPay(cardPay) { result in
-            DispatchQueue.main.async {
-                if result.isSuccessful {
-                    if let nonce = result.tokenizedCard?.nonce {
-                        self.resultLabel.text = "Obtained nonce: \(nonce)"
-                    } else {
-                        self.resultLabel.text = "Failed to obtain nonce"
-                    }
+            if result.isSuccessful {
+                if let nonce = result.tokenizedCard?.nonce {
+                    self.resultLabel.text = "Obtained nonce: \(nonce)"
                 } else {
-                    self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
+                    self.resultLabel.text = "Failed to obtain nonce"
                 }
+            } else {
+                self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
             }
         }
     }
@@ -159,16 +157,14 @@ class CardPayViewController: UIViewController {
         let cardPay = CardPay(authorization: authorization, btCard: card)
             
         Pockyt.shared.requestPay(cardPay) { result in
-            DispatchQueue.main.async {
-                if result.isSuccessful {
-                    if let nonce = result.tokenizedCard?.nonce {
-                        self.startThreeDSecurePaymentFlow(cardNonce: nonce, authorization: authorization)
-                    } else {
-                        self.resultLabel.text = "Failed to obtain nonce"
-                    }
+            if result.isSuccessful {
+                if let nonce = result.tokenizedCard?.nonce {
+                    self.startThreeDSecurePaymentFlow(cardNonce: nonce, authorization: authorization)
                 } else {
-                    self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
+                    self.resultLabel.text = "Failed to obtain nonce"
                 }
+            } else {
+                self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
             }
         }
     }
@@ -202,24 +198,22 @@ class CardPayViewController: UIViewController {
         threeDSecureRequest.additionalInformation = info
         let threeDSecure = ThreeDSecurePay(uiViewController: self, authorization: authorization, threeDSecureRequest: threeDSecureRequest)
         Pockyt.shared.requestPay(threeDSecure) {result in
-            DispatchQueue.main.async {
-                if let tokenizedCard = result.tokenizedCard {
-                    if (tokenizedCard.threeDSecureInfo.liabilityShiftPossible) {
-                        if (tokenizedCard.threeDSecureInfo.liabilityShifted) {
-                            // 3D Secure authentication success
-                            self.resultLabel.text = "Liability shift possible and liability shifted"
-                        } else {
-                            // 3D Secure authentication failed
-                            self.resultLabel.text = "3D Secure authentication failed"
-                        }
+            if let tokenizedCard = result.tokenizedCard {
+                if (tokenizedCard.threeDSecureInfo.liabilityShiftPossible) {
+                    if (tokenizedCard.threeDSecureInfo.liabilityShifted) {
+                        // 3D Secure authentication success
+                        self.resultLabel.text = "Liability shift possible and liability shifted"
                     } else {
-                        // 3D Secure authentication was not possible
-                        self.resultLabel.text = "3D Secure authentication was attempted but liability shift is not possible"
+                        // 3D Secure authentication failed
+                        self.resultLabel.text = "3D Secure authentication failed"
                     }
-                    self.submitNonceToServer(transactionNo: "xxx", nonce: tokenizedCard.nonce)
                 } else {
-                    self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
+                    // 3D Secure authentication was not possible
+                    self.resultLabel.text = "3D Secure authentication was attempted but liability shift is not possible"
                 }
+                self.submitNonceToServer(transactionNo: "xxx", nonce: tokenizedCard.nonce)
+            } else {
+                self.resultLabel.text = "Failed to obtain nonce, error: \(result.respMsg ?? "Unknown error")"
             }
         }
     }

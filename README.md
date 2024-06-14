@@ -1,7 +1,7 @@
 ## Introduction
 
-[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.0-blue)](https://cocoapods.org/pods/Pockyt)  
-This is a payment sdk that supports mainstream payment methods such as WeChat Pay, Alipay and Braintree etc.
+[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.2-blue)](https://cocoapods.org/pods/Pockyt)  
+This is a payment sdk that supports mainstream payment methods such as WeChat Pay, Alipay, Cash App and Braintree etc.
 
 ## Getting Started
 
@@ -30,12 +30,13 @@ DropIn is a quick integration method using the official UI library, however you 
   pod 'Pockyt/Venmo'
   pod 'Pockyt/ThreeDSecure'
   pod 'Pockyt/DataCollect'
+  pod 'Pockyt/CashApp'
 ```
 
 ## Configuration
 
 ### Alipay
-- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add a "URL Scheme" with the application identifier, such as "pockyt2alipay". It is recommended to have a distinctive identifier that does not overlap with other merchant apps. Otherwise, it may result in the inability to correctly redirect back to the merchant's app from Alipay.
+- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, add the Identifier as "alipay". Please note that "alipay" is a fixed term and cannot be changed, as it will affect the integration of Alipay. Add a "URL Scheme" with the application identifier, such as "pockyt2alipay". It is recommended to have a distinctive identifier that does not overlap with other merchant apps. Otherwise, it may result in the inability to correctly redirect back to the merchant's app from Alipay.
 <div align=center>
 <img src="config01.png" />
 </div>
@@ -66,7 +67,7 @@ DropIn is a quick integration method using the official UI library, however you 
 
 ### Venmo
 - In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, Add the Identifier as "braintree". Please note that "braintree" is a fixed term and cannot be changed, as it will affect the integration of Venmo.
-    Add a "URL Scheme" with the application identifier(begin with your app's bundle ID), such as "com.yuansfer.msdk.pockyt2braintree".
+    Add a "URL Scheme" with the application identifier, such as "pockyt2braintree".
 <div align=center>
 <img src="config03.png" />
 </div>
@@ -88,6 +89,13 @@ DropIn is a quick integration method using the official UI library, however you 
 <img src="config07.png" />
 </div>
 
+### Cash App
+- In Xcode, select your project's settings, choose the "TARGETS" tab, and then select the "info" tab. Under the "URL Types" section, Add the Identifier as "cashapp". Please note that "cashapp" is a fixed term and cannot be changed, as it will affect the integration of Cash App.
+    Add a "URL Scheme" with the application identifier, such as "pockyt2cashapp".
+<div align=center>
+<img src="config09.png" />
+</div>
+
 ## How to use
 
 ### Swift language
@@ -96,7 +104,7 @@ DropIn is a quick integration method using the official UI library, however you 
 ```swift
 import Pockyt
 ```
-- For WeChat Pay, Alipay, and Venmo, you need to override the following methods in the AppDelegate:
+- For WeChat Pay, Alipay, Venmo and Cash App, you need to override the following methods in the AppDelegate:
 ```swift
 func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     return Pockyt.shared.handleOpenURL(url)
@@ -128,7 +136,7 @@ func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
 - After calling the Pockyt prepayment API(`/micropay/v3/prepay` or `/online/v3/secure-pay`), create a payment object and call the Pockyt.shared.requestPay method.
 ```swift
 // For Alipay
-let payment = Alipay(payInfo: payInfo, fromScheme: "pockyt2alipay")
+let payment = Alipay(payInfo)
 Pockyt.shared.requestPay(payment) { result in
     print("Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result)")
 }
@@ -233,6 +241,16 @@ if (apiSuccess) {
     applePay.notifyPaymentCompletion(true)
 } else {
     applePay.notifyPaymentCompletion(false)
+}
+
+// For Cash App
+let request = OneTimeRequest(scopeId: scopeId, amount: amount)
+let payment = CashApp(clientId: clientId, request: request)
+Pockyt.shared.requestPay(payment) { result in
+    print("Approved: \(result.isSuccessful), Declined: \(result.isDeclined), \(result.respMsg ?? "")")
+    if (result.isSuccessful) {
+        self.queryTransactionResult(transactionNo)
+    }
 }
 ```
 - For Braintree, After obtaining the nonce from the payment result, call the Pockyt process API (`/creditpay/v3/process`) to complete the payment.

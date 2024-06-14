@@ -11,6 +11,7 @@ import Braintree
 public class PayPalResult: NSObject, PaymentResultProtocol {
     public let respCode: String
     public let respMsg: String?
+    public let paypalAccountNonce: BTPayPalAccountNonce?
     
     init(respCode: String, respMsg: String?, paypalAccountNonce: BTPayPalAccountNonce?) {
         self.respCode = respCode
@@ -18,7 +19,6 @@ public class PayPalResult: NSObject, PaymentResultProtocol {
         self.paypalAccountNonce = paypalAccountNonce
     }
     
-    public let paypalAccountNonce: BTPayPalAccountNonce?
     public var isSuccessful: Bool {
         return respCode == PockytCodes.SUCCESS
     }

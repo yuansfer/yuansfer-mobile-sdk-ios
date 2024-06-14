@@ -21,7 +21,6 @@ public class ApplePay: NSObject, PaymentProtocol, PKPaymentAuthorizationViewCont
         self.braintreeClient = BTAPIClient(authorization: authorization)!
         self.applePayClient = BTApplePayClient(apiClient: self.braintreeClient)
         self.paymentRequest = PKPaymentRequest()
-        super.init()
     }
     
     public func initPaymentRequest(completion: @escaping (PKPaymentRequest?, Error?) -> Void) {
@@ -46,7 +45,7 @@ public class ApplePay: NSObject, PaymentProtocol, PKPaymentAuthorizationViewCont
     }
       
     public func notifyPaymentCompletion(_ isSuccess: Bool) {
-        notifyCompletion?(PKPaymentAuthorizationResult(status: isSuccess ? .success : .failure, errors: nil))
+        self.notifyCompletion?(PKPaymentAuthorizationResult(status: isSuccess ? .success : .failure, errors: nil))
     }
       
     public func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController,
@@ -59,8 +58,8 @@ public class ApplePay: NSObject, PaymentProtocol, PKPaymentAuthorizationViewCont
                 self?.resultCompletion?(ApplePayResult(respCode: PockytCodes.ERROR, respMsg: error.localizedDescription, applePayNonce: nil))
                 return
             }
-            self?.resultCompletion?(ApplePayResult(respCode: PockytCodes.SUCCESS, respMsg: nil, applePayNonce: nonce))
             self?.notifyCompletion = completion
+            self?.resultCompletion?(ApplePayResult(respCode: PockytCodes.SUCCESS, respMsg: nil, applePayNonce: nonce))
         }
     }
       

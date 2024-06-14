@@ -8,7 +8,7 @@
 import Braintree
 
 @objcMembers
-public class Venmo:NSObject, PaymentProtocol {
+public class Venmo: NSObject, PaymentProtocol {
       
     private let braintreeClient: BTAPIClient
     private let venmoDriver: BTVenmoDriver
@@ -21,23 +21,13 @@ public class Venmo:NSObject, PaymentProtocol {
         super.init()
         setReturnURLSchemeIfNeeded()
     }
-      
+    
     private func setReturnURLSchemeIfNeeded() {
-        let urlScheme = BTAppContextSwitcher.sharedInstance().returnURLScheme
-        if urlScheme.isEmpty {
-            if let infoPlist = Bundle.main.infoDictionary,
-               let urlTypes = infoPlist["CFBundleURLTypes"] as? [[String: Any]] {
-                for urlType in urlTypes {
-                    if let identifier = urlType["CFBundleURLName"] as? String,
-                       identifier == "braintree",
-                       let schemes = urlType["CFBundleURLSchemes"] as? [String],
-                       let braintreeScheme = schemes.first {
-                        print("Braintree URL Scheme: \(braintreeScheme)")
-                        BTAppContextSwitcher.setReturnURLScheme(braintreeScheme)
-                    }
-                }
-            }
+        guard BTAppContextSwitcher.sharedInstance().returnURLScheme.isEmpty else {
+            return
         }
+        let braintreeScheme = PockytUtility.getSchemeUrl(for: "braintree")
+        BTAppContextSwitcher.setReturnURLScheme(braintreeScheme)
     }
     
     public func isiOSAppAvailableForAppSwitch() -> Bool {
