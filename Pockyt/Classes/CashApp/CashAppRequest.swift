@@ -5,6 +5,11 @@
 //  Created by fly.zhu on 2024/6/11.
 //
 
-public protocol CashAppRequest {
-    var scopeId: String { get set }
+@objcMembers
+public class CashAppRequest: NSObject {
+    public var scopeId: String
+      
+    public init(scopeId: String) {
+        self.scopeId = scopeId
+    }
 }

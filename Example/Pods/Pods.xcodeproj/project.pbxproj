@@ -295,7 +295,7 @@
 		946800409E57B511B6286DCA9642AC0A /* BTVenmoDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E72BA88316FA0CA6A7E8006F45ED7D /* BTVenmoDriver.m */; settings = {COMPILER_FLAGS = "-Wall -Werror -Wextra"; }; };
 		9477FBFF81D1E1AC4D0740364DFF941C /* AnalyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AA672111609DCD1CCF22C0DC49D1EB /* AnalyticsClient.swift */; };
 		96341CDC2489538648BC1FF793C9D199 /* Braintree-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FAA64F201ADB159F4E30C120D91CF9C2 /* Braintree-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		96394ADEB22D8E02A7F670EA33C3BB93 /* PayProtocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0354E6547E511565F37CB166FAB87989 /* PayProtocal.swift */; };
+		96394ADEB22D8E02A7F670EA33C3BB93 /* PaymentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0354E6547E511565F37CB166FAB87989 /* PaymentProtocol.swift */; };
 		96618834B98D37EBDD812478577F2775 /* CashAppResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A6EFFA533BBE20FBF9F2F59D921CB /* CashAppResult.swift */; };
 		967DD828998BBC5D78DE4F26AC65A3C0 /* BTUIKLargeVenmoMonogramCardView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED81A890E88C71C62C3F645B2C3FCB3 /* BTUIKLargeVenmoMonogramCardView.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		96A8B8748D5E6D3B7992CEA093A9B104 /* BTLocalPaymentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = A616A85098DD3AF93CA6FA91BEE2B350 /* BTLocalPaymentRequest.m */; settings = {COMPILER_FLAGS = "-Wall -Werror -Wextra"; }; };
@@ -669,7 +669,7 @@
 		02935A802B59EB45BEC13526F88D3056 /* BTCardClient+UnionPay.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "BTCardClient+UnionPay.m"; path = "Sources/BraintreeUnionPay/BTCardClient+UnionPay.m"; sourceTree = "<group>"; };
 		02EB918D84C5A4E38336F42B455D0FCD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Sources/BraintreeCard/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		02F3D19CB5BA870D3DB8D642878950A9 /* BTEnums.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BTEnums.h; path = Sources/BraintreeCore/Public/BraintreeCore/BTEnums.h; sourceTree = "<group>"; };
-		0354E6547E511565F37CB166FAB87989 /* PayProtocal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PayProtocal.swift; path = Pockyt/Classes/Core/PayProtocal.swift; sourceTree = "<group>"; };
+		0354E6547E511565F37CB166FAB87989 /* PaymentProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PaymentProtocol.swift; path = Pockyt/Classes/Core/PaymentProtocol.swift; sourceTree = "<group>"; };
 		0385E68B31CFA8D26B07E90AC82EA399 /* BTPaymentFlowDriver+LocalPayment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "BTPaymentFlowDriver+LocalPayment.h"; path = "Sources/BraintreePaymentFlow/Public/BraintreePaymentFlow/BTPaymentFlowDriver+LocalPayment.h"; sourceTree = "<group>"; };
 		03F531F84BE8C73FB84744AFEC21AF14 /* CashAppPayKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = CashAppPayKit.modulemap; sourceTree = "<group>"; };
 		047A66842C1C06A90061C98A /* PockytUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PockytUtility.swift; path = Pockyt/Classes/Core/PockytUtility.swift; sourceTree = "<group>"; };
@@ -1967,7 +1967,7 @@
 		BB0995578D95ABB0DE0A627D0A82A058 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				0354E6547E511565F37CB166FAB87989 /* PayProtocal.swift */,
+				0354E6547E511565F37CB166FAB87989 /* PaymentProtocol.swift */,
 				FE0AAE5EAAFAD39530B497D9B5467045 /* Pockyt.swift */,
 				9C5671B3F2BF75E030E1D52470868F38 /* PockytCodes.swift */,
 				047A66842C1C06A90061C98A /* PockytUtility.swift */,
@@ -3301,7 +3301,7 @@
 				40AFACFA1B28A31E20453C663BE2952F /* OnFileRequest.swift in Sources */,
 				0EDC0EBDBDAA4FB9450E04176DF9C32B /* PayPal.swift in Sources */,
 				45DCBEAF19912183EEAF476EA9A6B560 /* PayPalResult.swift in Sources */,
-				96394ADEB22D8E02A7F670EA33C3BB93 /* PayProtocal.swift in Sources */,
+				96394ADEB22D8E02A7F670EA33C3BB93 /* PaymentProtocol.swift in Sources */,
 				7EA4E4070817C402FD55ACD67687202F /* Pockyt.swift in Sources */,
 				8BFDEF36A26C246284B0CACDAAB5ECFE /* Pockyt-dummy.m in Sources */,
 				2BC0B2842A2FFC9EFF171EA0FCC39069 /* PockytCodes.swift in Sources */,

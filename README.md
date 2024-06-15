@@ -1,6 +1,6 @@
 ## Introduction
 
-[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.3-blue)](https://cocoapods.org/pods/Pockyt)  
+[![CocoaPods](https://img.shields.io/badge/cocoapods-v0.5.4-blue)](https://cocoapods.org/pods/Pockyt)  
 This is a payment sdk that supports mainstream payment methods such as WeChat Pay, Alipay, Cash App and Braintree etc.
 
 ## Getting Started
@@ -72,7 +72,7 @@ DropIn is a quick integration method using the official UI library, however you 
 <img src="config03.png" />
 </div>
 
-- You must add the following to the queries schemes allowlist in your app's info.plist:
+- You must add the following to the queries schemes allowlist in your app's info.plist, fixed identifier as 'com.venmo.touch.v2':
 <div align=center>
 <img src="config05.png" />
 </div>
@@ -142,6 +142,7 @@ Pockyt.shared.requestPay(payment) { result in
 }
 
 // For WeChat Pay
+WechatPay.registerWechat(appid: appid, universalLink: universalLink)
 let request = WechatPayRequest(partnerId: partnerid, prepayId: prepayid, packageValue: package, nonceStr: noncestr, timeStamp: timestamp, sign: sign)
 Pockyt.shared.requestPay(WechatPay(request)) { result in
     print("Paid: \(result.isSuccessful), cancelled: \(result.isCancelled), \(result)")
@@ -264,12 +265,13 @@ Pockyt.shared.requestPay(payment) { result in
 - In Objective-C language, instead of calling the unified Pockyt's requestPay method, the payment can be initiated directly through the corresponding payment implementation class's requestPay method.
 ```objc
 // For Alipay
-Alipay *alipay = [[Alipay alloc] initWithPayInfo:payInfo fromScheme:@"pockytToalipay"];
+Alipay *alipay = [[Alipay alloc] init:payInfo];
 [alipay requestPayWithCompletion: ^(AlipayResult * result) {
     NSLog(@"Alipay result: %d, %d, %@", result.isSuccessful, result.isCancelled, result.memo);
 }];
 
 // For WeChat Pay
+[WechatPay registerWechatWithAppid:appid universalLink:universalLink];
 WechatPayRequest *request = [[WechatPayRequest alloc] initWithPartnerId:partnerId prepayId:prepayId packageValue:packageValue nonceStr:nonceStr timeStamp:timeStamp sign:sign];
 WechatPay *wechatPay = [[WechatPay alloc] init:request];
 [wechatPay requestPayWithCompletion:^(WechatPayResult * result) {

@@ -37,7 +37,7 @@ public class CashApp: NSObject, PaymentProtocol, CashAppPayObserver {
                 accountReferenceID: payAction.accountReferenceId
             )
         } else {
-            completion(CashAppResult(respCode: PockytCodes.ERROR, respMsg: "Invalid Payment Action"))
+            completion(CashAppResult(respCode: PockytCodes.ERROR, respMsg: "request must be an instance of OneTimeRequest or OnFileRequest"))
             return
         }
         cashAppSDK.createCustomerRequest(
